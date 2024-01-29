@@ -2,13 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/project/[Ll]ibrary/
-/project/[Tt]emp/
-/project/[Oo]bj/
-/project/[Bb]uild/
-/project/[Bb]uilds/
-/project/[Ll]ogs/
-/project/[Uu]ser[Ss]ettings/
+/lucid-labyrinth/[Ll]ibrary/
+/lucid-labyrinth/[Tt]emp/
+/lucid-labyrinth/[Oo]bj/
+/lucid-labyrinth/[Bb]uild/
+/lucid-labyrinth/[Bb]uilds/
+/lucid-labyrinth/[Ll]ogs/
+/lucid-labyrinth/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
