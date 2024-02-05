@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LucidityPickup_PW : MonoBehaviour
 {
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
