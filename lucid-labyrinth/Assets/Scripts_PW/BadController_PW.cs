@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BadController_PW : MonoBehaviour
 {
     private Rigidbody rb;
     public float speed;
 
-    private float lucidityMeter = 100;
+    public Slider lucidityBar;
+
+    // private float lucidityMeter = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +24,7 @@ public class BadController_PW : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            lucidityMeter += 5;
+            lucidityBar.value += 20;
         }
     }
 
@@ -33,8 +36,10 @@ public class BadController_PW : MonoBehaviour
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * speed);
 
+        /*
         lucidityMeter -= Time.deltaTime * 2;
         if (lucidityMeter > 100) { lucidityMeter = 100; }
-        Debug.Log(Math.Ceiling(lucidityMeter));
+        //Debug.Log(Math.Ceiling(lucidityMeter));
+        */
     }
 }

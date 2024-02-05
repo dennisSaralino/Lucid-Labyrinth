@@ -17,9 +17,10 @@ public class LucidityBar : MonoBehaviour
     private void Awake()
     {
         SetStartingLucidity(100);
-        StartCoroutine(TimeDecrease());
+        //StartCoroutine(TimeDecrease());
     }
 
+    /*
     public IEnumerator TimeDecrease()
     {
         while (slider.value > 0)
@@ -28,8 +29,18 @@ public class LucidityBar : MonoBehaviour
             slider.value -= 1f;
         }
     }
-
+    */
     private void FixedUpdate()
     {
+        slider.value -= Time.deltaTime * 2;
+        if (slider.value <= 0)
+            Die();
+    }
+ 
+    private void Die()
+    {
+        Debug.Log("You died");
     }
 }
+
+
