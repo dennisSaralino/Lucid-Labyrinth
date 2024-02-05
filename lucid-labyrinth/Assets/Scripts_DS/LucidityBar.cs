@@ -17,5 +17,19 @@ public class LucidityBar : MonoBehaviour
     private void Awake()
     {
         SetStartingLucidity(100);
+        StartCoroutine(TimeDecrease());
+    }
+
+    public IEnumerator TimeDecrease()
+    {
+        while (slider.value > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            slider.value -= 1f;
+        }
+    }
+
+    private void FixedUpdate()
+    {
     }
 }
