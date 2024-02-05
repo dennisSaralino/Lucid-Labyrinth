@@ -9,8 +9,8 @@ public class LucidityPickup_PW : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            float spawnPosX = UnityEngine.Random.Range(-9f, 9f);
-            float spawnPosZ = UnityEngine.Random.Range(-9f, 9f);
+            float spawnPosX = UnityEngine.Random.Range(-8f, 8f);
+            float spawnPosZ = UnityEngine.Random.Range(-8f, 8f);
             this.transform.position = new Vector3(spawnPosX, 1.0f, spawnPosZ);
             //this.gameObject.SetActive(false);
         }
