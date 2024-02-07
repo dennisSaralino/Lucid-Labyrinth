@@ -106,11 +106,6 @@ public class MazeGeneratev2 : MonoBehaviour
             allCell = allCell.OrderBy(x => x.tileOptions.Count).ToList();
             allCell[0].finishThisCell();
             currenti++;
-            //while (!enter)
-            //{
-            //    yield return new WaitForSeconds(0.5f);
-            //    Debug.Log(enter);
-            //}
             yield return null;
             count = allCell.Count;
         }
