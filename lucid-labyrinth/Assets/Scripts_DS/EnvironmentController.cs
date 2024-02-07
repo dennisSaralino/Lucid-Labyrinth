@@ -15,6 +15,8 @@ public class EnvironmentController : MonoBehaviour
 
     private void TrackState()
     {
+        // we can replace Report() with whatever functions change the environment
+
         // going from neutral to nightmare
         if (inNeutral && lucidityBar.value < 25)
         {
@@ -24,7 +26,7 @@ public class EnvironmentController : MonoBehaviour
         }
 
         // going from nightmare to neutral
-        else if (inNightmare && lucidityBar.value >= 25)
+        else if (inNightmare && lucidityBar.value >= 25 && lucidityBar.value < 75)
         {
             inNightmare = false;
             inNeutral = true;
@@ -40,10 +42,26 @@ public class EnvironmentController : MonoBehaviour
         }
 
         // going from lucid to neutral
-        else if (inLucid && lucidityBar.value < 75)
+        else if (inLucid && lucidityBar.value < 75 && lucidityBar.value > 25)
         {
             inLucid = false;
             inNeutral = true;
+            Report();
+        }
+
+        // going from nightmare to lucid (completely fill bar, for example)
+        else if (inNightmare && lucidityBar.value >= 75)
+        {
+            inNightmare = false;
+            inLucid = true;
+            Report();
+        }
+
+        // going from lucid to nightmare (large drop from injury, for example)
+        else if (inLucid && lucidityBar.value < 25)
+        {
+            inLucid = false;
+            inNightmare = true;
             Report();
         }
     }
