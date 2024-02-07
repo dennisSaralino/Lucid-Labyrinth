@@ -19,10 +19,29 @@ public class MazeCellV3 : MonoBehaviour
         this.y = y;
     }
 
-    public void finishThisCell()
+    public void finishThisCell(string prefer = "null",bool contains = false)
     {
         finished = true;
-        finalTile = tileOptions[Random.Range(0, tileOptions.Count)];
+        if (prefer == "null") finalTile = tileOptions[Random.Range(0, tileOptions.Count)];
+        else
+        {
+            if (contains)
+            {
+                List<mazeTile> m = tileOptions.FindAll(x =>
+                {
+                    bool ok = true;
+                    for (int i = 0; i < prefer.Length; i++)
+                    {
+                        ok &= x.name.Contains(prefer[i]);
+                    }
+                    return ok;
+                }).ToList();
+                finalTile = m[Random.Range(0, m.Count)];
+            }
+            else finalTile = tileOptions.Find(x => x.name == prefer);
+
+        }
+
         Transform f = Instantiate(finalTile, transform).transform;
         f.localPosition = new Vector3(0, 0, 0);
 
@@ -40,14 +59,10 @@ public class MazeCellV3 : MonoBehaviour
     /// Collapsed by a wave made by a mazeTile source
     /// </summary>
     /// <param name="possible">tiles that can survive the source</param>
-    public void collapse(List<mazeTile> possible)
+    void collapse(List<mazeTile> possible)
     {
         if(finished)return;
-        Debug.Log("NEW THINGS HERE");
-        Debug.Log(tileOptions.Count);
-        Debug.Log(possible.Count);
         tileOptions = tileOptions.Intersect(possible).ToList();
-        Debug.Log("Result" + tileOptions.Count);
         if (tileOptions.Count == 0) Debug.Log("WRONGGGGGGG");
     }
 

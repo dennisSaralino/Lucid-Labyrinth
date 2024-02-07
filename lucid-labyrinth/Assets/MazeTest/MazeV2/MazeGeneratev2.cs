@@ -4,41 +4,61 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
+using Random = UnityEngine.Random;
 public class MazeGeneratev2 : MonoBehaviour
 {
     public MazeCellV3 pref;
     public int width = 10;
     public int height = 10;
-    Vector2 startPoint = new Vector2(0, 0);
-    Vector2 endPoint;
+    public navigationBaker baker;
     public static MazeGeneratev2 i;
     public MazeCellV3[,] mazeGrid;
 #if UNITY_EDITOR
     public tileRulesDatabase tileRulesDatabase;
 #endif
     List<MazeCellV3> allCell;
-
-    bool enter = true;
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            enter = true;
-            Debug.Log("continue");
-        }
-    }
     public void Awake()
     {
         if (i != null) { Destroy(gameObject); return; }
         i = this;
-        endPoint = new Vector2(width - 1, height - 1);
         StartCoroutine(generateMaze());
+        baker = GetComponent<navigationBaker>();
     }
+
+
+    #region SOLUTION PATH
+    public IEnumerator generateSolutionPath()
+    {
+        Vector2Int startPoint = new Vector2Int(2, 1);
+        Vector2Int endPoint = new Vector2Int(width - 2, height - 2);
+        Vector2Int currentPoint = startPoint;
+        mazeGrid[1, 1].finishThisCell("r", true);
+        while (currentPoint != endPoint)
+        {
+            int i = currentPoint.x == endPoint.x ? 1: currentPoint.y == endPoint.y? 0: Random.Range(0, 2);
+            if (i == 0)
+            {
+                mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("r",true);
+                Debug.Log("Horizontal:::" + currentPoint + "---" + mazeGrid[currentPoint.x, currentPoint.y].finalTile.name);
+                currentPoint.x += 1;
+            }
+            else
+            {
+                mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("lu",true);
+                Debug.Log("Vertical:::" + currentPoint + "---" + mazeGrid[currentPoint.x, currentPoint.y].finalTile.name);
+                currentPoint.y += 1;
+            }
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+    #endregion
+
+
     public void initMazeData()
     {
         allCell = new List<MazeCellV3>();
         mazeGrid = new MazeCellV3[width, height];
+
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
@@ -50,15 +70,37 @@ public class MazeGeneratev2 : MonoBehaviour
                 allCell.Add(m);
             }
         }
+        for (int i = 0; i < width; i++)
+        {
+            MazeCellV3 m = mazeGrid[i, 0];
+            m.finishThisCell("lrd");
+        }
+        for (int i = 0; i < width; i++)
+        {
+            MazeCellV3 m = mazeGrid[i, height - 1];
+            m.finishThisCell("lru");
+        }
+        for (int i = 1; i < height - 1; i++)
+        {
+            MazeCellV3 m = mazeGrid[0, i];
+            m.finishThisCell("l");
+        }
+        for (int i = 1; i < height - 1; i++)
+        {
+            MazeCellV3 m = mazeGrid[width - 1,i];
+            m.finishThisCell("r");
+        }
+        //Generate Solution path
+        
+
     }
     public IEnumerator generateMaze()
     {
         initMazeData();
-        int count = allCell.Count;
+        yield return StartCoroutine(generateSolutionPath());
         int currenti = 0;
-
-
-        while (currenti < count)
+        int count = allCell.Count;
+        while (count > 1)
         {
             allCell.RemoveAll(x => x.finished);
             allCell = allCell.OrderBy(x => x.tileOptions.Count).ToList();
@@ -70,8 +112,9 @@ public class MazeGeneratev2 : MonoBehaviour
             //    Debug.Log(enter);
             //}
             yield return null;
-            enter = false;
+            count = allCell.Count;
         }
+        baker.bakeMap();
     }
 }
 
