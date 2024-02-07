@@ -8,44 +8,62 @@ using UnityEngine.UI;
 public class EnvironmentController : MonoBehaviour
 {
     public Slider lucidityBar;
-    private enum state
+
+    private bool inNightmare = false;
+    private bool inNeutral   = true;
+    private bool inLucid     = false;
+
+    private void TrackState()
     {
-        Nightmare,
-        Neutral,
-        Lucid
+        // going from neutral to nightmare
+        if (inNeutral && lucidityBar.value < 25)
+        {
+            inNeutral = false;
+            inNightmare = true;
+            Report();
+        }
+
+        // going from nightmare to neutral
+        else if (inNightmare && lucidityBar.value >= 25)
+        {
+            inNightmare = false;
+            inNeutral = true;
+            Report();
+        }
+
+        // going from neutral to lucid
+        else if (inNeutral && lucidityBar.value >= 75)
+        {
+            inNeutral = false;
+            inLucid = true;
+            Report();
+        }
+
+        // going from lucid to neutral
+        else if (inLucid && lucidityBar.value < 75)
+        {
+            inLucid = false;
+            inNeutral = true;
+            Report();
+        }
     }
-    private state currentState;
-    
 
     private void Report()
     {
-        switch(currentState)
-        {
-            case state.Nightmare:
-                Debug.Log("In nightmare mode"); break;
+        
+        if (inNightmare)
+            Debug.Log("In nightmare mode");
 
-            case state.Neutral:
-                Debug.Log("In neutral mode"); break;
+        if (inNeutral)
+            Debug.Log("In neutral mode");
 
-            case state.Lucid:
-                Debug.Log("In lucid mode"); break;
-        }
+        if (inLucid)
+            Debug.Log("In lucid mode");
+        
     }
 
     private void FixedUpdate()
     {
-        if (lucidityBar.value <= 25 && lucidityBar.value > 0)
-        {
-            currentState = state.Nightmare;
-        }
-        else if (lucidityBar.value > 25 && lucidityBar.value <= 75)
-        {
-            currentState = state.Neutral;
-        }
-        else if (lucidityBar.value > 75)
-        {
-            currentState = state.Lucid;
-        }
-        Report();
+        TrackState();
     }
 }

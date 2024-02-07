@@ -33,8 +33,8 @@ public class LucidityBar : MonoBehaviour
     private void FixedUpdate()
     {
         slider.value -= Time.deltaTime * 2;
-        if (slider.value <= 0)
-            Die();
+        // if (slider.value <= 0)
+        //     Die();
     }
  
     private void Die()
