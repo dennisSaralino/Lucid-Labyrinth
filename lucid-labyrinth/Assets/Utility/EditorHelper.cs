@@ -112,7 +112,22 @@ public class EditorHelper : MonoBehaviour
 
 
 
-
+    [MenuItem("EditorHelper/Tiles/addColliderComponent")]
+    public static void addComponent()
+    {
+        List<GameObject> g = StaticTool.loadAllAsset<GameObject>("MazeTest/MazeV2/Tile").ToList();
+        foreach (GameObject i in g)
+        {
+            foreach (Transform x in i.transform)
+            {
+                if (x.gameObject.GetComponent<BoxCollider>() == null)
+                {
+                    x.AddComponent<BoxCollider>();
+                }
+            }
+            StaticTool.saveAsset(i);
+        }
+    }
 
 
 
