@@ -472,3 +472,8 @@ MonoBehaviour:
   - {fileID: 5515824434828102406}
   - {fileID: 4833529876365337995, guid: a4f74f8c9f9f72542a4e08f159307f4c, type: 3}
   - {fileID: 6742433579683848660, guid: d29902d715e266d478310d72d072a3b0, type: 3}
+  tileData:
+    up: 1
+    down: 1
+    left: 1
+    right: 1

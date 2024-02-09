@@ -10,7 +10,11 @@ public class MazeCellV3 : MonoBehaviour
     public List<mazeTile> tileOptions;
     public mazeTile finalTile;
 
-    
+
+    public TileData getTileData()
+    {
+        return finalTile.tileData;
+    }
 
     public void initCell(int x, int y)
     {
