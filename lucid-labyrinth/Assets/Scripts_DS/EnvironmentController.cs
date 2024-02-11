@@ -13,6 +13,16 @@ public class EnvironmentController : MonoBehaviour
     private bool inNeutral   = true;
     private bool inLucid     = false;
 
+    private bool screenNightmare  = false;
+    private bool screenLucid      = false;
+    private bool nightmareToLucid = false;
+    private bool lucidToNightmare = false;
+    public Color nightmareColor = new Color(1f, 0f, 0f, 0.1f);
+    public Color lucidColor = new Color(0f, 1f, 1f, 0.1f);
+    public BadController_PW controlSpeed;
+    public Image lucidHUD;
+    public float clearHUD = 50f;
+
     private void TrackState()
     {
         // we can replace Report() with whatever functions change the environment
@@ -22,6 +32,9 @@ public class EnvironmentController : MonoBehaviour
         {
             inNeutral = false;
             inNightmare = true;
+            screenNightmare = true;
+            lucidHUD.color = nightmareColor;
+            controlSpeed.speed = 2.5f;
             Report();
         }
 
@@ -30,6 +43,8 @@ public class EnvironmentController : MonoBehaviour
         {
             inNightmare = false;
             inNeutral = true;
+            screenNightmare = false;
+            controlSpeed.speed = 5f;
             Report();
         }
 
@@ -38,6 +53,9 @@ public class EnvironmentController : MonoBehaviour
         {
             inNeutral = false;
             inLucid = true;
+            screenLucid = true;
+            lucidHUD.color = lucidColor;
+            controlSpeed.speed = 10f;
             Report();
         }
 
@@ -46,6 +64,8 @@ public class EnvironmentController : MonoBehaviour
         {
             inLucid = false;
             inNeutral = true;
+            screenLucid = false;
+            controlSpeed.speed = 5;
             Report();
         }
 
@@ -54,6 +74,8 @@ public class EnvironmentController : MonoBehaviour
         {
             inNightmare = false;
             inLucid = true;
+            nightmareToLucid = true;
+            controlSpeed.speed = 10;
             Report();
         }
 
@@ -62,6 +84,8 @@ public class EnvironmentController : MonoBehaviour
         {
             inLucid = false;
             inNightmare = true;
+            lucidToNightmare = true;
+            controlSpeed.speed = 2.5f;
             Report();
         }
     }
@@ -83,5 +107,16 @@ public class EnvironmentController : MonoBehaviour
     private void FixedUpdate()
     {
         TrackState();
+        if (screenNightmare == false && screenLucid == false)
+        {
+            lucidHUD.color = Color.Lerp(lucidHUD.color, Color.clear, clearHUD * Time.deltaTime);
+        }
+        else if (nightmareToLucid == true)
+        {
+            lucidHUD.color = Color.Lerp(lucidHUD.color, lucidColor, clearHUD * Time.deltaTime);
+        } else if (lucidToNightmare == true)
+        {
+            lucidHUD.color = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
+        }
     }
 }
