@@ -17,8 +17,9 @@ public class EnvironmentController : MonoBehaviour
     private bool screenLucid      = false;
     private bool nightmareToLucid = false;
     private bool lucidToNightmare = false;
-    public Color nightmareColor = new Color(1f, 0f, 0f, 0.1f);
-    public Color lucidColor = new Color(0f, 1f, 1f, 0.1f);
+    public Color nightmareColor;
+    public Color lucidColor;
+
     public BadController_PW controlSpeed;
     public Image lucidHUD;
     public float clearHUD = 50f;
