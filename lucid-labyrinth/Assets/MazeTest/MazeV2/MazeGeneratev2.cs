@@ -59,6 +59,9 @@ public class MazeGeneratev2 : MonoBehaviour
         allCell = new List<MazeCellV3>();
         mazeGrid = new MazeCellV3[width, height];
 
+
+
+
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
@@ -70,6 +73,10 @@ public class MazeGeneratev2 : MonoBehaviour
                 allCell.Add(m);
             }
         }
+
+        
+
+
         for (int i = 0; i < width; i++)
         {
             MazeCellV3 m = mazeGrid[i, 0];
@@ -80,15 +87,31 @@ public class MazeGeneratev2 : MonoBehaviour
             MazeCellV3 m = mazeGrid[i, height - 1];
             m.finishThisCell("lru");
         }
-        for (int i = 1; i < height - 1; i++)
+        MazeCellV3 c = mazeGrid[0, 1];
+
+        c.finishThisCell("lu");
+
+
+
+        c = mazeGrid[0, height - 2];
+        c.finishThisCell("ld");
+
+
+        c = mazeGrid[width - 1, 1];
+        c.finishThisCell("ru");
+
+
+        c = mazeGrid[width - 1, height - 2];
+        c.finishThisCell("rd");
+        for (int i = 2; i < height - 2; i++)
         {
             MazeCellV3 m = mazeGrid[0, i];
-            m.finishThisCell("l");
+            m.finishThisCell("udl");
         }
-        for (int i = 1; i < height - 1; i++)
+        for (int i = 2; i < height - 2; i++)
         {
             MazeCellV3 m = mazeGrid[width - 1,i];
-            m.finishThisCell("r");
+            m.finishThisCell("udr");
         }
         //Generate Solution path
         
