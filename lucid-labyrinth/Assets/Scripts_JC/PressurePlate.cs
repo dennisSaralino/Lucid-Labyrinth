@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
-    public GameObject damageProjectile;
+    public GameObject projectileSpawner;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +13,11 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerEnter()
     {
-        damageProjectile.SetActive(true);
+        projectileSpawner.SetActive(true);
+    }
+    
+    private void OnTriggerExit()
+    {
+        projectileSpawner.SetActive(false);
     }
 }
