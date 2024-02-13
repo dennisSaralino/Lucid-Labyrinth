@@ -6,22 +6,28 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    // global GameObject variables
     public Camera mainCam;
     private PlayerControls input = null;
     private Rigidbody playerBody;
+
+    // global vectors for storing input values
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
-    private Quaternion playerRot = Quaternion.identity;
+
+    // Scalable values for speed and look sensitivity.
     float speedScalar = 10.0f;
     int lookSensitivity = 6;
 
-    // Start is called before the first frame update
+    // Private GameObject variables inititalized.S
     private void Awake()
     {
         input = new PlayerControls();
         playerBody = GetComponent<Rigidbody>();
     }
 
+
+    // The following functions exist for enabling and disabling player movement
     private void OnEnable()
     {
         input.Enable();
@@ -61,72 +67,32 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 currentVelocity = new Vector3(moveVector.x * speedScalar, 0, moveVector.z * speedScalar);
+        // update velocity based on current input
+        Vector3 currentVelocity = new Vector3(moveVector.x * speedScalar, 0, moveVector.z * speedScalar); 
         playerBody.velocity = transform.TransformDirection(currentVelocity);
 
+        // set current player/camera rotations equal to temporary quaternions
         var playerQuat = transform.rotation.eulerAngles;
         var camQuat = mainCam.transform.rotation.eulerAngles;
+
+        // update temp player/camera Quaternions based on mouse delta/right stick position (depending on input method)
         playerQuat.y += reduceNum(cameraVector.x) * lookSensitivity;
         camQuat.y = playerQuat.y;
-        if (mainCam.transform.rotation.x > -80 && mainCam.transform.rotation.x < 90)
-        {
-            if (mainCam.transform.rotation.x + (reduceNum(cameraVector.y) * lookSensitivity) > 90)
-            {
-                //float tmp = 80 - mainCam.transform.rotation.x;
-                camQuat.x = 90;
-            }
-            else if (mainCam.transform.rotation.x + (reduceNum(cameraVector.y) * lookSensitivity) < -80)
-            {
-                //float tmp = -90 - mainCam.transform.rotation.x;
-                camQuat.x = -80;
-            }
-            else
-            {
-                camQuat.x -= reduceNum(cameraVector.y) * lookSensitivity;
-            }
-            
-            //if (cameraVector != new Vector2(0.0f, 0.0f)) { Debug.Log(cameraVector); }
-            if (moveVector != new Vector3(0.0f, 0.0f, 0.0f)) { 
-                //Debug.Log((float)Math.Cos(transform.rotation.y));
-                Debug.Log((float)Math.Sin(transform.rotation.y));
-            }
-        }
+        camQuat.x -= Mathf.Clamp(reduceNum(cameraVector.y) * lookSensitivity, -80, 90);
+
+        // these two lines exist for the sole fact that moving the mouse was rotating the 
+        // player/camera on the z-axis even though these values were never changed
         playerQuat.z = 0;
         camQuat.z = 0;
+
+        // set the player/camera rotation equal to the updated temp player/camera quaternions
         transform.rotation = Quaternion.Euler(playerQuat);
         mainCam.transform.rotation = Quaternion.Euler(camQuat);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKey("left"))
-        {
-            transform.Rotate(0.0f, -2.0f, 0.0f);
-        }
-        if (Input.GetKey("right"))
-        {
-            transform.Rotate(0.0f, 2.0f, 0.0f);
-        }
-        //if (Input.GetKey("w"))
-        //{
-        //    transform.position = transform.position + (speedScalar * transform.forward);
-        //}
-        //if (Input.GetKey("a"))
-        //{
-        //    transform.position += (speedScalar * -transform.right);
-        //}
-        //if (Input.GetKey("s"))
-        //{
-        //    transform.position += (speedScalar * -transform.forward);
-        //}
-        //if (Input.GetKey("d"))
-        //{
-        //    transform.position += (speedScalar * transform.right);
-        //}
-
-    }
-
+    // A little recursive function that reduces a value to be between -1 and 1.
+    // Exists to turn mouse deltas into values closer resembling values from stick inputs
+    // so that we don't have to check for input method when moving the player/camera.
     float reduceNum(float x)
     {
         if (-1 <= x && x <= 1) {
@@ -134,8 +100,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float tmp = reduceNum(x / 10);
-            return tmp;
+            return reduceNum(x / 10);
         }
     }
 
