@@ -15,6 +15,10 @@ public class BadController_PW : MonoBehaviour
     // private float lucidityMeter = 100;
 
     // Start is called before the first frame update
+
+    private int damagePool = 5;
+    private int damageProjectile = 10;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,6 +29,22 @@ public class BadController_PW : MonoBehaviour
         if (other.gameObject.CompareTag("Pickup"))
         {
             lucidityBar.value += 20;
+        }
+        if (other.gameObject.CompareTag("DamagePool"))
+        {
+            lucidityBar.value -= damagePool;
+        }
+        if (other.gameObject.CompareTag("DamageProjectile"))
+        {
+            lucidityBar.value -= damageProjectile;
+        }
+
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("DamagePool"))
+        {
+            lucidityBar.value -= damagePool;
         }
     }
 
