@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class mazeTile : MonoBehaviour
     public List<mazeTile> leftOptions;
     public List<mazeTile> rightOptions;
 
-
+    public TileData tileData;
 
 
     public void init()
@@ -26,4 +27,18 @@ public class mazeTile : MonoBehaviour
         rightOptions = new List<mazeTile>();
     }
 }
-
+[Serializable]
+public class TileData
+{
+    public bool up;
+    public bool down;
+    public bool left;
+    public bool right;
+    public TileData()
+    {
+        up = false;
+        down = false;
+        left = false;
+        right = false;
+    }
+}

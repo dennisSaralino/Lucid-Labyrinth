@@ -7,10 +7,12 @@ using UnityEngine;
 #if UNITY_EDITOR
 public class EditorHelper : MonoBehaviour
 {
+    #region TILES
     const int up = 2;
     const int down = 3;
     const int left = 0;
     const int right = 1;
+    const string tileAssetPath = "MazeTest/MazeV2/Tile";
     [MenuItem("EditorHelper/Tiles/generateTilePrefab")]
     public static void generatePrefab()
     {
@@ -55,7 +57,7 @@ public class EditorHelper : MonoBehaviour
         mGen.tileRulesDatabase = new tileRulesDatabase();
         tileRulesDatabase dtb = mGen.tileRulesDatabase;
 
-        List<Transform> parent = StaticTool.loadAllAsset<Transform>("MazeTest/MazeV2/MazeTile").ToList();
+        List<Transform> parent = StaticTool.loadAllAsset<Transform>(tileAssetPath).ToList();
         foreach (Transform i in parent)
         {
             string iName = i.name;
@@ -115,7 +117,7 @@ public class EditorHelper : MonoBehaviour
     [MenuItem("EditorHelper/Tiles/addColliderComponent")]
     public static void addComponent()
     {
-        List<GameObject> g = StaticTool.loadAllAsset<GameObject>("MazeTest/MazeV2/Tile").ToList();
+        List<GameObject> g = StaticTool.loadAllAsset<GameObject>(tileAssetPath).ToList();
         foreach (GameObject i in g)
         {
             foreach (Transform x in i.transform)
@@ -129,13 +131,10 @@ public class EditorHelper : MonoBehaviour
         }
     }
 
-
-
-
     [MenuItem("EditorHelper/Tiles/SetTileRules")]
     public static void setTilesRules()
     {
-        List<mazeTile> allT = StaticTool.loadAllAsset<mazeTile>("MazeTest/MazeV2/MazeTile").ToList();
+        List<mazeTile> allT = StaticTool.loadAllAsset<mazeTile>(tileAssetPath).ToList();
         tileRulesDatabase database = Resources.Load<MazeGeneratev2>("GameObject/MazeGen").tileRulesDatabase;
         foreach (mazeTile i in allT)
         {
@@ -155,5 +154,35 @@ public class EditorHelper : MonoBehaviour
             StaticTool.saveAsset(i.gameObject);
         }
     }
+
+    [MenuItem("EditorHelper/Tiles/SetTileData")]
+    public static void setTileDataForAllTile()
+    {
+        List<mazeTile> allT = StaticTool.loadAllAsset<mazeTile>(tileAssetPath).ToList();
+        foreach (mazeTile i in allT)
+        {
+            i.tileData = nameToTileData(i.name);
+            StaticTool.saveAsset(i);
+        }
+    }
+    #endregion
+
+
+
+    #region UTILITY
+    public static TileData nameToTileData(string n)
+    {
+        TileData t = new TileData();
+        foreach (char i in n)
+        {
+            if (i == 'u')
+                t.up = true;
+            else if (i == 'd') t.down = true;
+            else if (i == 'l') t.left = true;
+            else if (i == 'r') t.right = true;
+        }
+        return t;
+    }
+    #endregion
 }
 #endif
