@@ -48,11 +48,16 @@ public class MazeCellV3 : MonoBehaviour
 
         Transform f = Instantiate(finalTile, transform).transform;
         f.localPosition = new Vector3(0, 0, 0);
-
         tileOptions.Clear();
+        createWaves();
+    }
+    /// <summary>
+    /// Create waves that collapse every mazeCell surrounding the current Cell.
+    /// </summary>
+    void createWaves()
+    {
         int width = MazeGeneratev2.i.width;
         int height = MazeGeneratev2.i.height;
-
         if (StaticTool.inGrid(x, y + 1, width, height)) MazeGeneratev2.i.mazeGrid[x, y + 1].collapse(finalTile.upOptions);
         if (StaticTool.inGrid(x, y - 1, width, height)) MazeGeneratev2.i.mazeGrid[x, y - 1].collapse(finalTile.downOptions);
         if (StaticTool.inGrid(x - 1, y, width, height)) MazeGeneratev2.i.mazeGrid[x - 1, y].collapse(finalTile.leftOptions);
@@ -62,7 +67,7 @@ public class MazeCellV3 : MonoBehaviour
     /// <summary>
     /// Collapsed by a wave made by a mazeTile source
     /// </summary>
-    /// <param name="possible">tiles that can survive the source</param>
+    /// <param name="possible">tiles that can survive the wave</param>
     void collapse(List<mazeTile> possible)
     {
         if(finished)return;
