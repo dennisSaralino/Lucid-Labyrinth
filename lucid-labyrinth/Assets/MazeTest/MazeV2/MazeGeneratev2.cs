@@ -126,7 +126,7 @@ public class MazeGeneratev2 : MonoBehaviour
         while (count > 1)
         {
             allCell.RemoveAll(x => x.finished);
-            allCell = allCell.OrderBy(x => x.tileOptions.Count).ToList();
+            allCell = allCell.OrderBy(x => x.finalOptionList.Count).ToList();
             allCell[0].finishThisCell();
             currenti++;
             yield return null;
