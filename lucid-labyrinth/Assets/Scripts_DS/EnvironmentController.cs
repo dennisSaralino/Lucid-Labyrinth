@@ -20,7 +20,7 @@ public class EnvironmentController : MonoBehaviour
     public Color nightmareColor;
     public Color lucidColor;
 
-    public BadController_PW controlSpeed;
+    public PlayerController controlSpeed;
     public Image lucidHUD;
     public float clearHUD = 50f;
 
@@ -35,7 +35,7 @@ public class EnvironmentController : MonoBehaviour
             inNightmare = true;
             screenNightmare = true;
             lucidHUD.color = nightmareColor;
-            controlSpeed.speed = 2.5f;
+            controlSpeed.speedScalar = 2.5f;
             Report();
         }
 
@@ -45,7 +45,7 @@ public class EnvironmentController : MonoBehaviour
             inNightmare = false;
             inNeutral = true;
             screenNightmare = false;
-            controlSpeed.speed = 5f;
+            controlSpeed.speedScalar = 5f;
             Report();
         }
 
@@ -56,7 +56,7 @@ public class EnvironmentController : MonoBehaviour
             inLucid = true;
             screenLucid = true;
             lucidHUD.color = lucidColor;
-            controlSpeed.speed = 10f;
+            controlSpeed.speedScalar = 7.5f;
             Report();
         }
 
@@ -66,7 +66,7 @@ public class EnvironmentController : MonoBehaviour
             inLucid = false;
             inNeutral = true;
             screenLucid = false;
-            controlSpeed.speed = 5;
+            controlSpeed.speedScalar = 5f;
             Report();
         }
 
@@ -76,7 +76,7 @@ public class EnvironmentController : MonoBehaviour
             inNightmare = false;
             inLucid = true;
             nightmareToLucid = true;
-            controlSpeed.speed = 10;
+            controlSpeed.speedScalar = 7.5f;
             Report();
         }
 
@@ -86,7 +86,7 @@ public class EnvironmentController : MonoBehaviour
             inLucid = false;
             inNightmare = true;
             lucidToNightmare = true;
-            controlSpeed.speed = 2.5f;
+            controlSpeed.speedScalar = 2.5f;
             Report();
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,8 +13,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
     private Quaternion playerRot = Quaternion.identity;
-    float speedScalar = 10.0f;
+    public float speedScalar = 10.0f;
     int lookSensitivity = 6;
+    public Slider lucidityBar;
 
     // Start is called before the first frame update
     private void Awake()
@@ -139,4 +141,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Pickup"))
+        {
+            lucidityBar.value += 20;
+        }
+        /*
+        if (other.gameObject.CompareTag("DamagePool"))
+        {
+            lucidityBar.value -= damagePool;
+        }
+        if (other.gameObject.CompareTag("DamageProjectile"))
+        {
+            lucidityBar.value -= damageProjectile;
+        }
+        */
+
+    }
 }
