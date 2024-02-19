@@ -7,7 +7,7 @@ public class MazeCellV3 : MonoBehaviour
 {
     public bool finished { get; private set; }
     int x, y;
-    public List<mazeTile> tileOptions;
+    public List<mazeTile> finalOptionList;
     public mazeTile finalTile;
 
 
@@ -23,15 +23,21 @@ public class MazeCellV3 : MonoBehaviour
         this.y = y;
     }
 
+
+    /// <summary>
+    /// Chose a tile from Final Options List
+    /// </summary>
+    /// <param name="prefer"></param>
+    /// <param name="contains"></param>
     public void finishThisCell(string prefer = "null",bool contains = false)
     {
         finished = true;
-        if (prefer == "null") finalTile = tileOptions[Random.Range(0, tileOptions.Count)];
+        if (prefer == "null") finalTile = finalOptionList[Random.Range(0, finalOptionList.Count)];
         else
         {
             if (contains)
             {
-                List<mazeTile> m = tileOptions.FindAll(x =>
+                List<mazeTile> m = finalOptionList.FindAll(x =>
                 {
                     bool ok = true;
                     for (int i = 0; i < prefer.Length; i++)
@@ -42,13 +48,15 @@ public class MazeCellV3 : MonoBehaviour
                 }).ToList();
                 finalTile = m[Random.Range(0, m.Count)];
             }
-            else finalTile = tileOptions.Find(x => x.name == prefer);
+            else finalTile = finalOptionList.Find(x => x.name == prefer);
 
         }
 
         Transform f = Instantiate(finalTile, transform).transform;
         f.localPosition = new Vector3(0, 0, 0);
-        tileOptions.Clear();
+
+        finalOptionList.Clear();
+
         createWaves();
     }
     /// <summary>
@@ -71,8 +79,8 @@ public class MazeCellV3 : MonoBehaviour
     void collapse(List<mazeTile> possible)
     {
         if(finished)return;
-        tileOptions = tileOptions.Intersect(possible).ToList();
-        if (tileOptions.Count == 0) Debug.Log("WRONGGGGGGG");
+        finalOptionList = finalOptionList.Intersect(possible).ToList();
+        if (finalOptionList.Count == 0) Debug.Log("WRONGGGGGGG");
     }
 
     
