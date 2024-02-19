@@ -83,6 +83,11 @@ MonoBehaviour:
   - {fileID: 3389294674651056602, guid: 280295c8bb8f1684899bcd7aa0f128ab, type: 3}
   - {fileID: 794325718325439574, guid: 204de4a30a84c4a4bb944c2e833d5f8e, type: 3}
   - {fileID: 3870416004619646014, guid: 0e7f018cdc62d9f4c865d8cff9ee43e9, type: 3}
+  tileData:
+    up: 1
+    down: 1
+    left: 1
+    right: 0
 --- !u!1 &6742433579826538330
 GameObject:
   m_ObjectHideFlags: 0
