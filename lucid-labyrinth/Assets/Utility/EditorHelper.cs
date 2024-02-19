@@ -21,7 +21,7 @@ public class EditorHelper : MonoBehaviour
         mazeTile tpre = Resources.Load<mazeTile>("GameObject/SampleTile");
         Transform parent = GameObject.Find("SampleParent").transform;
 
-        int[] rotationsOptionsOfTiles = new int[] {1,1,2,2,2,1,2,2,2 };
+        int[] rotationsOptionsOfTiles = new int[] { 1, 1, 2, 2, 2, 1, 2, 2, 2 };
         int currentTileRotation = 0;
         int currentRotationIndex = 0;
         Vector2 currentPos = new Vector2(0, 0);
@@ -168,6 +168,22 @@ public class EditorHelper : MonoBehaviour
     #endregion
 
 
+    [MenuItem("EditorHelper/MazeModify/modifyMaterial")]
+    public static void changeMaterial()
+    {
+        string scenePath = "Assets/Scenes/StaticMazeV2.unity";
+        var currentScene = EditorSceneManager.OpenScene(scenePath);
+        Material m = StaticTool.loadAllAsset<Material>("MazeTest/MazeV2/Material").ToList().Find(x=>x.name == "mazeWall");
+        mazeTile tpre = Resources.Load<mazeTile>("GameObject/SampleTile");
+        Transform parent = GameObject.Find("MazeGen").transform;
+        StaticTool.foreachChild(parent, (x =>
+        {
+            x.GetComponent<Renderer>().material = m;
+        }),(x)=>x.GetComponent<Renderer>() != null);
+
+        EditorSceneManager.SaveScene(currentScene);
+        EditorSceneManager.CloseScene(currentScene, true);
+    }
 
     #region UTILITY
     public static TileData nameToTileData(string n)
