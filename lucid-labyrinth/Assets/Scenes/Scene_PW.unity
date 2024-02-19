@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lucidityBar: {fileID: 1935378335}
   nightmareColor: {r: 1, g: 0, b: 0, a: 0.1}
-  lucidColor: {r: 0, g: 1, b: 0, a: 0.1}
+  lucidColor: {r: 0, g: 1, b: 1, a: 0.1}
   controlSpeed: {fileID: 823109059}
   lucidHUD: {fileID: 926831321}
   clearHUD: 5

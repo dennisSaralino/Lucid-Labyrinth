@@ -54,7 +54,9 @@ public class MazeCellV3 : MonoBehaviour
 
         Transform f = Instantiate(finalTile, transform).transform;
         f.localPosition = new Vector3(0, 0, 0);
+
         finalOptionList.Clear();
+
         createWaves();
     }
     /// <summary>
