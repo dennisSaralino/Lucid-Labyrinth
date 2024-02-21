@@ -3,27 +3,32 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEditor.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
     // global GameObject variables
     public Camera mainCam;
     private PlayerControls input = null;
-    private Rigidbody playerBody;
+    private CharacterController playerController;
 
     // global vectors for storing input values
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
 
     // Scalable values for speed and look sensitivity.
-    float speedScalar = 10.0f;
-    int lookSensitivity = 6;
+    [Range(1.0f, 20.0f)]
+    public float speedScalar = 5.0f;
+    [Range(1.0f, 10.0f)]
+    public float xLookSensitivity = 4.5f;
+    [Range(1.0f, 10.0f)]
+    public float yLookSensitivity = 3.0f;
 
-    // Private GameObject variables inititalized.S
+    // Private GameObject variables inititalized
     private void Awake()
     {
         input = new PlayerControls();
-        playerBody = GetComponent<Rigidbody>();
+        playerController = GetComponent<CharacterController>(); 
     }
 
 
@@ -68,17 +73,22 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // update velocity based on current input
-        Vector3 currentVelocity = new Vector3(moveVector.x * speedScalar, 0, moveVector.z * speedScalar); 
-        playerBody.velocity = transform.TransformDirection(currentVelocity);
+        Vector3 currentVelocity = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
+        Vector3 scaledVelocity = currentVelocity * Time.deltaTime * speedScalar;
+        if (currentVelocity.x != 0 || currentVelocity.z != 0)
+        {
+            Debug.Log(scaledVelocity);
+        }
+        playerController.Move(transform.TransformDirection(scaledVelocity));
 
         // set current player/camera rotations equal to temporary quaternions
         var playerQuat = transform.rotation.eulerAngles;
         var camQuat = mainCam.transform.rotation.eulerAngles;
 
         // update temp player/camera Quaternions based on mouse delta/right stick position (depending on input method)
-        playerQuat.y += reduceNum(cameraVector.x) * lookSensitivity;
+        playerQuat.y += reduceNum(cameraVector.x) * yLookSensitivity;
         camQuat.y = playerQuat.y;
-        camQuat.x -= Mathf.Clamp(reduceNum(cameraVector.y) * lookSensitivity, -80, 90);
+        camQuat.x -= Mathf.Clamp(reduceNum(cameraVector.y) * xLookSensitivity, -80, 90);
 
         // these two lines exist for the sole fact that moving the mouse was rotating the 
         // player/camera on the z-axis even though these values were never changed
