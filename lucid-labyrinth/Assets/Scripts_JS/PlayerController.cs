@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public Camera mainCam;
     private PlayerControls input = null;
     private CharacterController playerController;
+    private bool isGrappling = false;
+    private float yVelocity = -9.8f;
 
     // global vectors for storing input values
     private Vector3 moveVector = Vector3.zero;
@@ -76,12 +78,27 @@ public class PlayerController : MonoBehaviour
     {
         // update velocity based on current input
         Vector3 currentVelocity = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
+        if (isGrappling)
+        {
+            currentVelocity.y = 0;
+        }
+        else
+        {
+            currentVelocity.y = -9.8f;
+        }
         Vector3 scaledVelocity = currentVelocity * Time.deltaTime * speedScalar;
         if (currentVelocity.x != 0 || currentVelocity.z != 0)
         {
             Debug.Log(scaledVelocity);
         }
         playerController.Move(transform.TransformDirection(scaledVelocity));
+
+        if (isGrappling) {
+            currentVelocity.y = 0;
+        }
+        else {
+            currentVelocity.y = -9.8f;
+        }
 
         // set current player/camera rotations equal to temporary quaternions
         var playerQuat = transform.rotation.eulerAngles;
@@ -102,6 +119,16 @@ public class PlayerController : MonoBehaviour
         mainCam.transform.rotation = Quaternion.Euler(camQuat);
     }
 
+
+    void enableGrapple()
+    {
+        isGrappling = true;
+    }
+
+    void disableGrapple()
+    {
+        isGrappling = false;
+    }
 
     // A little recursive function that reduces a value to be between -1 and 1.
     // Exists to turn mouse deltas into values closer resembling values from stick inputs
