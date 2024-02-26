@@ -4,26 +4,39 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEditor.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    // global GameObject variables
     public Camera mainCam;
     private PlayerControls input = null;
-    private Rigidbody playerBody;
+    private CharacterController playerController;
+    private bool isGrappling = false;
+    private float yVelocity = -9.8f;
+
+    // global vectors for storing input values
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
-    private Quaternion playerRot = Quaternion.identity;
-    public float speedScalar = 10.0f;
-    int lookSensitivity = 6;
     public Slider lucidityBar;
 
-    // Start is called before the first frame update
+    // Scalable values for speed and look sensitivity.
+    [Range(1.0f, 20.0f)]
+    public float speedScalar = 5.0f;
+    [Range(1.0f, 10.0f)]
+    public float xLookSensitivity = 4.5f;
+    [Range(1.0f, 10.0f)]
+    public float yLookSensitivity = 3.0f;
+
+    // Private GameObject variables inititalized
     private void Awake()
     {
         input = new PlayerControls();
-        playerBody = GetComponent<Rigidbody>();
+        playerController = GetComponent<CharacterController>(); 
     }
 
+
+    // The following functions exist for enabling and disabling player movement
     private void OnEnable()
     {
         input.Enable();
@@ -63,42 +76,63 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 currentVelocity = new Vector3(moveVector.x * speedScalar, 0, moveVector.z * speedScalar);
-        playerBody.velocity = transform.TransformDirection(currentVelocity);
+        // update velocity based on current input
+        Vector3 currentVelocity = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
+        if (isGrappling)
+        {
+            currentVelocity.y = 0;
+        }
+        else
+        {
+            currentVelocity.y = -9.8f;
+        }
+        Vector3 scaledVelocity = currentVelocity * Time.deltaTime * speedScalar;
+        if (currentVelocity.x != 0 || currentVelocity.z != 0)
+        {
+            Debug.Log(scaledVelocity);
+        }
+        playerController.Move(transform.TransformDirection(scaledVelocity));
 
+        if (isGrappling) {
+            currentVelocity.y = 0;
+        }
+        else {
+            currentVelocity.y = -9.8f;
+        }
+
+        // set current player/camera rotations equal to temporary quaternions
         var playerQuat = transform.rotation.eulerAngles;
         var camQuat = mainCam.transform.rotation.eulerAngles;
-        playerQuat.y += reduceNum(cameraVector.x) * lookSensitivity;
+
+        // update temp player/camera Quaternions based on mouse delta/right stick position (depending on input method)
+        playerQuat.y += reduceNum(cameraVector.x) * yLookSensitivity;
         camQuat.y = playerQuat.y;
-        if (mainCam.transform.rotation.x > -80 && mainCam.transform.rotation.x < 90)
-        {
-            if (mainCam.transform.rotation.x + (reduceNum(cameraVector.y) * lookSensitivity) > 90)
-            {
-                //float tmp = 80 - mainCam.transform.rotation.x;
-                camQuat.x = 90;
-            }
-            else if (mainCam.transform.rotation.x + (reduceNum(cameraVector.y) * lookSensitivity) < -80)
-            {
-                //float tmp = -90 - mainCam.transform.rotation.x;
-                camQuat.x = -80;
-            }
-            else
-            {
-                camQuat.x -= reduceNum(cameraVector.y) * lookSensitivity;
-            }
-            
-            //if (cameraVector != new Vector2(0.0f, 0.0f)) { Debug.Log(cameraVector); }
-            if (moveVector != new Vector3(0.0f, 0.0f, 0.0f)) { 
-                //Debug.Log((float)Math.Cos(transform.rotation.y));
-                Debug.Log((float)Math.Sin(transform.rotation.y));
-            }
-        }
+        camQuat.x -= Mathf.Clamp(reduceNum(cameraVector.y) * xLookSensitivity, -80, 90);
+
+        // these two lines exist for the sole fact that moving the mouse was rotating the 
+        // player/camera on the z-axis even though these values were never changed
         playerQuat.z = 0;
         camQuat.z = 0;
+
+        // set the player/camera rotation equal to the updated temp player/camera quaternions
         transform.rotation = Quaternion.Euler(playerQuat);
         mainCam.transform.rotation = Quaternion.Euler(camQuat);
     }
 
+
+    void enableGrapple()
+    {
+        isGrappling = true;
+    }
+
+    void disableGrapple()
+    {
+        isGrappling = false;
+    }
+
+    // A little recursive function that reduces a value to be between -1 and 1.
+    // Exists to turn mouse deltas into values closer resembling values from stick inputs
+    // so that we don't have to check for input method when moving the player/camera.
     float reduceNum(float x)
     {
         if (-1 <= x && x <= 1) {
@@ -106,8 +140,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float tmp = reduceNum(x / 10);
-            return tmp;
+            return reduceNum(x / 10);
         }
     }
 
