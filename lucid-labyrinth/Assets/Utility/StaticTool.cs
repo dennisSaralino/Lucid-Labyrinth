@@ -73,7 +73,7 @@ public static class StaticTool
 
     public static void foreachChild(Transform parent, System.Action<Transform> toDo, Predicate<Transform> predicate = null)
     {
-        if (predicate(parent)) toDo(parent);
+        if (predicate != null? predicate(parent):true) toDo(parent);
         foreach (Transform i in parent)
         {
             foreachChild(i, toDo, predicate);
