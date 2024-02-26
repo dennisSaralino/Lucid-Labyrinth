@@ -13,6 +13,7 @@ public class MazeGeneratev2 : MonoBehaviour
     public navigationBaker baker;
     public static MazeGeneratev2 i;
     public MazeCellV3[,] mazeGrid;
+    public mazeTile[,] finalMazeData;
 #if UNITY_EDITOR
     public tileRulesDatabase tileRulesDatabase;
 #endif
@@ -58,7 +59,7 @@ public class MazeGeneratev2 : MonoBehaviour
     {
         allCell = new List<MazeCellV3>();
         mazeGrid = new MazeCellV3[width, height];
-
+        finalMazeData = new mazeTile[width, height];
 
 
 
@@ -133,6 +134,14 @@ public class MazeGeneratev2 : MonoBehaviour
             count = allCell.Count;
         }
         baker.bakeMap();
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                finalMazeData[i, j] = mazeGrid[i, j].finalTile;
+            }
+        }
+        DataToMaze.i.dataToMaze(finalMazeData);
     }
 }
 

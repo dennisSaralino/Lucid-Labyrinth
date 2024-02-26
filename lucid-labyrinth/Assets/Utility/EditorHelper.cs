@@ -185,6 +185,26 @@ public class EditorHelper : MonoBehaviour
         EditorSceneManager.CloseScene(currentScene, true);
     }
 
+    [MenuItem("EditorHelper/MazeModify/changeTileMaterial")]
+    public static void changeTilesMaterial()
+    {
+        Material m = StaticTool.loadAllAsset<Material>("MazeTest/MazeV2/Material").ToList().Find(x => x.name == "mazeWall");
+        List<mazeTile> tpre = StaticTool.loadAllAsset<mazeTile>("MazeTest/MazeV2/Tile").ToList();
+        tpre.ForEach(x =>
+        {
+            StaticTool.foreachChild(x.transform, (y) =>
+            {
+                if (y.GetComponent<MeshRenderer>() != null)
+                {
+                    y.GetComponent<MeshRenderer>().material = m;
+                }
+            });
+            StaticTool.saveAsset(x);
+        });
+    }
+
+
+
     #region UTILITY
     public static TileData nameToTileData(string n)
     {
