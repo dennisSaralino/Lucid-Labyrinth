@@ -34,8 +34,13 @@ public class EnvironmentController : MonoBehaviour
             inNeutral = false;
             inNightmare = true;
             screenNightmare = true;
-            lucidHUD.color = nightmareColor;
-            controlSpeed.speedScalar = 2.5f;
+            //lucidHUD.color = nightmareColor;
+            //controlSpeed.speedScalar = 2.5f;
+
+            RenderSettings.fog = true;
+            RenderSettings.fogDensity = 0.1f;
+            RenderSettings.fogColor = nightmareColor;
+
             Report();
         }
 
@@ -45,7 +50,10 @@ public class EnvironmentController : MonoBehaviour
             inNightmare = false;
             inNeutral = true;
             screenNightmare = false;
-            controlSpeed.speedScalar = 5f;
+            //controlSpeed.speedScalar = 5f;
+
+            RenderSettings.fog = false;
+
             Report();
         }
 
@@ -55,8 +63,13 @@ public class EnvironmentController : MonoBehaviour
             inNeutral = false;
             inLucid = true;
             screenLucid = true;
-            lucidHUD.color = lucidColor;
-            controlSpeed.speedScalar = 7.5f;
+            //lucidHUD.color = lucidColor;
+            //controlSpeed.speedScalar = 7.5f;
+
+            RenderSettings.fog = true;
+            RenderSettings.fogDensity = 0.025f;
+            RenderSettings.fogColor = lucidColor;
+
             Report();
         }
 
@@ -66,7 +79,10 @@ public class EnvironmentController : MonoBehaviour
             inLucid = false;
             inNeutral = true;
             screenLucid = false;
-            controlSpeed.speedScalar = 5f;
+            //controlSpeed.speedScalar = 5f;
+
+            RenderSettings.fog = false;
+
             Report();
         }
 
@@ -76,7 +92,8 @@ public class EnvironmentController : MonoBehaviour
             inNightmare = false;
             inLucid = true;
             nightmareToLucid = true;
-            controlSpeed.speedScalar = 7.5f;
+            //controlSpeed.speedScalar = 7.5f;
+
             Report();
         }
 
@@ -86,7 +103,7 @@ public class EnvironmentController : MonoBehaviour
             inLucid = false;
             inNightmare = true;
             lucidToNightmare = true;
-            controlSpeed.speedScalar = 2.5f;
+            //controlSpeed.speedScalar = 2.5f;
             Report();
         }
     }
@@ -110,14 +127,18 @@ public class EnvironmentController : MonoBehaviour
         TrackState();
         if (screenNightmare == false && screenLucid == false)
         {
-            lucidHUD.color = Color.Lerp(lucidHUD.color, Color.clear, clearHUD * Time.deltaTime);
+            RenderSettings.fogColor = Color.Lerp(lucidHUD.color, Color.clear, clearHUD * Time.deltaTime);
+            //lucidHUD.color = Color.Lerp(lucidHUD.color, Color.clear, clearHUD * Time.deltaTime);
         }
         else if (nightmareToLucid == true)
         {
-            lucidHUD.color = Color.Lerp(lucidHUD.color, lucidColor, clearHUD * Time.deltaTime);
-        } else if (lucidToNightmare == true)
+            RenderSettings.fogColor = Color.Lerp(lucidHUD.color, lucidColor, clearHUD * Time.deltaTime);
+            //lucidHUD.color = Color.Lerp(lucidHUD.color, lucidColor, clearHUD * Time.deltaTime);
+        }
+        else if (lucidToNightmare == true)
         {
-            lucidHUD.color = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
+            RenderSettings.fogColor = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
+            //lucidHUD.color = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
         }
     }
 }
