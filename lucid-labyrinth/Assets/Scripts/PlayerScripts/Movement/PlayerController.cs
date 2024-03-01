@@ -5,11 +5,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEditor.UIElements;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
     // global GameObject variables
-    public Camera mainCam;
+    public NoiseSettings weakShake;
+    public NoiseSettings strongShake;
+    public NoiseSettings extremeShake;
+    public CinemachineVirtualCamera mainCam;
+    private CinemachineBasicMultiChannelPerlin camEffect;
+    private EnvironmentController env;
+    public GameObject environmentCont;
     private PlayerControls input = null;
     private CharacterController playerController;
     private bool isGrappling = false;
@@ -28,11 +35,15 @@ public class PlayerController : MonoBehaviour
     [Range(1.0f, 10.0f)]
     public float yLookSensitivity = 3.0f;
 
+
     // Private GameObject variables inititalized
     private void Awake()
     {
         input = new PlayerControls();
-        playerController = GetComponent<CharacterController>(); 
+        playerController = GetComponent<CharacterController>();
+        camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        env = environmentCont.GetComponent<EnvironmentController>();
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
 
@@ -74,32 +85,8 @@ public class PlayerController : MonoBehaviour
         cameraVector = Vector2.zero;
     }
 
-    private void FixedUpdate()
+    private void Update() // Camera Controls are in Update for smoothness
     {
-        // update velocity based on current input
-        Vector3 currentVelocity = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
-        if (isGrappling)
-        {
-            currentVelocity.y = 0;
-        }
-        else
-        {
-            currentVelocity.y = -9.8f;
-        }
-        Vector3 scaledVelocity = currentVelocity * Time.deltaTime * speedScalar;
-        if (currentVelocity.x != 0 || currentVelocity.z != 0)
-        {
-            Debug.Log(scaledVelocity);
-        }
-        playerController.Move(transform.TransformDirection(scaledVelocity));
-
-        if (isGrappling) {
-            currentVelocity.y = 0;
-        }
-        else {
-            currentVelocity.y = -9.8f;
-        }
-
         // set current player/camera rotations equal to temporary quaternions
         var playerQuat = transform.rotation.eulerAngles;
         var camQuat = mainCam.transform.rotation.eulerAngles;
@@ -117,6 +104,50 @@ public class PlayerController : MonoBehaviour
         // set the player/camera rotation equal to the updated temp player/camera quaternions
         transform.rotation = Quaternion.Euler(playerQuat);
         mainCam.transform.rotation = Quaternion.Euler(camQuat);
+
+        
+    }
+
+    private void FixedUpdate()
+    {
+        // update velocity based on current input
+        Vector3 currentVelocity = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
+        if (isGrappling)
+        {
+            currentVelocity.y = 0;
+        }
+        else
+        {
+            currentVelocity.y = yVelocity;
+        }
+        Vector3 scaledVelocity = currentVelocity * Time.deltaTime * speedScalar;
+        if (currentVelocity.x != 0 || currentVelocity.z != 0)
+        {
+            Debug.Log(scaledVelocity);
+        }
+        playerController.Move(transform.TransformDirection(scaledVelocity));
+
+        if (isGrappling) {
+            currentVelocity.y = 0;
+        }
+        else {
+            currentVelocity.y = -9.8f;
+        }
+
+        if (env.Report() == 1)
+        {
+            camEffect.m_NoiseProfile = extremeShake;
+        }
+        else if (env.Report() == 2)
+        {
+            camEffect.m_NoiseProfile = strongShake;
+        }
+        else if (env.Report() == 3)
+        {
+            camEffect.m_NoiseProfile = weakShake;
+        }
+
+        
     }
 
 

@@ -108,18 +108,25 @@ public class EnvironmentController : MonoBehaviour
         }
     }
 
-    private void Report()
+    public int Report()
     {
-        
-        if (inNightmare)
+
+        if (inNightmare) {
             Debug.Log("In nightmare mode");
+            return 1;
+        }
 
-        if (inNeutral)
+        if (inNeutral) { 
             Debug.Log("In neutral mode");
+            return 2;
+        }
 
-        if (inLucid)
+        if (inLucid) {
             Debug.Log("In lucid mode");
-        
+            return 3;
+        }
+
+        return 0;
     }
 
     private void FixedUpdate()
