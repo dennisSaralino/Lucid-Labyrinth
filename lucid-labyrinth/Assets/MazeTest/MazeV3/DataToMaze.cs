@@ -15,8 +15,46 @@ public class DataToMaze : MonoBehaviour
     }
 
 
-    public void dataToMaze(mazeTile[,] data)
+    public void dataToMaze(TileData[,] data)
     {
-        
+        StartCoroutine(dataToMazeI(data));   
+    }
+    IEnumerator dataToMazeI(TileData[,] data)
+    {
+        Transform prefab = Resources.Load<Transform>("GameObject/3dTile");
+        Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
+        MeshRenderer m = prefab.GetChild(0).GetComponent<MeshRenderer>();
+        Vector3 tileSize = m.bounds.size;
+        for (int i = 0; i < data.GetLength(0); i++)
+        {
+            for (int j = 0; j < data.GetLength(1); j++)
+            {
+                Transform p = Instantiate(prefab, transform);
+                TileData currentData = data[j, i];
+                p.localPosition = new Vector3(tileSize.x * j, 0, tileSize.z * i);
+                if (data[j, i].isSolutionPath)
+                    p.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                if (currentData.up)
+                {
+                    p.GetChild(1).gameObject.SetActive(false);
+                }
+
+                if (currentData.down)
+                {
+                    p.GetChild(2).gameObject.SetActive(false);
+                }
+                if (currentData.left)
+                {
+                    p.GetChild(3).gameObject.SetActive(false);
+                }
+                if (currentData.right)
+                {
+                    p.GetChild(4).gameObject.SetActive(false);
+                }
+
+            }
+            yield return null;
+        }
+
     }
 }

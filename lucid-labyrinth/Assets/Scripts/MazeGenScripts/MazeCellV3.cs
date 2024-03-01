@@ -9,7 +9,7 @@ public class MazeCellV3 : MonoBehaviour
     int x, y;
     public List<mazeTile> finalOptionList;
     public mazeTile finalTile;
-
+    public bool isSolution;
 
     public TileData getTileData()
     {
