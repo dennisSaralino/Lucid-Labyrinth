@@ -15,7 +15,6 @@ public class mazeTile : MonoBehaviour
     public List<mazeTile> downOptions;
     public List<mazeTile> leftOptions;
     public List<mazeTile> rightOptions;
-
     public TileData tileData;
 
 
@@ -34,11 +33,20 @@ public class TileData
     public bool down;
     public bool left;
     public bool right;
+    public bool isSolutionPath;
     public TileData()
     {
         up = false;
         down = false;
         left = false;
         right = false;
+    }
+    public TileData(TileData t)
+    {
+        this.up = t.up;
+        this.down = t.down;
+        this.left = t.left;
+        this.right = t.right;
+        this.isSolutionPath = t.isSolutionPath;
     }
 }

@@ -13,7 +13,7 @@ public class MazeGeneratev2 : MonoBehaviour
     public navigationBaker baker;
     public static MazeGeneratev2 i;
     public MazeCellV3[,] mazeGrid;
-    public mazeTile[,] finalMazeData;
+    public TileData[,] finalMazeData;
 #if UNITY_EDITOR
     public tileRulesDatabase tileRulesDatabase;
 #endif
@@ -40,17 +40,19 @@ public class MazeGeneratev2 : MonoBehaviour
             if (i == 0)
             {
                 mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("r",true);
+                mazeGrid[currentPoint.x, currentPoint.y].isSolution = true;
                 Debug.Log("Horizontal:::" + currentPoint + "---" + mazeGrid[currentPoint.x, currentPoint.y].finalTile.name);
                 currentPoint.x += 1;
             }
             else
             {
                 mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("lu",true);
+                mazeGrid[currentPoint.x, currentPoint.y].isSolution = true;
                 Debug.Log("Vertical:::" + currentPoint + "---" + mazeGrid[currentPoint.x, currentPoint.y].finalTile.name);
                 currentPoint.y += 1;
             }
-            yield return new WaitForSeconds(0.05f);
         }
+        yield return null;
     }
     #endregion
 
@@ -59,7 +61,7 @@ public class MazeGeneratev2 : MonoBehaviour
     {
         allCell = new List<MazeCellV3>();
         mazeGrid = new MazeCellV3[width, height];
-        finalMazeData = new mazeTile[width, height];
+        finalMazeData = new TileData[width, height];
 
 
 
@@ -129,6 +131,7 @@ public class MazeGeneratev2 : MonoBehaviour
             allCell.RemoveAll(x => x.finished);
             allCell = allCell.OrderBy(x => x.finalOptionList.Count).ToList();
             allCell[0].finishThisCell();
+            allCell[0].isSolution = false;
             currenti++;
             yield return null;
             count = allCell.Count;
@@ -138,7 +141,8 @@ public class MazeGeneratev2 : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                finalMazeData[i, j] = mazeGrid[i, j].finalTile;
+                finalMazeData[i, j] = new TileData(mazeGrid[i, j].finalTile.tileData);
+                finalMazeData[i, j].isSolutionPath = mazeGrid[i, j].isSolution;
             }
         }
         DataToMaze.i.dataToMaze(finalMazeData);
