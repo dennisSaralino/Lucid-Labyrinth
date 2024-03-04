@@ -34,23 +34,7 @@ public class DataToMaze : MonoBehaviour
                 p.localPosition = new Vector3(tileSize.x * j, 0, tileSize.z * i);
                 if (data[j, i].isSolutionPath)
                     p.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-                if (currentData.up)
-                {
-                    p.GetChild(1).gameObject.SetActive(false);
-                }
-
-                if (currentData.down)
-                {
-                    p.GetChild(2).gameObject.SetActive(false);
-                }
-                if (currentData.left)
-                {
-                    p.GetChild(3).gameObject.SetActive(false);
-                }
-                if (currentData.right)
-                {
-                    p.GetChild(4).gameObject.SetActive(false);
-                }
+                currentData.loadInto(p);
 
             }
             yield return null;

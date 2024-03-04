@@ -1,31 +1,9 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum direction
-{
-    top,
-    bottom, left, right
-}
-
-public class mazeTile : MonoBehaviour
-{
-    public List<mazeTile> upOptions;
-    public List<mazeTile> downOptions;
-    public List<mazeTile> leftOptions;
-    public List<mazeTile> rightOptions;
-    public TileData tileData;
-
-
-    public void init()
-    {
-        upOptions = new List<mazeTile>();
-        downOptions = new List<mazeTile>();
-        leftOptions = new List<mazeTile>();
-        rightOptions = new List<mazeTile>();
-    }
-}
 [Serializable]
 public class TileData
 {
@@ -34,6 +12,8 @@ public class TileData
     public bool left;
     public bool right;
     public bool isSolutionPath;
+    public Vector2 pdir1;
+    public Vector2 pdir2;
     public TileData()
     {
         up = false;
@@ -48,5 +28,29 @@ public class TileData
         this.left = t.left;
         this.right = t.right;
         this.isSolutionPath = t.isSolutionPath;
+    }
+    public void loadInto(Transform p)
+    {
+        #region WALLS
+        if (up)
+        {
+            p.GetChild(1).gameObject.SetActive(false);
+        }
+
+        if (down)
+        {
+            p.GetChild(2).gameObject.SetActive(false);
+        }
+        if (left)
+        {
+            p.GetChild(3).gameObject.SetActive(false);
+        }
+        if (right)
+        {
+            p.GetChild(4).gameObject.SetActive(false);
+        }
+        #endregion
+        #region TRAP
+        #endregion
     }
 }
