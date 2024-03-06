@@ -1,18 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject loadingScreen;
+    public Slider loadBar;
+
+    public void LoadLevel(int sceneIndex)
     {
-        
+        StartCoroutine(LoadAsync(sceneIndex));
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator LoadAsync (int sceneIndex)
     {
-        
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneIndex);
+        while (!loadOp.isDone)
+        {
+            loadBar.value = loadOp.progress;
+            Debug.Log(loadOp.progress);
+            yield return null;
+        }
     }
 }

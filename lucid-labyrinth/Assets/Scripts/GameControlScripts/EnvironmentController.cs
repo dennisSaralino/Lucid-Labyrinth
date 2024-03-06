@@ -41,7 +41,7 @@ public class EnvironmentController : MonoBehaviour
             RenderSettings.fogDensity = 0.1f;
             RenderSettings.fogColor = nightmareColor;
 
-            Report();
+            //Report();
         }
 
         // going from nightmare to neutral
@@ -54,7 +54,7 @@ public class EnvironmentController : MonoBehaviour
 
             RenderSettings.fog = false;
 
-            Report();
+            //Report();
         }
 
         // going from neutral to lucid
@@ -70,7 +70,7 @@ public class EnvironmentController : MonoBehaviour
             RenderSettings.fogDensity = 0.025f;
             RenderSettings.fogColor = lucidColor;
 
-            Report();
+            //Report();
         }
 
         // going from lucid to neutral
@@ -83,7 +83,7 @@ public class EnvironmentController : MonoBehaviour
 
             RenderSettings.fog = false;
 
-            Report();
+            //Report();
         }
 
         // going from nightmare to lucid (completely fill bar, for example)
@@ -94,7 +94,7 @@ public class EnvironmentController : MonoBehaviour
             nightmareToLucid = true;
             //controlSpeed.speedScalar = 7.5f;
 
-            Report();
+            //Report();
         }
 
         // going from lucid to nightmare (large drop from injury, for example)
@@ -104,25 +104,25 @@ public class EnvironmentController : MonoBehaviour
             inNightmare = true;
             lucidToNightmare = true;
             //controlSpeed.speedScalar = 2.5f;
-            Report();
+            //Report();
         }
     }
-
+    
     public int Report()
     {
 
         if (inNightmare) {
-            Debug.Log("In nightmare mode");
+            //Debug.Log("In nightmare mode");
             return 1;
         }
 
         if (inNeutral) { 
-            Debug.Log("In neutral mode");
+            //Debug.Log("In neutral mode");
             return 2;
         }
 
         if (inLucid) {
-            Debug.Log("In lucid mode");
+            //Debug.Log("In lucid mode");
             return 3;
         }
 
