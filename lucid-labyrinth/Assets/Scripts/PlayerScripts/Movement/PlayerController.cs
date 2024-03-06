@@ -28,6 +28,13 @@ public class PlayerController : MonoBehaviour
     [Range(1.0f, 10.0f)]
     public float yLookSensitivity = 3.0f;
 
+    // values for decrementing after taking damage
+    private float damagePool = 10f;
+    private float damageProjectile = 12f;
+
+
+
+
     // Private GameObject variables inititalized
     private void Awake()
     {
@@ -150,16 +157,16 @@ public class PlayerController : MonoBehaviour
         {
             lucidityBar.value += 20;
         }
-        /*
-        if (other.gameObject.CompareTag("DamagePool"))
+        
+        if (other.gameObject.CompareTag("Fire"))
         {
             lucidityBar.value -= damagePool;
         }
-        if (other.gameObject.CompareTag("DamageProjectile"))
+        if (other.gameObject.CompareTag("Arrow"))
         {
             lucidityBar.value -= damageProjectile;
         }
-        */
+        
 
     }
 }
