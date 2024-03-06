@@ -13,7 +13,7 @@ public class LoadScreen : MonoBehaviour
         float time = 0.0f;
         while (time < 100.0f)
         {
-            loadBar.value += (time / Mathf.Max(100.0f)) / 2;
+            loadBar.value += (time / Mathf.Max(100.0f)) / 5;
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
@@ -22,5 +22,8 @@ public class LoadScreen : MonoBehaviour
     private void Update()
     {
         StartCoroutine(Load());
+
+        if (loadBar.value == 100.0f)
+            this.gameObject.SetActive(false);
     }
 }
