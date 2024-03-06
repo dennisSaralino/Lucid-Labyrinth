@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoadScreen : MonoBehaviour
 {
     public Slider loadBar;
+    public Canvas lucidityUI;
 
     IEnumerator Load()
     {
@@ -25,5 +24,10 @@ public class LoadScreen : MonoBehaviour
 
         if (loadBar.value == 100.0f)
             this.gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        lucidityUI.gameObject.SetActive(true);
     }
 }
