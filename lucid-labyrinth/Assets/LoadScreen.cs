@@ -12,7 +12,7 @@ public class LoadScreen : MonoBehaviour
         float time = 0.0f;
         while (time < 100.0f)
         {
-            loadBar.value += (time / Mathf.Max(100.0f)) / 5;
+            loadBar.value += (time / Mathf.Max(100.0f)) / 10;
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
