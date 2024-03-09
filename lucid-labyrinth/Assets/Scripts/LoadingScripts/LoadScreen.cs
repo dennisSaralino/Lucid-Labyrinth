@@ -6,6 +6,7 @@ public class LoadScreen : MonoBehaviour
 {
     public Slider loadBar;
     public Canvas lucidityUI;
+    public Camera mainCam;
 
     IEnumerator Load()
     {
@@ -29,5 +30,6 @@ public class LoadScreen : MonoBehaviour
     private void OnDisable()
     {
         lucidityUI.gameObject.SetActive(true);
+        mainCam.gameObject.SetActive(true);
     }
 }
