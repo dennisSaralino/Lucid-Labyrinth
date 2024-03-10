@@ -8,6 +8,7 @@ TagManager:
   - DamagePool
   - DamageProjectile
   - ThrowableObj
+  - Dummy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Maze Walls
   - Particles
-  - 
+  - Floor
   - 
   - 
   - 
