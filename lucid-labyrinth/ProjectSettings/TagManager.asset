@@ -6,8 +6,13 @@ TagManager:
   tags:
   - Pickup
   - DamagePool
+  - Fire
+  - Arrow
+  - Water
+  - Rock
   - DamageProjectile
   - ThrowableObj
+  - Dummy
   layers:
   - Default
   - TransparentFX
@@ -15,9 +20,12 @@ TagManager:
   - 
   - Water
   - UI
+  - Ground
   - 
   - 
-  - 
+  - Maze Walls
+  - Particles
+  - Floor
   - 
   - 
   - 
