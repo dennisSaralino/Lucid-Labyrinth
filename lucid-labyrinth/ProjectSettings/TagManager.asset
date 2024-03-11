@@ -12,6 +12,7 @@ TagManager:
   - Rock
   - DamageProjectile
   - ThrowableObj
+  - Dummy
   layers:
   - Default
   - TransparentFX
@@ -22,6 +23,9 @@ TagManager:
   - Ground
   - 
   - 
+  - Maze Walls
+  - Particles
+  - Floor
   - 
   - 
   - 
