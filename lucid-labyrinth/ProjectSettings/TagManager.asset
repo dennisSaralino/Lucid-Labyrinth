@@ -10,6 +10,8 @@ TagManager:
   - Arrow
   - Water
   - Rock
+  - DamageProjectile
+  - ThrowableObj
   layers:
   - Default
   - TransparentFX

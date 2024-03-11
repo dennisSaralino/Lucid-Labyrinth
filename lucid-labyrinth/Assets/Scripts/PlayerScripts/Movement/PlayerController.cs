@@ -5,18 +5,30 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEditor.UIElements;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
     // global GameObject variables
-    public Camera mainCam;
+    public NoiseSettings weakShake;
+    public NoiseSettings strongShake;
+    public NoiseSettings extremeShake;
+    public CinemachineVirtualCamera mainCam;
+    public GameObject environmentCont;
+    private CinemachineBasicMultiChannelPerlin camEffect;
+    private EnvironmentController env;
     private PlayerControls input = null;
     private CharacterController playerController;
-    private bool isGrappling = false;
-    private float yVelocity = -9.8f;
-    private bool isWalking = false;
-    
-    
+    private pickupHitboxScript pickupHitbox;
+
+    // global movement bools
+    public bool isGrappling = false;
+    public bool isSprinting = false;
+    public bool doFalling = true;
+    public float jumpTimer = 0.0f;
+
+    // global gravity variable
+    private float gravity = -9.81f;
 
     // global vectors for storing input values
     private Vector3 moveVector = Vector3.zero;
@@ -43,8 +55,9 @@ public class PlayerController : MonoBehaviour
     {
         input = new PlayerControls();
         playerController = GetComponent<CharacterController>();
-        
-        
+        camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        env = environmentCont.GetComponent<EnvironmentController>();
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     
@@ -86,35 +99,8 @@ public class PlayerController : MonoBehaviour
         cameraVector = Vector2.zero;
     }
 
-    private void FixedUpdate()
+    private void Update() // Camera Controls are in Update for smoothness
     {
-        // update velocity based on current input
-        Vector3 currentVelocity = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
-        if (isGrappling)
-        {
-            currentVelocity.y = 0;
-        }
-        else
-        {
-            currentVelocity.y = -9.8f;
-        }
-
-        Vector3 scaledVelocity = currentVelocity * Time.deltaTime * speedScalar;
-        if (currentVelocity.x != 0 || currentVelocity.z != 0)
-        {
-            //Debug.Log(scaledVelocity);
-            
-            
-        }
-        playerController.Move(transform.TransformDirection(scaledVelocity));
-
-        if (isGrappling) {
-            currentVelocity.y = 0;
-        }
-        else {
-            currentVelocity.y = -9.8f;
-        }
-
         // set current player/camera rotations equal to temporary quaternions
         var playerQuat = transform.rotation.eulerAngles;
         var camQuat = mainCam.transform.rotation.eulerAngles;
@@ -132,6 +118,59 @@ public class PlayerController : MonoBehaviour
         // set the player/camera rotation equal to the updated temp player/camera quaternions
         transform.rotation = Quaternion.Euler(playerQuat);
         mainCam.transform.rotation = Quaternion.Euler(camQuat);
+
+        if (input.player.sprint.WasPerformedThisFrame())
+        {
+            isSprinting = true;
+            speedScalar += 2.0f;
+            camEffect.m_FrequencyGain += 0.5f;
+        }
+        if (input.player.sprint.WasReleasedThisFrame())
+        {
+            isSprinting = false;
+            speedScalar -= 2.0f;
+            camEffect.m_FrequencyGain -= 0.5f;
+        }
+
+        if (pickupHitbox.grabableObj() != null)
+        {
+            pickupHitbox.grabableObj().GetComponent<pickupObjScript>().Hold(); 
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // update velocity based on current input
+        
+        Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
+        if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.5f; }
+        else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 1.0f; }
+        else if (playerController.isGrounded) { playerMoveDelta.y = 0; }
+
+        if (jumpTimer != 0.0f)
+        {
+            playerMoveDelta.y += 0.5f;
+            jumpTimer -= Time.deltaTime;
+            if (jumpTimer < 0.0f) { jumpTimer = 0.0f; }
+        }
+
+        Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
+        playerController.Move(transform.TransformDirection(scaledVelocity));
+
+        if (env.Report() == 1)
+        {
+            camEffect.m_NoiseProfile = extremeShake;
+        }
+        else if (env.Report() == 2)
+        {
+            camEffect.m_NoiseProfile = strongShake;
+        }
+        else if (env.Report() == 3)
+        {
+            camEffect.m_NoiseProfile = weakShake;
+        }
+
+        
     }
 
 
