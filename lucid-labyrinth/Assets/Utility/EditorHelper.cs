@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
-#if UNITY_EDITOR
 public class EditorHelper : MonoBehaviour
 {
     #region TILES
