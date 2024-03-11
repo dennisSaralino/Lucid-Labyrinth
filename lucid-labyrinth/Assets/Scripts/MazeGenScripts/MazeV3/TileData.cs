@@ -3,23 +3,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum sideType
+{
+    wall, 
+    path,
+    door,
+}
 [Serializable]
 public class TileData
 {
-    public bool up;
-    public bool down;
-    public bool left;
-    public bool right;
+    public sideType up;
+    public sideType down;
+    public sideType left;
+    public sideType right;
     public bool isSolutionPath;
     public Vector2 pdir1;
     public Vector2 pdir2;
     public TileData()
     {
-        up = false;
-        down = false;
-        left = false;
-        right = false;
+        up = sideType.wall;
+        down = sideType.wall;
+        left = sideType.wall;
+        right = sideType.wall;
     }
     public TileData(TileData t)
     {
@@ -32,25 +37,25 @@ public class TileData
     public void loadInto(Transform p)
     {
         #region WALLS
-        if (up)
+        GameObject floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"],p);
+        GameObject rightside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[right.ToString()], p);
+        GameObject upside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[up.ToString()], p);
+        GameObject downside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[down.ToString()], p);
+        GameObject leftside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[left.ToString()], p);
+        downside.transform.Rotate(Vector3.up, 90f);
+        leftside.transform.Rotate(Vector3.up, 180f);
+        upside.transform.Rotate(Vector3.up, 270f);
+        #endregion
+
+        if (isSolutionPath)
         {
-            p.GetChild(1).gameObject.SetActive(false);
+            Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
+            floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
         }
 
-        if (down)
-        {
-            p.GetChild(2).gameObject.SetActive(false);
-        }
-        if (left)
-        {
-            p.GetChild(3).gameObject.SetActive(false);
-        }
-        if (right)
-        {
-            p.GetChild(4).gameObject.SetActive(false);
-        }
-        #endregion
+
         #region TRAP
         #endregion
     }
 }
+
