@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     private CharacterController playerController;
     private bool isGrappling = false;
     private float yVelocity = -9.8f;
+    private bool isWalking = false;
+    
+    
 
     // global vectors for storing input values
     private Vector3 moveVector = Vector3.zero;
@@ -32,17 +35,19 @@ public class PlayerController : MonoBehaviour
     private float damagePool = 10f;
     private float damageProjectile = 12f;
 
-
-
+    // For walking audio
+    
 
     // Private GameObject variables inititalized
     private void Awake()
     {
         input = new PlayerControls();
-        playerController = GetComponent<CharacterController>(); 
+        playerController = GetComponent<CharacterController>();
+        
+        
     }
 
-
+    
     // The following functions exist for enabling and disabling player movement
     private void OnEnable()
     {
@@ -93,10 +98,13 @@ public class PlayerController : MonoBehaviour
         {
             currentVelocity.y = -9.8f;
         }
+
         Vector3 scaledVelocity = currentVelocity * Time.deltaTime * speedScalar;
         if (currentVelocity.x != 0 || currentVelocity.z != 0)
         {
-            Debug.Log(scaledVelocity);
+            //Debug.Log(scaledVelocity);
+            
+            
         }
         playerController.Move(transform.TransformDirection(scaledVelocity));
 
@@ -166,7 +174,8 @@ public class PlayerController : MonoBehaviour
         {
             lucidityBar.value -= damageProjectile;
         }
-        
-
+       
     }
+
+    
 }
