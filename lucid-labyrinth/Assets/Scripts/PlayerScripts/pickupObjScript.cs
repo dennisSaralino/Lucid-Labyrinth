@@ -12,14 +12,11 @@ public class pickupObjScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isHeld)
-        {
-            transform.position = playerHoldPos.transform.position;
-        }
-        else if (isThrown)
-        {
-            GetComponent<Rigidbody>().AddForce(throwAngle);
-            isThrown = false;
+        if (isHeld) { transform.position = playerHoldPos.transform.position; }
+        else if (isThrown) 
+        {  
+            GetComponent<Rigidbody>().AddForce(throwAngle); 
+            isThrown = false; 
         }
 
     }
@@ -41,5 +38,6 @@ public class pickupObjScript : MonoBehaviour
     {
         isHeld = false;
         isThrown = false;
+        Debug.Log("Dropped");
     }
 }

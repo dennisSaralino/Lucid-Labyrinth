@@ -9,7 +9,7 @@ public class pickupHitboxScript : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("thowableObj"))
+        if (other.CompareTag("ThrowableObj"))
         {
             throwableInRange = other.gameObject;
         }
@@ -23,5 +23,14 @@ public class pickupHitboxScript : MonoBehaviour
     public GameObject grabableObj()
     {
         return throwableInRange;
+    }
+
+    public void whatIsHappenning()
+    {
+        if (throwableInRange.CompareTag("ThrowableObj"))
+        {
+            Debug.Log("ThrowableObj");
+        }
+        else { Debug.Log("nullObj"); }
     }
 }

@@ -20,12 +20,14 @@ public class PlayerController : MonoBehaviour
     private PlayerControls input = null;
     private CharacterController playerController;
     private pickupHitboxScript pickupHitbox;
+    private GameObject currentPickup;
 
     // global movement bools
     public bool isGrappling = false;
     public bool isSprinting = false;
-    public bool doFalling = true;
-    public float jumpTimer = 0.0f;
+    private bool doFalling = true;
+    private bool holdingObj = false;
+    private float jumpTimer = 0.0f;
 
     // global gravity variable
     private float gravity = -9.81f;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
+        pickupHitbox = mainCam.GetComponentInChildren<pickupHitboxScript>();
         //Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -126,9 +129,24 @@ public class PlayerController : MonoBehaviour
             camEffect.m_FrequencyGain -= 0.5f;
         }
 
-        if (pickupHitbox.grabableObj() != null)
+        if (input.player.interact.WasPerformedThisFrame())
         {
-            pickupHitbox.grabableObj().GetComponent<pickupObjScript>().Hold(); 
+            if (pickupHitbox.grabableObj() != null)
+            {
+                currentPickup = pickupHitbox.grabableObj();
+                currentPickup.GetComponent<pickupObjScript>().Hold();
+                holdingObj = true;
+            }
+        }
+        else if (holdingObj)
+        {
+            if (input.player.interact.WasPerformedThisFrame())
+            {
+                currentPickup.GetComponent<pickupObjScript>().Drop();
+                currentPickup = null;
+                holdingObj = false;
+                Debug.Log("Tried to drop");
+            }
         }
     }
 
