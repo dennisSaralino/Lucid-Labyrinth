@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private bool doFalling = true;
     private bool holdingObj = false;
     private float jumpTimer = 0.0f;
+    private float pickupCooldown = 0.0f;
 
     // global gravity variable
     private float gravity = -9.81f;
@@ -135,18 +136,26 @@ public class PlayerController : MonoBehaviour
             camEffect.m_FrequencyGain -= 0.5f;
         }
 
-        if (input.player.interact.WasPerformedThisFrame())
+        if (input.player.interact.WasPerformedThisFrame() && !holdingObj)
         {
             if (pickupHitbox.grabableObj() != null)
             {
                 currentPickup = pickupHitbox.grabableObj();
                 currentPickup.GetComponent<pickupObjScript>().Hold();
                 holdingObj = true;
+                pickupCooldown = 1.5f;
+                Debug.Log("PICKED UP");
             }
         }
-        else if (holdingObj)
+        else { 
+            if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
+            else { pickupCooldown = 0.0f; } 
+        }
+        
+        if (input.player.interact.WasPerformedThisFrame() && holdingObj)
         {
-            if (input.player.interact.WasPerformedThisFrame())
+            Debug.Log("IN IF STMNT");
+            if (pickupCooldown == 0.0f)
             {
                 currentPickup.GetComponent<pickupObjScript>().Drop();
                 currentPickup = null;
