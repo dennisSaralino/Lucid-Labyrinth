@@ -20,12 +20,15 @@ public class PlayerController : MonoBehaviour
     private PlayerControls input = null;
     private CharacterController playerController;
     private pickupHitboxScript pickupHitbox;
+    private GameObject currentPickup;
 
     // global movement bools
     public bool isGrappling = false;
     public bool isSprinting = false;
-    public bool doFalling = true;
-    public float jumpTimer = 0.0f;
+    private bool doFalling = true;
+    private bool holdingObj = false;
+    private float jumpTimer = 0.0f;
+    private float pickupCooldown = 0.0f;
 
     // global gravity variable
     private float gravity = -9.81f;
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
+        pickupHitbox = mainCam.GetComponentInChildren<pickupHitboxScript>();
         //Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -132,9 +136,32 @@ public class PlayerController : MonoBehaviour
             camEffect.m_FrequencyGain -= 0.5f;
         }
 
-        if (pickupHitbox.grabableObj() != null)
+        if (input.player.interact.WasPerformedThisFrame() && !holdingObj)
         {
-            pickupHitbox.grabableObj().GetComponent<pickupObjScript>().Hold(); 
+            if (pickupHitbox.grabableObj() != null)
+            {
+                currentPickup = pickupHitbox.grabableObj();
+                currentPickup.GetComponent<pickupObjScript>().Hold();
+                holdingObj = true;
+                pickupCooldown = 1.5f;
+                Debug.Log("PICKED UP");
+            }
+        }
+        else { 
+            if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
+            else { pickupCooldown = 0.0f; } 
+        }
+        
+        if (input.player.interact.WasPerformedThisFrame() && holdingObj)
+        {
+            Debug.Log("IN IF STMNT");
+            if (pickupCooldown == 0.0f)
+            {
+                currentPickup.GetComponent<pickupObjScript>().Drop();
+                currentPickup = null;
+                holdingObj = false;
+                Debug.Log("Tried to drop");
+            }
         }
     }
 
