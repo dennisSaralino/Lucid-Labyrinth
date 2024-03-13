@@ -1424,6 +1424,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36d612a703546d54e88ee46af666760f, type: 3}
+--- !u!4 &1424777586 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5226644978972912646, guid: 36d612a703546d54e88ee46af666760f, type: 3}
+  m_PrefabInstance: {fileID: 1424777585}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1440027848 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 755364381983683419, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
@@ -2242,5 +2247,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719ef9f562c78ab45a046df97ea4e7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 1424777586}
   breadcrumb: {fileID: 8122617739220538881, guid: c791b7e5985b20646a5d7d69eab70128, type: 3}
