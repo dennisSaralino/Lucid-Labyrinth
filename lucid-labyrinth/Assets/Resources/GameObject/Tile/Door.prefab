@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 1210404803839757561}
   - component: {fileID: 3385651048735163263}
   m_Layer: 0
-  m_Name: DoorTile
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
