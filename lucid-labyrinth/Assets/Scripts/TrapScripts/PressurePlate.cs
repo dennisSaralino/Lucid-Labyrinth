@@ -14,10 +14,12 @@ public class PressurePlate : MonoBehaviour
     private void OnTriggerEnter()
     {
         projectileSpawner.SetActive(true);
+        Debug.Log("Plate stepped on");
     }
-    
+
     private void OnTriggerExit()
     {
         projectileSpawner.SetActive(false);
     }
+    
 }
