@@ -15,13 +15,14 @@ public class DataToMaze : MonoBehaviour
         transform.position = startPos;
         tileDict = new Dictionary<string, GameObject>();
         string path = "GameObject/Tile/";
-        tileDict["wall"] = Resources.Load<GameObject>(path + "Wall");
+
+        tileDict["wall"] = Resources.Load<GameObject>(path + "WallTile");
 
         tileDict["floor"] = Resources.Load<GameObject>(path + "Floor");
 
-        tileDict["path"] = Resources.Load<GameObject>(path + "Path");
+        tileDict["path"] = Resources.Load<GameObject>(path + "PathTile");
 
-        tileDict["door"] = Resources.Load<GameObject>(path + "Door");
+        tileDict["door"] = Resources.Load<GameObject>(path + "DoorTile");
     }
 
 
