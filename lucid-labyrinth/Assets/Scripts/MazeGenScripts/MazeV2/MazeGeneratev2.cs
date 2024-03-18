@@ -34,6 +34,10 @@ public class MazeGeneratev2 : MonoBehaviour
         Vector2Int endPoint = new Vector2Int(width - 2, height - 2);
         Vector2Int currentPoint = startPoint;
         mazeGrid[1, 1].finishThisCell("r", true);
+        mazeGrid[1, 1].isSolution = true;
+        finalMazeData[1, 1] = new TileData(mazeGrid[1, 1].finalTile.tileData);
+        finalMazeData[1, 1].isSolutionPath = mazeGrid[1, 1].isSolution;
+        finalMazeData[1, 1].right = sideType.door;
         while (currentPoint != endPoint)
         {
             int i = currentPoint.x == endPoint.x ? 1: currentPoint.y == endPoint.y? 0: Random.Range(0, 2);
@@ -41,14 +45,12 @@ public class MazeGeneratev2 : MonoBehaviour
             {
                 mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("r",true);
                 mazeGrid[currentPoint.x, currentPoint.y].isSolution = true;
-                Debug.Log("Horizontal:::" + currentPoint + "---" + mazeGrid[currentPoint.x, currentPoint.y].finalTile.name);
                 currentPoint.x += 1;
             }
             else
             {
                 mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("lu",true);
                 mazeGrid[currentPoint.x, currentPoint.y].isSolution = true;
-                Debug.Log("Vertical:::" + currentPoint + "---" + mazeGrid[currentPoint.x, currentPoint.y].finalTile.name);
                 currentPoint.y += 1;
             }
         }
@@ -116,7 +118,6 @@ public class MazeGeneratev2 : MonoBehaviour
             MazeCellV3 m = mazeGrid[width - 1,i];
             m.finishThisCell("udr");
         }
-        //Generate Solution path
         
 
     }
@@ -141,8 +142,12 @@ public class MazeGeneratev2 : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                finalMazeData[i, j] = new TileData(mazeGrid[i, j].finalTile.tileData);
-                finalMazeData[i, j].isSolutionPath = mazeGrid[i, j].isSolution;
+                if (finalMazeData[i, j] == null)
+                {
+                    finalMazeData[i, j] = new TileData(mazeGrid[i, j].finalTile.tileData);
+                    finalMazeData[i, j].isSolutionPath = mazeGrid[i, j].isSolution;
+                }
+
             }
         }
         DataToMaze.i.dataToMaze(finalMazeData);
