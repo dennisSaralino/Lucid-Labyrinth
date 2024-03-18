@@ -69,12 +69,9 @@ public class alTData
 
     public bool u, d, l, r;
 
-
     public bool isBranching;
     public Vector2Int outBranch;
     public List<alTData> branch;
-
-
 
 
     public bool isSolution;

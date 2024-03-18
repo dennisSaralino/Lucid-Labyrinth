@@ -11,10 +11,4 @@ public class SkyboxFog : MonoBehaviour
         Mesh mesh = this.GetComponent<MeshFilter>().mesh;
         mesh.triangles = mesh.triangles.Reverse().ToArray();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
