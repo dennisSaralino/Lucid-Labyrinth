@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     // global movement bools
     public bool isGrappling = false;
     public bool isSprinting = false;
-    private bool doFalling = true;
     private bool holdingObj = false;
     private float jumpTimer = 0.0f;
     private float pickupCooldown = 0.0f;
@@ -200,13 +199,18 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public bool isJumping()
+    {
+        return jumpTimer == 0.0f;
+    }
 
-    void enableGrapple()
+
+    public void enableGrapple()
     {
         isGrappling = true;
     }
 
-    void disableGrapple()
+    public void disableGrapple()
     {
         isGrappling = false;
     }

@@ -9,10 +9,7 @@ public class pickupHitboxScript : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ThrowableObj"))
-        {
-            throwableInRange = other.gameObject;
-        }
+        if (other.CompareTag("ThrowableObj")) { throwableInRange = other.gameObject.transform.parent.gameObject; }
     }
 
     private void OnTriggerExit(Collider other)
