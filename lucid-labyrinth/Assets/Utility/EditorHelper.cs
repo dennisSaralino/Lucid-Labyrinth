@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+
 #if UNITY_EDITOR
+
 using UnityEditor.SceneManagement;
 using UnityEditor;
+
 public class EditorHelper : MonoBehaviour
 {
     #region TILES
@@ -190,6 +193,11 @@ public class EditorHelper : MonoBehaviour
     {
         Material m = StaticTool.loadAllAsset<Material>("MazeTest/MazeV2/Material").ToList().Find(x => x.name == "mazeWall");
         List<mazeTile> tpre = StaticTool.loadAllAsset<mazeTile>("MazeTest/MazeV2/Tile").ToList();
+
+
+
+
+
         tpre.ForEach(x =>
         {
             StaticTool.foreachChild(x.transform, (y) =>
