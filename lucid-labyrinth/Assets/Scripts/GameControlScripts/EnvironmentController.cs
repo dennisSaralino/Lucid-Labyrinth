@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,9 +21,12 @@ public class EnvironmentController : MonoBehaviour
     public Color nightmareColor;
     public Color lucidColor;
 
-    public PlayerController controlSpeed;
+    public PlayerController player;
     public Image lucidHUD;
+    public TMP_Text gameOver;
     public float clearHUD = 50f;
+
+    //private Quaternion deathRotation = ();
 
     private void TrackState()
     {
@@ -146,6 +150,13 @@ public class EnvironmentController : MonoBehaviour
         {
             RenderSettings.fogColor = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
             //lucidHUD.color = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
+        }
+
+        if (lucidityBar.value == 0)
+        {
+            player.input.Disable();
+            //player.transform.rotation = Quaternion.Lerp();
+            gameOver.gameObject.SetActive(true);
         }
     }
 }
