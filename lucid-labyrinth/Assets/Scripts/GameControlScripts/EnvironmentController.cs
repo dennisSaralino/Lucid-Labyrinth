@@ -24,6 +24,7 @@ public class EnvironmentController : MonoBehaviour
     public PlayerController player;
     public Image lucidHUD;
     public AudioSource sceneMusic;
+    public AudioSource lucidAlert;
     public TMP_Text gameOver;
     public float clearHUD = 50f;
 
@@ -36,7 +37,9 @@ public class EnvironmentController : MonoBehaviour
         // going from neutral to nightmare
         if (inNeutral && lucidityBar.value < 25)
         {
-            StartCoroutine(changePitch(-0.1f));
+            lucidAlert.time = 0.7f;
+            lucidAlert.Play();
+            changePitch(sceneMusic, -0.1f);
 
             inNeutral = false;
             inNightmare = true;
@@ -54,7 +57,7 @@ public class EnvironmentController : MonoBehaviour
         // going from nightmare to neutral
         else if (inNightmare && lucidityBar.value >= 25 && lucidityBar.value < 75)
         {
-            StartCoroutine(changePitch(0.1f));
+            changePitch(sceneMusic, 0.1f);
 
             inNightmare = false;
             inNeutral = true;
@@ -69,7 +72,7 @@ public class EnvironmentController : MonoBehaviour
         // going from neutral to lucid
         else if (inNeutral && lucidityBar.value >= 75)
         {
-            sceneMusic.pitch += 0.1f;
+          
 
             inNeutral = false;
             inLucid = true;
@@ -87,7 +90,7 @@ public class EnvironmentController : MonoBehaviour
         // going from lucid to neutral
         else if (inLucid && lucidityBar.value < 75 && lucidityBar.value > 25)
         {
-            sceneMusic.pitch -= 0.1f;
+         
 
             inLucid = false;
             inNeutral = true;
@@ -102,7 +105,7 @@ public class EnvironmentController : MonoBehaviour
         // going from nightmare to lucid (completely fill bar, for example)
         else if (inNightmare && lucidityBar.value >= 75)
         {
-            sceneMusic.pitch += 0.2f;
+      
 
             inNightmare = false;
             inLucid = true;
@@ -115,7 +118,7 @@ public class EnvironmentController : MonoBehaviour
         // going from lucid to nightmare (large drop from injury, for example)
         else if (inLucid && lucidityBar.value < 25)
         {
-            sceneMusic.pitch -= 0.2f;
+           
 
             inLucid = false;
             inNightmare = true;
@@ -125,13 +128,9 @@ public class EnvironmentController : MonoBehaviour
         }
     }
     
-    IEnumerator changePitch(float amount)
+    void changePitch(AudioSource src, float amount)
     {
-        //sceneMusic.Pause();
-        yield return new WaitForSeconds(0.01f);
-        sceneMusic.pitch -= amount;
-        
-        //sceneMusic.Play();
+        src.pitch += amount;
     }
 
     public int Report()

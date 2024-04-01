@@ -9,4 +9,10 @@ public class LevelLoader : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(sceneIndex);
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+        Debug.Log("Application closed.");
+    }
 }
