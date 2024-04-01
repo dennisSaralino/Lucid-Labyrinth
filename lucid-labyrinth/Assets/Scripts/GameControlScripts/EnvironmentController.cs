@@ -41,9 +41,11 @@ public class EnvironmentController : MonoBehaviour
             //lucidHUD.color = nightmareColor;
             //controlSpeed.speedScalar = 2.5f;
 
+            /*
             RenderSettings.fog = true;
             RenderSettings.fogDensity = 0.1f;
             RenderSettings.fogColor = nightmareColor;
+            */
 
             //Report();
         }
@@ -56,7 +58,7 @@ public class EnvironmentController : MonoBehaviour
             screenNightmare = false;
             //controlSpeed.speedScalar = 5f;
 
-            RenderSettings.fog = false;
+            //RenderSettings.fog = false;
 
             //Report();
         }
@@ -70,9 +72,11 @@ public class EnvironmentController : MonoBehaviour
             //lucidHUD.color = lucidColor;
             //controlSpeed.speedScalar = 7.5f;
 
+            /*
             RenderSettings.fog = true;
             RenderSettings.fogDensity = 0.025f;
             RenderSettings.fogColor = lucidColor;
+            */
 
             //Report();
         }
@@ -85,7 +89,7 @@ public class EnvironmentController : MonoBehaviour
             screenLucid = false;
             //controlSpeed.speedScalar = 5f;
 
-            RenderSettings.fog = false;
+            //RenderSettings.fog = false;
 
             //Report();
         }
