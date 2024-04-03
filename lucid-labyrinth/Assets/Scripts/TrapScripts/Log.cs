@@ -44,32 +44,28 @@ public class Log : MonoBehaviour
         }
 
         //log attached to two parallel walls
+        //change rotation of log upon active parallel walls
         if(up && down){
+            
             Quaternion logRot = Quaternion.Euler(0,90,-90);
             Vector3 newVector3 = new Vector3(logPosition.position.x, logPosition.position.y, logPosition.position.z);
-            Instantiate(logPrefab,newVector3, logRot);
             logInstance = Instantiate(logPrefab,newVector3, logRot);
         }
 
         else if(left && right){
+            
             Quaternion logRot = Quaternion.Euler(0,0,-90);
             Vector3 newVector3 = new Vector3(logPosition.position.x, logPosition.position.y, logPosition.position.z);
             logInstance = Instantiate(logPrefab,newVector3, logRot);
             
         }
-        
-        // spin the log
-
     }
 
     void Update(){
-        if(up && down){
-        
-        logInstance.transform.Rotate(0,0,rotateSpeed * Time.deltaTime);
-        }
-        if(left && right){
-        
-        logInstance.transform.Rotate(rotateSpeed * Time.deltaTime,0,0);
-        }
+
+        //spin the log
+        //works for both orientations
+        logInstance.transform.Rotate(0,rotateSpeed * Time.deltaTime,0);
+      
     }
 }
