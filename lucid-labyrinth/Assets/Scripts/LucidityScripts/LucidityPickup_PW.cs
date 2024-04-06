@@ -13,4 +13,9 @@ public class LucidityPickup_PW : MonoBehaviour
             this.transform.position = new Vector3(spawnPosX, 0.0f, spawnPosZ);
         }
     }
+
+    private void Update()
+    {
+        transform.Rotate(new Vector3(0, 90, 0) * Time.deltaTime);
+    }
 }
