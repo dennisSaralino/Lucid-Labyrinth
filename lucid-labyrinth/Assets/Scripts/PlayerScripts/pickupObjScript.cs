@@ -8,14 +8,18 @@ public class pickupObjScript : MonoBehaviour
     private bool isThrown = false;
     private Vector3 throwAngle = new Vector3(0, 0, 0);
     public GameObject playerHoldPos;
+    public GameObject objGlow;
+    //public GameObject pickupTrigger;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (isHeld) { transform.position = playerHoldPos.transform.position; }
         else if (isThrown) 
-        {  
-            GetComponent<Rigidbody>().AddForce(throwAngle); 
+        {
+            Debug.Log(throwAngle);
+            GetComponent<Rigidbody>().isKinematic = false;
+            GetComponent<Rigidbody>().AddForce(transform.InverseTransformDirection(throwAngle));
             isThrown = false; 
         }
 
@@ -25,6 +29,8 @@ public class pickupObjScript : MonoBehaviour
     {
         isHeld = true;
         isThrown = false;
+        objGlow.SetActive(false);
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void Throw(Vector3 var)
@@ -32,12 +38,18 @@ public class pickupObjScript : MonoBehaviour
         isHeld = false;
         isThrown = true;
         throwAngle = var;
+        Debug.Log(throwAngle);
     }
 
     public void Drop()
     {
         isHeld = false;
         isThrown = false;
-        Debug.Log("Dropped");
+        GetComponent<Rigidbody>().isKinematic = false;
+    }
+
+    public void ToggleGlow(bool glowState)
+    {
+        if (!isHeld) { objGlow.SetActive(glowState); }
     }
 }

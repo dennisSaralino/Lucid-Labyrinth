@@ -13,11 +13,12 @@ TagManager:
   - DamageProjectile
   - ThrowableObj
   - Dummy
+  - GlowTag
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Pickup
   - Water
   - UI
   - Ground
@@ -26,9 +27,6 @@ TagManager:
   - Maze Walls
   - Particles
   - Floor
-  - 
-  - 
-  - 
   - 
   - 
   - 
