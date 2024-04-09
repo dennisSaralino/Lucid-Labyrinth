@@ -10,23 +10,17 @@ public class EnvironmentController : MonoBehaviour
 {
     public Slider lucidityBar;
 
-    private bool inNightmare = false;
-    private bool inNeutral   = true;
-    private bool inLucid     = false;
+    public bool inNightmare = false;
+    public bool inNeutral   = true;
+    public bool inLucid     = false;
 
-    private bool screenNightmare  = false;
-    private bool screenLucid      = false;
-    private bool nightmareToLucid = false;
-    private bool lucidToNightmare = false;
     public Color nightmareColor;
     public Color lucidColor;
 
     public PlayerController player;
-    public Image lucidHUD;
-    public TMP_Text gameOver;
     public float clearHUD = 50f;
 
-    //private Quaternion deathRotation = ();
+    public ParticleSystem fogEffects;
 
     private void TrackState()
     {
@@ -37,15 +31,9 @@ public class EnvironmentController : MonoBehaviour
         {
             inNeutral = false;
             inNightmare = true;
-            screenNightmare = true;
-            //lucidHUD.color = nightmareColor;
-            //controlSpeed.speedScalar = 2.5f;
+            player.speedScalar = 2.5f;
 
-            /*
-            RenderSettings.fog = true;
-            RenderSettings.fogDensity = 0.1f;
-            RenderSettings.fogColor = nightmareColor;
-            */
+            fogEffects.startColor = nightmareColor;
 
             //Report();
         }
@@ -55,10 +43,9 @@ public class EnvironmentController : MonoBehaviour
         {
             inNightmare = false;
             inNeutral = true;
-            screenNightmare = false;
-            //controlSpeed.speedScalar = 5f;
+            player.speedScalar = 5f;
 
-            //RenderSettings.fog = false;
+            fogEffects.startColor = Color.white;
 
             //Report();
         }
@@ -68,15 +55,9 @@ public class EnvironmentController : MonoBehaviour
         {
             inNeutral = false;
             inLucid = true;
-            screenLucid = true;
-            //lucidHUD.color = lucidColor;
-            //controlSpeed.speedScalar = 7.5f;
+            player.speedScalar = 6.5f;
 
-            /*
-            RenderSettings.fog = true;
-            RenderSettings.fogDensity = 0.025f;
-            RenderSettings.fogColor = lucidColor;
-            */
+            fogEffects.startColor = lucidColor;
 
             //Report();
         }
@@ -86,10 +67,9 @@ public class EnvironmentController : MonoBehaviour
         {
             inLucid = false;
             inNeutral = true;
-            screenLucid = false;
-            //controlSpeed.speedScalar = 5f;
+            player.speedScalar = 5f;
 
-            //RenderSettings.fog = false;
+            fogEffects.startColor = Color.white;
 
             //Report();
         }
@@ -99,8 +79,9 @@ public class EnvironmentController : MonoBehaviour
         {
             inNightmare = false;
             inLucid = true;
-            nightmareToLucid = true;
-            //controlSpeed.speedScalar = 7.5f;
+            player.speedScalar = 6.5f;
+
+            fogEffects.startColor = lucidColor;
 
             //Report();
         }
@@ -110,8 +91,10 @@ public class EnvironmentController : MonoBehaviour
         {
             inLucid = false;
             inNightmare = true;
-            lucidToNightmare = true;
-            //controlSpeed.speedScalar = 2.5f;
+            player.speedScalar = 2.5f;
+
+            fogEffects.startColor = nightmareColor;
+
             //Report();
         }
     }
@@ -140,27 +123,5 @@ public class EnvironmentController : MonoBehaviour
     private void FixedUpdate()
     {
         TrackState();
-        if (screenNightmare == false && screenLucid == false)
-        {
-            RenderSettings.fogColor = Color.Lerp(lucidHUD.color, Color.clear, clearHUD * Time.deltaTime);
-            //lucidHUD.color = Color.Lerp(lucidHUD.color, Color.clear, clearHUD * Time.deltaTime);
-        }
-        else if (nightmareToLucid == true)
-        {
-            RenderSettings.fogColor = Color.Lerp(lucidHUD.color, lucidColor, clearHUD * Time.deltaTime);
-            //lucidHUD.color = Color.Lerp(lucidHUD.color, lucidColor, clearHUD * Time.deltaTime);
-        }
-        else if (lucidToNightmare == true)
-        {
-            RenderSettings.fogColor = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
-            //lucidHUD.color = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
-        }
-
-        if (lucidityBar.value == 0)
-        {
-            player.input.Disable();
-            //player.transform.rotation = Quaternion.Lerp();
-            gameOver.gameObject.SetActive(true);
-        }
     }
 }
