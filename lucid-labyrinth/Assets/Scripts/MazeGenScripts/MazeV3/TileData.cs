@@ -29,6 +29,7 @@ public class TileData
     }
     public TileData(alTData d)
     {
+        if (d == null) return;
         up = d.u ? sideType.path: sideType.wall;
         down = d.d ? sideType.path : sideType.wall;
         left = d.l ? sideType.path : sideType.wall;
