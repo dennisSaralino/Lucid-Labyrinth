@@ -8,30 +8,63 @@ public class BreadcrumbSpawner : MonoBehaviour
 {
     public Transform playerTransform;
     public GameObject breadcrumb;
+    public int maxCrumbs;
     private int numOfCrumbs = 0;
+    private bool beginSpawning = false;
+    private bool isGrounded = false;
+    private bool spawnLeft = true;
+    private bool spawnRight = false;
+    public float timer;
+    private float resetTimer;
+    private RaycastHit hit;
 
-    private void Start()
+    private void Awake()
     {
-        StartCoroutine(spawnBreadcrumb());
+        resetTimer = timer;
+        beginSpawning = true;
     }
 
-    IEnumerator spawnBreadcrumb()
+    private void Update()
     {
-        while (true)
+        if (beginSpawning == true)
         {
-            Vector3 playerHorizontals = new Vector3(playerTransform.transform.position.x, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z);
-            GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, playerTransform.rotation);
-            numOfCrumbs++;
-            if (numOfCrumbs % 2 == 1)
+            if (Physics.Raycast(playerTransform.transform.position, new Vector3(0, -1, 0), out hit, 1.1f))
             {
-                newBreadcrumb.transform.localScale = new Vector3(0.075f, 1f, -0.075f);
-
-            } else
-            {
-                newBreadcrumb.transform.localScale = new Vector3(-0.075f, 1f, -0.075f);
+                isGrounded = true;
             }
-            newBreadcrumb.transform.SetParent(gameObject.transform);
-            yield return new WaitForSeconds(1);
+            else { isGrounded = false; }
+
+            if (isGrounded == true)
+            {
+                timer -= Time.deltaTime;
+                if (timer <= 0)
+                {
+                    numOfCrumbs++;
+                    if (numOfCrumbs > maxCrumbs)
+                    {
+                        Destroy(gameObject.transform.GetChild(0).gameObject);
+                        numOfCrumbs--;
+                    }
+                    Vector3 playerHorizontals = new Vector3(playerTransform.transform.position.x, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z);
+                    GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, playerTransform.rotation);
+                    if (spawnLeft == true)
+                    {
+                        //left foot
+                        newBreadcrumb.transform.localScale = new Vector3(0.075f, 1f, -0.075f);
+                        spawnLeft = !spawnLeft;
+                        spawnRight = !spawnRight;
+                    }
+                    else
+                    {
+                        //right foot
+                        newBreadcrumb.transform.localScale = new Vector3(-0.075f, 1f, -0.075f);
+                        spawnRight = !spawnRight;
+                        spawnLeft = !spawnLeft;
+                    }
+                    newBreadcrumb.transform.SetParent(gameObject.transform);
+                    timer = resetTimer;
+                }
+            }
         }
     }
 }

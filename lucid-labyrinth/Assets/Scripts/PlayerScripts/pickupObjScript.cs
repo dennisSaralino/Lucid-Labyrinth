@@ -6,25 +6,33 @@ public class pickupObjScript : MonoBehaviour
 {
     private bool isHeld = false;
     private bool isThrown = false;
-    private Vector3 throwAngle = new Vector3(0, 0, 0);
+    private bool isAirborne = false;
+    private Vector3 throwAngle = Vector3.zero;
     public GameObject playerHoldPos;
+    public GameObject objGlow;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (isHeld) { transform.position = playerHoldPos.transform.position; }
-        else if (isThrown) 
-        {  
-            GetComponent<Rigidbody>().AddForce(throwAngle); 
-            isThrown = false; 
+        else if (isThrown)
+        {
+            GetComponent<Rigidbody>().isKinematic = false;
+            isThrown = false;
         }
-
+        if (isAirborne)
+        {
+            //check for when the object hits the ground
+            //call the alert() function in basicAI
+        }
     }
 
     public void Hold()
     {
         isHeld = true;
         isThrown = false;
+        objGlow.SetActive(false);
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void Throw(Vector3 var)
@@ -38,6 +46,11 @@ public class pickupObjScript : MonoBehaviour
     {
         isHeld = false;
         isThrown = false;
-        Debug.Log("Dropped");
+        GetComponent<Rigidbody>().isKinematic = false;
+    }
+
+    public void ToggleGlow(bool glowState)
+    {
+        if (!isHeld) { objGlow.SetActive(glowState); }
     }
 }

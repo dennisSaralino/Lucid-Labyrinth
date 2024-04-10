@@ -10,16 +10,13 @@ TagManager:
   - Arrow
   - Water
   - Rock
-
-  - DamageProjectile
-  - ThrowableObj
-  - Dummy
-
-  - UpWall
-  - DownWall
   - LeftWall
+  - DownWall
+  - UpWall
   - RightWall
-
+  - ArrowPlate
+  - ThrowableObj
+  - Log
   layers:
   - Default
   - TransparentFX
@@ -30,9 +27,6 @@ TagManager:
   - Ground
   - 
   - 
-  - Maze Walls
-  - Particles
-  - Floor
   - 
   - 
   - 

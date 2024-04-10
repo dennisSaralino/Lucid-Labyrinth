@@ -80,6 +80,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""throwObj"",
+                    ""type"": ""Button"",
+                    ""id"": ""9bdca2e7-38ec-4fa2-9021-71ccc94bce81"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -306,7 +315,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e66d9a43-4a3f-4836-afc1-b47a35e60f30"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -346,6 +355,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3dad61d0-d939-4be7-8674-5a377139a22e"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""throwObj"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d24142c-af54-44f5-a2a6-d8ed6fe8f1e5"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""throwObj"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -360,6 +391,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_player_ability_1 = m_player.FindAction("ability_1", throwIfNotFound: true);
         m_player_sprint = m_player.FindAction("sprint", throwIfNotFound: true);
         m_player_jump = m_player.FindAction("jump", throwIfNotFound: true);
+        m_player_throwObj = m_player.FindAction("throwObj", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -427,6 +459,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_player_ability_1;
     private readonly InputAction m_player_sprint;
     private readonly InputAction m_player_jump;
+    private readonly InputAction m_player_throwObj;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -437,6 +470,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @ability_1 => m_Wrapper.m_player_ability_1;
         public InputAction @sprint => m_Wrapper.m_player_sprint;
         public InputAction @jump => m_Wrapper.m_player_jump;
+        public InputAction @throwObj => m_Wrapper.m_player_throwObj;
         public InputActionMap Get() { return m_Wrapper.m_player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -464,6 +498,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @jump.started += instance.OnJump;
             @jump.performed += instance.OnJump;
             @jump.canceled += instance.OnJump;
+            @throwObj.started += instance.OnThrowObj;
+            @throwObj.performed += instance.OnThrowObj;
+            @throwObj.canceled += instance.OnThrowObj;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -486,6 +523,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @jump.started -= instance.OnJump;
             @jump.performed -= instance.OnJump;
             @jump.canceled -= instance.OnJump;
+            @throwObj.started -= instance.OnThrowObj;
+            @throwObj.performed -= instance.OnThrowObj;
+            @throwObj.canceled -= instance.OnThrowObj;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -511,5 +551,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAbility_1(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnThrowObj(InputAction.CallbackContext context);
     }
 }

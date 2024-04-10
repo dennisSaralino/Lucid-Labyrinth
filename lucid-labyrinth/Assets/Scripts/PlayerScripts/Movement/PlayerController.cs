@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-//using UnityEditor.UIElements;
+using UnityEditor.UIElements;
 using Cinemachine;
 
 public class PlayerController : MonoBehaviour
@@ -17,18 +17,15 @@ public class PlayerController : MonoBehaviour
     public GameObject environmentCont;
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
-    private PlayerControls input = null;
+    public PlayerControls input = null;
     private CharacterController playerController;
     private pickupHitboxScript pickupHitbox;
-    private GameObject currentPickup;
 
     // global movement bools
     public bool isGrappling = false;
     public bool isSprinting = false;
-    private bool doFalling = true;
-    private bool holdingObj = false;
-    private float jumpTimer = 0.0f;
-    private float pickupCooldown = 0.0f;
+    public bool doFalling = true;
+    public float jumpTimer = 0.0f;
 
     // global gravity variable
     private float gravity = -9.81f;
@@ -46,12 +43,10 @@ public class PlayerController : MonoBehaviour
     [Range(1.0f, 10.0f)]
     public float yLookSensitivity = 3.0f;
 
-    // values for decrementing after taking damage
-    private float damagePool = 10f;
-    private float damageProjectile = 12f;
-
-    // For walking audio
+    // used for traps/hazards
+    public float playerDamage = 3.0f;
     
+
 
     // Private GameObject variables inititalized
     private void Awake()
@@ -60,11 +55,10 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
-        pickupHitbox = mainCam.GetComponentInChildren<pickupHitboxScript>();
         //Cursor.lockState = CursorLockMode.Locked;
     }
 
-    
+
     // The following functions exist for enabling and disabling player movement
     private void OnEnable()
     {
@@ -136,32 +130,9 @@ public class PlayerController : MonoBehaviour
             camEffect.m_FrequencyGain -= 0.5f;
         }
 
-        if (input.player.interact.WasPerformedThisFrame() && !holdingObj)
+        if (pickupHitbox.grabableObj() != null)
         {
-            if (pickupHitbox.grabableObj() != null)
-            {
-                currentPickup = pickupHitbox.grabableObj();
-                currentPickup.GetComponent<pickupObjScript>().Hold();
-                holdingObj = true;
-                pickupCooldown = 1.5f;
-                Debug.Log("PICKED UP");
-            }
-        }
-        else { 
-            if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
-            else { pickupCooldown = 0.0f; } 
-        }
-        
-        if (input.player.interact.WasPerformedThisFrame() && holdingObj)
-        {
-            Debug.Log("IN IF STMNT");
-            if (pickupCooldown == 0.0f)
-            {
-                currentPickup.GetComponent<pickupObjScript>().Drop();
-                currentPickup = null;
-                holdingObj = false;
-                Debug.Log("Tried to drop");
-            }
+            pickupHitbox.grabableObj().GetComponent<pickupObjScript>().Hold(); 
         }
     }
 
@@ -229,19 +200,20 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            lucidityBar.value += 20;
+            lucidityBar.value += 15;
         }
         
         if (other.gameObject.CompareTag("Fire"))
         {
-            lucidityBar.value -= damagePool;
+            lucidityBar.value -= playerDamage;
         }
         if (other.gameObject.CompareTag("Arrow"))
         {
-            lucidityBar.value -= damageProjectile;
+            lucidityBar.value -= playerDamage;
         }
-       
+        if (other.gameObject.CompareTag("Log"))
+        {
+            lucidityBar.value -= playerDamage;
+        }
     }
-
-    
 }

@@ -7,10 +7,11 @@ public class LoadScreen : MonoBehaviour
     public Slider loadBar;
     public Canvas lucidityUI;
     public Camera mainCam;
+    public BreadcrumbSpawner bspawner;
+    public float time = 0.0f;
 
     IEnumerator Load()
     {
-        float time = 0.0f;
         while (time < 100.0f)
         {
             loadBar.value += (time / Mathf.Max(100.0f)) / 10;
@@ -31,5 +32,6 @@ public class LoadScreen : MonoBehaviour
     {
         lucidityUI.gameObject.SetActive(true);
         mainCam.gameObject.SetActive(true);
+        bspawner.gameObject.SetActive(true);
     }
 }
