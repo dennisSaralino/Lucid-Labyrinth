@@ -6,12 +6,12 @@ using System;
 public class alTData
 {
     public Vector2Int currentPos;
-
+    public bool finished;
     public bool u, d, l, r;
 
     public bool isBranching;
-    public Vector2Int outBranch;
-    public List<alTData> branch;
+    public List<Vector2Int> outBranch;
+    public List<List<alTData>> branches;
 
 
     public bool isSolution;
