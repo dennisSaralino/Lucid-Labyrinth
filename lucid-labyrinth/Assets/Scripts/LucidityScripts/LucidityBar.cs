@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LucidityBar : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class LucidityBar : MonoBehaviour
     public Slider slider;
     public PlayerController player;
     public EnvironmentController state;
-    public TMP_Text gameOver;
+    // public TMP_Text gameOver;
 
     private float sprintModifier;
 
@@ -36,7 +37,7 @@ public class LucidityBar : MonoBehaviour
         if (slider.value == 0)
         {
             player.input.Disable();
-            gameOver.gameObject.SetActive(true);
+            SceneManager.LoadScene(3);
         }
     }
 }
