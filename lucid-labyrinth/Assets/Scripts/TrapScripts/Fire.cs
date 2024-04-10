@@ -11,9 +11,9 @@ public class Fire : MonoBehaviour
     void Start()
     {
         //get random int between 1-4
-        int spawnChange = Random.Range(1,4);
+        int spawnChange = Random.Range(1,3);
 
-        // 1 in 4 chance to spawn fire
+        // 1 in 3 chance to spawn fire
         if(spawnChange == 1){
 
             Instantiate(fire, transform.position, Quaternion.identity);
