@@ -16,13 +16,17 @@ public class DataToMaze : MonoBehaviour
         tileDict = new Dictionary<string, GameObject>();
         string path = "GameObject/Tile/";
 
-        tileDict["wall"] = Resources.Load<GameObject>(path + "WallTile");
+        tileDict["wall"] = Resources.Load<GameObject>(path + "Wall");
 
         tileDict["floor"] = Resources.Load<GameObject>(path + "Floor");
 
-        tileDict["path"] = Resources.Load<GameObject>(path + "PathTile");
+        tileDict["path"] = Resources.Load<GameObject>(path + "Path");
 
-        tileDict["door"] = Resources.Load<GameObject>(path + "DoorTile");
+        tileDict["door"] = Resources.Load<GameObject>(path + "Door");
+
+        tileDict["upStair"] = Resources.Load<GameObject>(path + "upStair");
+
+        tileDict["downStair"] = Resources.Load<GameObject>(path + "downStair");
     }
 
 
@@ -38,9 +42,11 @@ public class DataToMaze : MonoBehaviour
         {
             for (int j = 0; j < data.GetLength(1); j++)
             {
-                Transform p = Instantiate(prefab, transform);
                 TileData currentData = data[j, i];
+                if (currentData == null) continue;
+                Transform p = Instantiate(prefab, transform);
                 p.localPosition = new Vector3(tileSize.x * j, 0, tileSize.z * i);
+                Debug.Log(currentData == null);
                 currentData.loadInto(p);
 
             }

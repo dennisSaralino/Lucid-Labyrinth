@@ -10,7 +10,8 @@ public class MazeCellV3 : MonoBehaviour
     public List<mazeTile> finalOptionList;
     public mazeTile finalTile;
     public bool isSolution;
-
+    public bool isStair;
+    public int layer;
     public TileData getTileData()
     {
         return finalTile.tileData;
@@ -22,8 +23,21 @@ public class MazeCellV3 : MonoBehaviour
         this.x = x;
         this.y = y;
     }
+    public bool containsPath(mazeTile x, string prefer)
+    {
+        bool ok = true;
+        for (int i = 0; i < prefer.Length; i++)
+        {
+            ok &= x.name.Contains(prefer[i]);
+        }
+        return ok;
+    }
 
-
+    public List<mazeTile> containsTileWithPath(string f)
+    {
+        List<mazeTile> result = finalOptionList.FindAll(x => containsPath(x, f)).ToList();
+        return result.Count != 0 ? result : null;
+    }
     /// <summary>
     /// Chose a tile from Final Options List
     /// </summary>
@@ -37,15 +51,7 @@ public class MazeCellV3 : MonoBehaviour
         {
             if (contains)
             {
-                List<mazeTile> m = finalOptionList.FindAll(x =>
-                {
-                    bool ok = true;
-                    for (int i = 0; i < prefer.Length; i++)
-                    {
-                        ok &= x.name.Contains(prefer[i]);
-                    }
-                    return ok;
-                }).ToList();
+                List<mazeTile> m = containsTileWithPath(prefer);
                 finalTile = m[Random.Range(0, m.Count)];
             }
             else finalTile = finalOptionList.Find(x => x.name == prefer);
