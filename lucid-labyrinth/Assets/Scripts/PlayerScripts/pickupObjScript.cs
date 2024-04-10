@@ -5,8 +5,7 @@ using UnityEngine;
 public class pickupObjScript : MonoBehaviour
 {
     private bool isHeld = false;
-    private bool isThrown = false;
-    private Vector3 throwAngle = new Vector3(0, 0, 0);
+    private bool isAirborne = false;
     public GameObject playerHoldPos;
     public GameObject objGlow;
     //public GameObject pickupTrigger;
@@ -15,36 +14,28 @@ public class pickupObjScript : MonoBehaviour
     void FixedUpdate()
     {
         if (isHeld) { transform.position = playerHoldPos.transform.position; }
-        else if (isThrown) 
+        if (isAirborne)
         {
-            Debug.Log(throwAngle);
-            GetComponent<Rigidbody>().isKinematic = false;
-            GetComponent<Rigidbody>().AddForce(transform.InverseTransformDirection(throwAngle));
-            isThrown = false; 
+            //check for when the object hits the ground
+            //call the alert() function in basicAI
         }
-
     }
 
     public void Hold()
     {
         isHeld = true;
-        isThrown = false;
         objGlow.SetActive(false);
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void Throw(Vector3 var)
     {
-        isHeld = false;
-        isThrown = true;
-        throwAngle = var;
-        Debug.Log(throwAngle);
+        
     }
 
     public void Drop()
     {
         isHeld = false;
-        isThrown = false;
         GetComponent<Rigidbody>().isKinematic = false;
     }
 

@@ -14,6 +14,7 @@ TagManager:
   - ThrowableObj
   - Dummy
   - GlowTag
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Player
   - 
   - Maze Walls
   - Particles
