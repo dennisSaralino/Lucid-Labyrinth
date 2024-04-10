@@ -21,6 +21,7 @@ TagManager:
   - LeftWall
   - RightWall
 
+  - ArrowPlate
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Player
+  - PlayerWall
   - 
   - Maze Walls
   - Particles

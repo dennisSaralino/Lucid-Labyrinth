@@ -6,24 +6,29 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    
-
+    Rigidbody rigidbody;
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 1f);
-        
+        Destroy(gameObject, 10f);
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     
     
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
-        if (col.collider.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player"))
         {
             Debug.Log("Player Hit!");
             Destroy(gameObject);
+        }
+        else if(col.gameObject.CompareTag("ArrowPlate"))
+        {
+    
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
         }
         
     }
