@@ -214,7 +214,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 thVec = mainCam.transform.forward * 1000;
                 Debug.Log(thVec);
                 thVec.y = xRot;
-                Debug.DrawRay(this.transform.position + new Vector3(0, 0.6f, 0.1f), thVec, Color.white, 120f);
+                //Debug.DrawRay(transform.position + new Vector3(0, 0.6f, 0.1f), thVec, Color.white, 120f);
                 currentPickup.GetComponent<pickupObjScript>().Drop();
                 currentPickup.GetComponent<Rigidbody>().AddForce(thVec);
                 currentPickup = null;
