@@ -400,7 +400,7 @@ public class GridDataGen : MonoBehaviour
                     if(dirChoice == sideNum)
                     {
                         // set outdir, solPath, nextTile, indir, and pathTile
-                        nextTile = currTile.SetNextTile(dirChoice,SideLogic.solPath);
+                        nextTile = currTile.SetNextTile(dirChoice,SideLogic.solPath,SideLogic.solPath);
                         pathTiles.Add(currTile);
                         currTile = nextTile;
                     }                     
@@ -468,12 +468,16 @@ public class GridDataGen : MonoBehaviour
         {
             foreach(alTData pathT in pathTs)
             {
-                // check if there are any branches or open options
-                List<int> branchOptions, branchDs;                //int brCount;
-                pathT.ChkBrOptions(needToPush, out branchOptions, out branchDs, out int brCount);
+                pathT.branchOpts = pathT.GetBrOpts(needToPush);
+                // check if there are any open branch options or current branches for the pathTile
+                List<int> pthBrOpts = pathT.branchOpts.nwBrOpts;
+                List<int> pthBrDirs = pathT.branchOpts.currBrs;
+                bool noBranchOpts = (pthBrOpts.Count <= 1 && pthBrDirs.Count == 0);
+                //pathT.ChkBrOptions(needToPush, out pthBrOpts, out pthBrDirs); //, out int brCount);
 
-                // skip to next tile 
-                if(branchOptions.Count <= 1 && branchDs.Count == 0)
+
+                // skip to next tile if no option to branch and no current active branches
+                if(noBranchOpts)
                 {
                     Debug.Log("moving to next pathTile from: " + pathT.fullPos.ToString());
                 }
@@ -498,49 +502,63 @@ public class GridDataGen : MonoBehaviour
 
         //int newDepth = currDepth +1; 
         bool skipBranching = false;
-        alTData brRoot = currTile;
+        //alTData brRoot = currTile;
 
         while ((currDepth <= totalDepth) && !skipBranching)
         {
             #region BRANCH PREP AND OPTION STORAGE
-            List<int> branchOptions, branchDs;
-            int brCount;
-            currTile.ChkBrOptions(pushThru, out branchOptions, out branchDs, out brCount);
+            List<int> rtBrOpts = currTile.branchOpts.nwBrOpts; // optional directions
+            List<int> rtBrDirs = currTile.branchOpts.currBrs;  // already branch directions
+            bool noOptions = (rtBrOpts.Count <= 1 && rtBrDirs.Count == 0);
+            //currTile.ChkBrOptions(pushThru, out rtBrOpts, out rtBrDirs); //, out brCount);
             #endregion
 
-            alTData brRoot = currTile;
+            alTData tempRtTile = currTile;
 
-            if (branchOptions.Count <= 1 && branchDs.Count == 0)
+            if (noOptions)
             {
+                // for closing out a branch that dead ends
                 if (currTile.isInBranch && rootTile.isInBranch)
                 {
+                    //currTile.pathCompl = true; // consider stop options, potentially use push
                     //currTile = rootTile;
-                    Debug.Log("reached a deadend within a branch at tile: " + currTile.fullPos.ToString());
+                    Debug.LogWarning("reached a deadend within a branch at tile: " + currTile.fullPos.ToString());
                 }
                 else
-                    Debug.Log("should close this branch, as it has been completed. root is: " + rootTile.fullPos.ToString());
+                {
+                    Debug.LogWarning("should close this branch, as it has been completed. root is: " + rootTile.fullPos.ToString());
+                    skipBranching = true;  // temporarty
+                }
+
 
             }
-            if (brCount > 0)
+            else if (rtBrDirs.Count > 0) //brCount > 0)
             {
+                Debug.LogWarning("Entering incomplete statement to traverse branch on next layer of finding branches");
+                Debug.Log("the skipped tile is: " + currTile.fullPos.ToString());
+                skipBranching = true;
+                Debug.LogWarning("set skipBranching as true for now");
                 // traverse each branch and look for potential branching options
                 int brDirCount = 0;
-                foreach (int branchD in branchDs)
-                {
-                    int layerDepth = currDepth + 1;
+                //foreach (int rtBrDir in rtBrDirs)
+                //{
+                //    int layerDepth = currDepth + 1;
 
-                    Vector2Int gridCoord = brRoot.outBranches[brDirCount];
-                    currTile = fullGrid[gridCoord.x, gridCoord.y];
-                    Debug.Log("Entering nested recursive call into layer: " + layerDepth);
-                    Debug.Log("original root is: " + rootTile.fullPos.ToString() + " current root is: " + brRoot.fullPos.ToString());
-                    StartCoroutine(BuildBranch(brRoot, currTile, totalDepth, layerDepth, pushThru));
-                    ++brDirCount;
-                }
+                //    Debug.Log("about to get brDirCount of: " + brDirCount + " for brRoot to find the coords");
+                //    //Debug.Log("outbranches has a size of: " + tempRtTile.outBranches.Count);
+
+                //    //Vector2Int gridCoord = currTile.outBranches[brDirCount];
+                //    //currTile = fullGrid[gridCoord.x, gridCoord.y];
+                //    Debug.Log("Entering nested recursive call into layer: " + layerDepth);
+                //    Debug.Log("original root is: " + rootTile.fullPos.ToString() + " current root is: " + tempRtTile.fullPos.ToString());
+                //    //StartCoroutine(BuildBranch(brRoot, currTile, totalDepth, layerDepth, pushThru));
+                //    ++brDirCount;
+                //}
             }
             else
             {
-                // pick an option 
-                int dirPicked = branchOptions[Random.Range(0, branchOptions.Count)];
+                // pick an option from openSides
+                int dirPicked = rtBrOpts[Random.Range(0, rtBrOpts.Count)];
 
                 if (dirPicked != noBranch)
                 {
@@ -548,27 +566,44 @@ public class GridDataGen : MonoBehaviour
                     //List<alTData> currBranch = new();
                     //brRoot.branchElements.Add(currBranch);
 
-                    if (!brRoot.isBranching)
+                    if (!tempRtTile.isBranching)  //brRoot.isBranching)
                     {
-                        brRoot.outBranches = new();
-                        brRoot.outBranchCompl = new();
-                        brRoot.branchTiles = new();
+                        tempRtTile.outBranches = new();  //brRoot.outBranches = new();
+                        tempRtTile.branchTiles = new();  //brRoot.branchTiles = new();
 
-                        Debug.Log("made first branch for tile: " + currTile.fullPos.ToString());
+                        Debug.Log("made first branch for tile: " + tempRtTile.fullPos.ToString());
 
-                        if (currTile.isSolution || (currTile.isInBranch && currTile.outBranches.Count > 1))
+                        if (tempRtTile.isSolution || (tempRtTile.isInBranch && tempRtTile.outBranches.Count > 1))
                         {
-                            brRoot.isBranching = true;
+                            currTile.isBranching = true; //brRoot.isBranching = true;
                             Debug.Log("tile: " + currTile.fullPos.ToString() + " recieved isBranching");
                         }
+                        
+                        Debug.Log("making branch");
+                        currTile = tempRtTile.MakeBranch(dirPicked);
+                        currTile.branchOpts = currTile.GetBrOpts(pushThru);
+                        
 
+                        ++currDepth;
                     }
+                    else
+                        Debug.LogWarning("Picked a direction that was already branching at: " + currTile.fullPos.ToString());
 
-                    Debug.Log("making branch");
-                    currTile = brRoot.MakeBranch(dirPicked);//, totalDepth, currDepth);
+                    //currTile = brRoot.MakeBranch(dirPicked);//, totalDepth, currDepth);
                 }
                 else
+                {
                     skipBranching = true;
+                    if (currTile.isSolution)
+                        Debug.Log("(in MkBranch): moving to next pathTile from: " + currTile.fullPos.ToString());
+                    else
+                    {
+                        Debug.LogWarning("in MakeBranch: moving to next branchTile from: " + currTile.fullPos.ToString());
+
+
+                    }
+                }
+
                 
 
                 //branchRoot.outBranches.Add(branchRoot.GetLogNeighbor())
@@ -621,6 +656,8 @@ public class GridDataGen : MonoBehaviour
             if (incompleteTile.isSolution || incompleteTile.isBranching || 
                 incompleteTile.isInBranch || incompleteTile.isDeadEnd)
             {
+                Debug.Log("removing tile from incompleteTile list" + incompleteTile.currentPos.ToString() +
+                    " aka " + incompleteTile.fullPos.ToString());
                 incompleteTiles.Remove(incompleteTile);
             }
         }
