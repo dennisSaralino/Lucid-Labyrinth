@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public GameObject environmentCont;
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
-    private PlayerControls input = null;
+    public PlayerControls input = null;
     private CharacterController playerController;
     private pickupHitboxScript pickupHitbox;
     private GameObject currentPickup;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,9 +21,14 @@ public class EnvironmentController : MonoBehaviour
     public Color nightmareColor;
     public Color lucidColor;
 
-    public PlayerController controlSpeed;
+    public PlayerController player;
     public Image lucidHUD;
+    public AudioSource sceneMusic;
+    public AudioSource lucidAlert;
+    public TMP_Text gameOver;
     public float clearHUD = 50f;
+
+    //private Quaternion deathRotation = ();
 
     private void TrackState()
     {
@@ -31,6 +37,10 @@ public class EnvironmentController : MonoBehaviour
         // going from neutral to nightmare
         if (inNeutral && lucidityBar.value < 25)
         {
+            lucidAlert.time = 0.7f;
+            lucidAlert.Play();
+            changePitch(sceneMusic, -0.1f);
+
             inNeutral = false;
             inNightmare = true;
             screenNightmare = true;
@@ -47,6 +57,8 @@ public class EnvironmentController : MonoBehaviour
         // going from nightmare to neutral
         else if (inNightmare && lucidityBar.value >= 25 && lucidityBar.value < 75)
         {
+            changePitch(sceneMusic, 0.1f);
+
             inNightmare = false;
             inNeutral = true;
             screenNightmare = false;
@@ -60,6 +72,8 @@ public class EnvironmentController : MonoBehaviour
         // going from neutral to lucid
         else if (inNeutral && lucidityBar.value >= 75)
         {
+          
+
             inNeutral = false;
             inLucid = true;
             screenLucid = true;
@@ -76,6 +90,8 @@ public class EnvironmentController : MonoBehaviour
         // going from lucid to neutral
         else if (inLucid && lucidityBar.value < 75 && lucidityBar.value > 25)
         {
+         
+
             inLucid = false;
             inNeutral = true;
             screenLucid = false;
@@ -89,6 +105,8 @@ public class EnvironmentController : MonoBehaviour
         // going from nightmare to lucid (completely fill bar, for example)
         else if (inNightmare && lucidityBar.value >= 75)
         {
+      
+
             inNightmare = false;
             inLucid = true;
             nightmareToLucid = true;
@@ -100,6 +118,8 @@ public class EnvironmentController : MonoBehaviour
         // going from lucid to nightmare (large drop from injury, for example)
         else if (inLucid && lucidityBar.value < 25)
         {
+           
+
             inLucid = false;
             inNightmare = true;
             lucidToNightmare = true;
@@ -108,6 +128,11 @@ public class EnvironmentController : MonoBehaviour
         }
     }
     
+    void changePitch(AudioSource src, float amount)
+    {
+        src.pitch += amount;
+    }
+
     public int Report()
     {
 
@@ -146,6 +171,13 @@ public class EnvironmentController : MonoBehaviour
         {
             RenderSettings.fogColor = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
             //lucidHUD.color = Color.Lerp(lucidHUD.color, nightmareColor, clearHUD * Time.deltaTime);
+        }
+
+        if (lucidityBar.value == 0)
+        {
+            player.input.Disable();
+            //player.transform.rotation = Quaternion.Lerp();
+            gameOver.gameObject.SetActive(true);
         }
     }
 }
