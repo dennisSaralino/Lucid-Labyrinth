@@ -83,17 +83,17 @@ public class TileData
 public class alDataConverter
 {
     alTData[,] grid;
-    public static List<TileData> convertToTiledata(alTData[,] grid)
+    public static TileData[,] convertToTiledata(alTData[,] grid)
     {
-        List<TileData> tile = new List<TileData>();
+        TileData[,] tile = new TileData[grid.GetLength(0), grid.GetLength(1)];
+
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); i++)
             {
                 alTData ct = grid[i, j];
                 TileData d = new TileData(ct);
-                tile.Add(d);
-                
+                tile[i, j] = d;
             }
         }
         return tile;

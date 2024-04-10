@@ -36,6 +36,8 @@ public class DataToMaze : MonoBehaviour
     }
     IEnumerator dataToMazeI(TileData[,] data)
     {
+        StaticTool.destroyChildOb(transform);
+        yield return null;
         Transform prefab = new GameObject("Cell").transform;
         Vector3 tileSize = new Vector3(12, 0, 12);
         for (int i = 0; i < data.GetLength(0); i++)
