@@ -9,6 +9,7 @@ public class FootSteps : MonoBehaviour
 // with a corresponding tag (rock, water, etc.)
 
 {
+   
     // holds sounds
     public AudioSource audioSource;
     public AudioClip rock;
@@ -24,25 +25,34 @@ public class FootSteps : MonoBehaviour
     public LayerMask layerMask; 
 
     //no delay = step every frame
-    public float maxDelay = 0.7f;
-    public float currentDelay = 0f;
+    public float maxWalkDelay = 0.7f;
+   // public float maxSprintDelay = 0.4f;
+    public float currentDelay;
 
     void Start()
     {
      audioSource = GetComponent<AudioSource>();   
      previousPosition = transform.position;
+     currentDelay = maxWalkDelay;
     }
 
    
     // Update is called once per frame
     void FixedUpdate()
     {
+       
+
         //if theres a difference in position, then player is walking
-        if(transform.position != previousPosition && currentDelay >= maxDelay){
+        
+        
+        if(transform.position != previousPosition && currentDelay >= maxWalkDelay){
             //Debug.DrawRay(rayStart.position,rayStart.up*-1* rayRange, Color.green);   
             StartWalk();
             currentDelay = 0f;
         }
+        
+        
+        
         previousPosition = transform.position;
         currentDelay += Time.deltaTime;
     }

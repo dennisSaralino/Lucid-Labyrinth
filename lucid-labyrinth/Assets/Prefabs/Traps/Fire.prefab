@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 447256}
   - component: {fileID: 19876116}
   - component: {fileID: 19932784}
+  - component: {fileID: 9027138020339987633}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Fire
@@ -4665,3 +4666,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!65 &9027138020339987633
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110060}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6587272, y: 0.6363155, z: 0.8631716}
+  m_Center: {x: -0.013363507, y: -0.06337471, z: 0.1121642}
