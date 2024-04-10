@@ -10,11 +10,17 @@ TagManager:
   - Arrow
   - Water
   - Rock
+
   - DamageProjectile
   - ThrowableObj
   - Dummy
   - GlowTag
   - Obstacle
+  - UpWall
+  - DownWall
+  - LeftWall
+  - RightWall
+
   layers:
   - Default
   - TransparentFX

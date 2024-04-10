@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/JS_TestScene.unity
     guid: 7eed2fb73a1d0814f99374ed15822bcd
+  - enabled: 1
+    path: Assets/Scenes/UI Scenes/Credits.unity
+    guid: 826f7b6ce79a25540954aa01e6221d1a
+  - enabled: 1
+    path: Assets/Scenes/UI Scenes/GameOver.unity
+    guid: 9fe83f53593284741aa3118479638a47
   m_configObjects: {}

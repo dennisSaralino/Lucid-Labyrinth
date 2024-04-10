@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEditor.UIElements;
+//using UnityEditor.UIElements;
 using Cinemachine;
 
 public class PlayerController : MonoBehaviour
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     //public GameObject pickupHitBox;
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
-    private PlayerControls input = null;
+    public PlayerControls input = null;
     private CharacterController playerController;
     //private pickupHitboxScript pickupHitboxScript;
     private GameObject currentPickup;

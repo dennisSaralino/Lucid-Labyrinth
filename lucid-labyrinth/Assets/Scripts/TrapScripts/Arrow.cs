@@ -6,27 +6,25 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    Rigidbody rigidBody;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         Destroy(gameObject, 1f);
         
-        rigidBody= GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        rigidBody.AddForce(transform.forward * 10f, ForceMode.Impulse);
-    }
+    
     
     void OnCollisionEnter(Collision col)
     {
         if (col.collider.CompareTag("Player"))
         {
+            Debug.Log("Player Hit!");
             Destroy(gameObject);
         }
+        
     }
 }
