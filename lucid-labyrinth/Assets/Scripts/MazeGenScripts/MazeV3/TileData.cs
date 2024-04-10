@@ -27,6 +27,15 @@ public class TileData
         left = sideType.wall;
         right = sideType.wall;
     }
+    public TileData(alTData d)
+    {
+        up = d.u ? sideType.path: sideType.wall;
+        down = d.d ? sideType.path : sideType.wall;
+        left = d.l ? sideType.path : sideType.wall;
+        right = d.r ? sideType.path : sideType.wall;
+        isSolutionPath = d.isSolution;
+        layer = 0;
+    }
     public TileData(TileData t)
     {
         this.up = t.up;
@@ -73,51 +82,56 @@ public class TileData
 public class alDataConverter
 {
     alTData[,] grid;
-    public alDataConverter(alTData[,] grid)
+    public static List<TileData> convertToTiledata(alTData[,] grid)
     {
+        List<TileData> tile = new List<TileData>();
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); i++)
             {
-                //processACell(grid, i, j);
+                alTData ct = grid[i, j];
+                TileData d = new TileData(ct);
+                tile.Add(d);
+                
             }
         }
+        return tile;
     }
-    public void processACell(alTData[,] grid ,int i, int j, int layer)
-    {
-        alTData dt = grid[i, j];
-        dt.finished = true;
+    //public void processACell(alTData[,] grid ,int i, int j, int layer)
+    //{
+    //    alTData dt = grid[i, j];
+    //    dt.finished = true;
 
 
 
 
-        TileData tiled = new TileData();
-        tiled.layer = layer;
-        List<KeyValuePair<Vector2Int, bool>> dimen = new List<KeyValuePair<Vector2Int, bool>>();
-        dimen[0] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(0, 1), dt.u);
-        dimen[1] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(0, -1), dt.d);
-        dimen[2] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(-1, 0), dt.l);
-        dimen[3] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(0, 1), dt.r);
+    //    TileData tiled = new TileData();
+    //    tiled.layer = layer;
+    //    List<KeyValuePair<Vector2Int, bool>> dimen = new List<KeyValuePair<Vector2Int, bool>>();
+    //    dimen[0] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(0, 1), dt.u);
+    //    dimen[1] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(0, -1), dt.d);
+    //    dimen[2] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(-1, 0), dt.l);
+    //    dimen[3] = new KeyValuePair<Vector2Int, bool>(new Vector2Int(0, 1), dt.r);
 
-        //wall
-        for (int m = 3; m >= 0; m--)
-        {
-            if (dimen[m].Value == false)
-            {
-                tiled.setSide(dimen[m].Key, sideType.wall);
-                dimen.Remove(dimen[m]);
-            }
-        }
-        if (dt.isBranching)
-        {
-            for (int z = 0; z < dt.outBranch.Count; z++)
-            {
-                //dealing with layer
-                //end
-                processACell(grid, dt.outBranch[z].x, dt.outBranch[z].y, layer);
-            }
-        }
+    //    //wall
+    //    for (int m = 3; m >= 0; m--)
+    //    {
+    //        if (dimen[m].Value == false)
+    //        {
+    //            tiled.setSide(dimen[m].Key, sideType.wall);
+    //            dimen.Remove(dimen[m]);
+    //        }
+    //    }
+    //    if (dt.isBranching)
+    //    {
+    //        for (int z = 0; z < dt.outBranch.Count; z++)
+    //        {
+    //            //dealing with layer
+    //            //end
+    //            processACell(grid, dt.outBranch[z].x, dt.outBranch[z].y, layer);
+    //        }
+    //    }
 
-    }
+    //}
 
 }
