@@ -30,13 +30,6 @@ public class alTData
 
     public bool isStartT = false;
     public bool isEndT = false;
-
-    public bool isDeadEnd;
-    public bool isInBranch;
-
-    public List<alTData> branchTiles;
-    public bool pathCompl;
-    public BranchOpts branchOpts;
     
     public alTData(Vector2Int tilePos)
     {
@@ -46,17 +39,35 @@ public class alTData
         leftLog = SideLogic.nullLog;
         rightLog = SideLogic.nullLog;
 
+        // default;
+        u = false;
+        d = false;
+        l = false;
+        r = false;
+
         isBranching = false;
         isSolution = false;
         isDeadEnd = false;
         isInBranch = false;
         pathCompl = false;
+
+        //outBranches = new List<Vector2Int>();
     }
+    #endregion
+
+    #region FOR BRANCHING 
+    public bool isDeadEnd;
+    public bool isInBranch;
+
+    public List<alTData> branchTiles;
+    public bool pathCompl;
+    public BranchOpts branchOpts;
+
 
     public class BranchOpts
     {
-        public List<int> nwBrOpts;
-        public List<int> currBrs;
+        public List<int> nwBrOpts = new List<int>();
+        public List<int> currBrs  = new List<int>();
     }
     #endregion
 
@@ -68,8 +79,7 @@ public class alTData
 
     public bool isBranching;
     public List<Vector2Int> outBranches;
-    public List<List<alTData>> branchElements;  // 
-
+    //public List<List<alTData>> branchElements;  // 
 
     public bool isSolution;
     public Vector2Int indir;
@@ -166,51 +176,11 @@ public class alTData
                 break;
         }
 
+        //Debug.Log("GetNbrInDir found: " + nbrTile.fullPos.ToString());
+
         return nbrTile;
 
     }
-
-    //public alTData NbrPathLog(int dirIndx)
-    //{
-
-    //    bool nbrPLog = false;
-    //    bool nbrBLog = false;
-    //    //alTData nbrTile;
-
-    //    switch (dirIndx)
-    //    {
-    //        case 0:
-    //            //nbrTile = this.GetLogNeighbor(Vector2Int.up);
-    //            //nbrPLog = (nbrTile.isSolution || nbrTile.isInBranch);               
-    //            nbrPLog = this.GetLogNeighbor(Vector2Int.up).isSolution;
-    //            nbrBLog = this.GetLogNeighbor(Vector2Int.up).isInBranch;
-    //            Debug.Log("for up, nbrs PathLogic isSolution / isInBranch is: " + nbrPLog + "/" + nbrBLog);
-    //            break;
-    //        case 1:
-    //            //nbrTile = this.GetLogNeighbor(Vector2Int.down);
-    //            //nbrPLog = (nbrTile.isSolution || nbrTile.isInBranch);
-    //            nbrPLog = this.GetLogNeighbor(Vector2Int.down).isSolution;
-    //            nbrBLog = this.GetLogNeighbor(Vector2Int.down).isInBranch;
-    //            break;
-    //        case 2:
-    //            //nbrTile = this.GetLogNeighbor(Vector2Int.left);
-    //            //nbrPLog = (nbrTile.isSolution || nbrTile.isInBranch);
-    //            nbrPLog = this.GetLogNeighbor(Vector2Int.left).isSolution;
-    //            nbrBLog = this.GetLogNeighbor(Vector2Int.left).isInBranch;
-    //            break;
-    //        case 3:
-    //            //nbrTile = this.GetLogNeighbor(Vector2Int.right);
-    //            //nbrPLog = (nbrTile.isSolution || nbrTile.isInBranch);
-    //            nbrPLog = this.GetLogNeighbor(Vector2Int.right).isSolution;
-    //            nbrBLog = this.GetLogNeighbor(Vector2Int.right).isInBranch;
-    //            break;
-    //        default:
-    //            Debug.LogWarning("Unexpected dir Index");
-    //            break;
-    //    }
-
-    //    return (nbrPLog || nbrBLog);
-    //}
 
     /// <summary>
     /// used to check which side this shares with the adjTile
@@ -244,16 +214,11 @@ public class alTData
     {
         BranchOpts tileOpts = new();
 
-        List<int> brOpts;
-        List<int> bDirs;
-        this.ChkBrOptions(push, out brOpts, out bDirs);
+        //List<int> brOpts = new List<int>();
+        //List<int> bDirs;
+        this.ChkBrOptions(push, ref tileOpts.nwBrOpts, ref tileOpts.currBrs);
 
-        tileOpts.nwBrOpts = brOpts;
-        tileOpts.currBrs = bDirs;
-
-        branchOpts = tileOpts;
-
-        return branchOpts;
+        return tileOpts;
     }
     #endregion
 
@@ -315,72 +280,145 @@ public class alTData
         }
     }
 
+
     public alTData SetNextTile(int dirIndex, SideLogic pathType, SideLogic pathInType)
     {
         bool setBranch = (pathType == SideLogic.brPath);
         //if(setBranch && (this.outBranches.Count == ))
-        Vector2Int nxtCoord;
 
+        #region CASE DATA FIELDS
+        int outLogicIndx = dirIndex;  // same as input index
+        Vector2Int outDirV = GridDataGen.nullOutDir;
+        int nxtInLogicIndx = 0;
+
+        // set up opposite arry = { d , u , r , l } 
+        int[] oppDir = new int[4] { 1, 0, 3, 2 };
+
+        bool corrCase = false;  // allows use of the data retrieved from Switch
+        #endregion
+
+        Vector2Int outNbr;
         alTData nxtTile = this;
+        
         switch (dirIndex)
-        {                
-            // set outdir, pathType, nxtTile
-
+        {
             case 0:  // up
-                this.upLog = pathType;
-                nxtCoord = this.GetLogNeighbor(Vector2Int.up).fullPos;
-
-                // type of outData depends on branch or not
-                if (setBranch)
-                    this.outBranches.Add(nxtCoord);
-                else this.outdir = nxtCoord;
-
-                nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
-                nxtTile.downLog = pathInType;
+                outLogicIndx = dirIndex;            // sets to this.upLog index
+                outDirV = Vector2Int.up;            // sets outdir vector to up
+                nxtInLogicIndx = oppDir[dirIndex];  // sets to nxtTile.downLog index
+                corrCase = true;
                 break;
             case 1:  // down
-                this.downLog = pathType;
-                nxtCoord = this.GetLogNeighbor(Vector2Int.down).fullPos;
-
-                // type of outData depends on branch or not
-                if (setBranch) 
-                    this.outBranches.Add(nxtCoord);
-                else this.outdir = nxtCoord;
-
-                nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
-                nxtTile.upLog = pathInType;
+                outLogicIndx = dirIndex;            // sets to this.downLog index
+                outDirV = Vector2Int.down;          // sets outdir vector to down
+                nxtInLogicIndx = oppDir[dirIndex];  // sets to nxtTile.upLog index
+                corrCase = true;
                 break;
             case 2:  // left
-                this.leftLog = pathType;
-                nxtCoord = this.GetLogNeighbor(Vector2Int.left).fullPos;
-
-                // type of outData depends on branch or not
-                if (setBranch) 
-                    this.outBranches.Add(nxtCoord);
-                else this.outdir = nxtCoord;
-
-                nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
-                nxtTile.rightLog = pathInType;
+                outLogicIndx = dirIndex;            // sets to this.leftLog index
+                outDirV = Vector2Int.left;          // sets outdir vector to left
+                nxtInLogicIndx = oppDir[dirIndex];  // sets to nxtTile.rightLog index
+                corrCase = true;
                 break;
             case 3:  // right
-                this.rightLog = pathType;
-                nxtCoord = this.GetLogNeighbor(Vector2Int.right).fullPos;
-
-                // type of outData depends on branch or not
-                if (setBranch)
-                    this.outBranches.Add(nxtCoord);
-                else this.outdir = nxtCoord;
-
-                nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
-                nxtTile.leftLog = pathInType;
+                outLogicIndx = dirIndex;            // sets to this.rightLog index
+                outDirV = Vector2Int.right;         // sets outDir vector to right
+                nxtInLogicIndx = oppDir[dirIndex];  // sets to nxtTile.leftLog index
+                corrCase = true;
                 break;
             default:
                 Debug.LogWarning("Unexpected direction reversed");
                 break;
         }
 
+
+        if(corrCase) // if a correct index given this will run with case data
+        {
+            // set outdir, pathType, nxtTile
+            #region USE CASE DATA TO SET nxtTile
+            this.SetSides(outLogicIndx, pathType);              // set outLogic of this Tile
+            outNbr = this.GetLogNeighbor(outDirV).fullPos;      // get outNbr fullPos
+
+            // checks if branching
+            if (setBranch) 
+                this.outBranches.Add(outNbr);  // add outNbr to outBranches if branching
+            else 
+                this.outdir = outNbr;          // set outNbr fullPos to outdir
+
+            nxtTile = GridDataGen.fullGrid[outNbr.x, outNbr.y]; // set nxtTile from fullGrid by using outNbr
+            nxtTile.SetSides(nxtInLogicIndx, pathInType);       // set inLogic of nxtTile
+            #endregion
+        }
+
         return nxtTile;
     }
+
+    //public alTData SetNextTile(int dirIndex, SideLogic pathType, SideLogic pathInType)
+    //{
+    //    bool setBranch = (pathType == SideLogic.brPath);
+    //    //if(setBranch && (this.outBranches.Count == ))
+    //    Vector2Int nxtCoord;
+
+    //    alTData nxtTile = this;
+    //    switch (dirIndex)
+    //    {                
+    //        // set outdir, pathType, nxtTile
+
+    //        case 0:  // up
+    //            this.upLog = pathType;
+    //            nxtCoord = this.GetLogNeighbor(Vector2Int.up).fullPos;
+
+    //            // type of outData depends on branch or not
+    //            if (setBranch)
+    //                this.outBranches.Add(nxtCoord);
+    //            else this.outdir = nxtCoord;
+
+    //            nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
+    //            nxtTile.downLog = pathInType;
+    //            break;
+    //        case 1:  // down
+    //            this.downLog = pathType;
+    //            nxtCoord = this.GetLogNeighbor(Vector2Int.down).fullPos;
+
+    //            // type of outData depends on branch or not
+    //            if (setBranch) 
+    //                this.outBranches.Add(nxtCoord);
+    //            else this.outdir = nxtCoord;
+
+    //            nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
+    //            nxtTile.upLog = pathInType;
+    //            break;
+    //        case 2:  // left
+    //            this.leftLog = pathType;
+    //            nxtCoord = this.GetLogNeighbor(Vector2Int.left).fullPos;
+
+    //            // type of outData depends on branch or not
+    //            if (setBranch) 
+    //                this.outBranches.Add(nxtCoord);
+    //            else this.outdir = nxtCoord;
+
+    //            nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
+    //            nxtTile.rightLog = pathInType;
+    //            break;
+    //        case 3:  // right
+    //            this.rightLog = pathType;
+    //            nxtCoord = this.GetLogNeighbor(Vector2Int.right).fullPos;
+
+    //            // type of outData depends on branch or not
+    //            if (setBranch)
+    //                this.outBranches.Add(nxtCoord);
+    //            else this.outdir = nxtCoord;
+
+    //            nxtTile = GridDataGen.fullGrid[nxtCoord.x, nxtCoord.y];
+    //            nxtTile.leftLog = pathInType;
+    //            break;
+    //        default:
+    //            Debug.LogWarning("Unexpected direction reversed");
+    //            break;
+    //    }
+
+    //    return nxtTile;
+    //}
     
     public alTData MakeBranch(int dirIndx)//, int totalDepth, int currDepth)
     {
@@ -395,16 +433,16 @@ public class alTData
 
 
 
-    public void ChkBrOptions(bool pushThru, out List<int> branchOptions, out List<int> branchDs)
+    public void ChkBrOptions(bool pushThru, ref List<int> branchOptions, ref List<int> branchDs)
     {
-        // prep and store branch options
-        branchOptions = new();
-        branchDs = new();
-        branchOptions.Add(GridDataGen.noBranch);  // "none option"
+        // prep and store branch options with most recent logic
+        branchOptions.Clear();
+        branchDs.Clear();
+        //branchOptions.Add(GridDataGen.noBranch);  // "none option"
 
         SideLogic[] branchDirs = this.CheckSides();
         int dirCount = 0;
-        //int brCount = 0;
+        int wallCount = 1;
         Debug.Log("ChkBrOptions is checking tile: " + this.fullPos.ToString());
         foreach (SideLogic branchDir in branchDirs)
         {
@@ -412,10 +450,12 @@ public class alTData
             if (branchDir == SideLogic.brPath)
             {
                 //Vector2Int outBranch = this.outBranches[brCount];
-                
+
                 // counts number of branches the tile has, excluding complete from options                
                 if (!GetNbrInDir(dirCount).pathCompl)
                     branchDs.Add(dirCount);
+                else
+                    Debug.LogWarning("ChkBr found nbr to be complete!");
                 //++brCount;
             }
             else if (branchDir == SideLogic.opnSide ||
@@ -424,17 +464,36 @@ public class alTData
                 alTData nbrTile = GetNbrInDir(dirCount);
                 bool nbrIsSol = nbrTile.isSolution;
                 bool nbrIsInBr = nbrTile.isInBranch;
-                Debug.Log("Side: " + dirCount + "has nbrTile that has bool for Sol/InBr: " + nbrIsSol + "/" + nbrIsInBr);
-
+                bool nbrClosed = (nbrIsSol || nbrIsInBr);
+                //Debug.Log("Side: " + dirCount + "has nbrTile that has bool for Sol/InBr: " + nbrIsSol + "/" + nbrIsInBr);
+                   
                 // neighboring Tile is in a solution or branch path, make a wall                  
-                if (nbrIsSol || nbrIsInBr) //NeighborPathLog(dirCount))
+                if (nbrClosed) //NeighborPathLog(dirCount))
                     this.SetSides(dirCount, SideLogic.fWall);
                 else
+                { 
+                    Debug.Log("Tile: " + this.fullPos.ToString() + 
+                        " has open nbr in: " + nbrTile.fullPos.ToString());
                     branchOptions.Add(dirCount);
+                }
+
             }
+
+            if (branchDir == SideLogic.fWall) 
+                ++wallCount;
 
             ++dirCount;
         }
+
+        if (this.isInBranch && branchOptions.Count == 0)
+        {
+            Debug.LogWarning("this tile should be marked as compl");
+            this.pathCompl = true;
+            if (wallCount == 3) this.isDeadEnd = true;
+        }
+
+        Debug.Log("branchOptions.Count is: " + branchOptions.Count);
+        if(branchDs.Count > 1) Debug.Log("branchDs count is: " + branchDs.Count);
     }
 
     public void PrepTile()
@@ -446,7 +505,8 @@ public class alTData
         int indxDir = 0;
         foreach(SideLogic tileSide in tileSides)
         {
-            if (tileSide == SideLogic.opnSide || tileSide == SideLogic.solPath || tileSide == SideLogic.brPath)
+            if (tileSide == SideLogic.opnSide || tileSide == SideLogic.solPath || 
+                tileSide == SideLogic.brPath  || tileSide == SideLogic.brIn)
                 dirFace[indxDir] = true;
             else if (tileSide == SideLogic.fWall || tileSide == SideLogic.stPath)
                 dirFace[indxDir] = false;

@@ -152,13 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b05c67a34450446ae75bb5ab44bc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xMaxSize: 8
-  yMaxSize: 8
+  xMaxSize: 12
+  yMaxSize: 12
   fullGridSize: 0
   edgesSize: 0
   mazeTilesSize: 0
   zeroEdges: []
   maxEdges: []
+  pathTiles: []
   startTile:
     fullPos: {x: 0, y: 0}
     upLog: 0
@@ -167,14 +168,17 @@ MonoBehaviour:
     rightLog: 0
     isStartT: 0
     isEndT: 0
+    isDeadEnd: 0
+    isInBranch: 0
+    branchTiles: []
+    pathCompl: 0
     currentPos: {x: 0, y: 0}
     u: 0
     d: 0
     l: 0
     r: 0
     isBranching: 0
-    outBranch: {x: 0, y: 0}
-    branch: []
+    outBranches: []
     isSolution: 0
     indir: {x: 0, y: 0}
     outdir: {x: 0, y: 0}
@@ -186,21 +190,31 @@ MonoBehaviour:
     rightLog: 0
     isStartT: 0
     isEndT: 0
+    isDeadEnd: 0
+    isInBranch: 0
+    branchTiles: []
+    pathCompl: 0
     currentPos: {x: 0, y: 0}
     u: 0
     d: 0
     l: 0
     r: 0
     isBranching: 0
-    outBranch: {x: 0, y: 0}
-    branch: []
+    outBranches: []
     isSolution: 0
     indir: {x: 0, y: 0}
     outdir: {x: 0, y: 0}
-  pathTiles: []
   st2endDistLimit: 6
+  endDistMult: 0.18
+  endDistDiv: 2.5
+  minDistCheck: 2.5
+  minPathL: 0
+  maxPathL: 0
+  minPathMult: 0.3
+  mxPathMult: 0.55
   nullInDir: {x: 0, y: 0}
-  nullOutDir: {x: 0, y: 0}
+  incompleteTiles: []
+  allBrTiles: []
 --- !u!4 &177846120
 Transform:
   m_ObjectHideFlags: 0
@@ -215,6 +229,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &576322670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 576322672}
+  - component: {fileID: 576322671}
+  m_Layer: 0
+  m_Name: DataConverter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &576322671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576322670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba03623821aa5dd45897f81f4a9c5808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPos: {x: 0, y: 0, z: 0}
+--- !u!4 &576322672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576322670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 116.36015, y: 7.145135, z: 31.045462}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1567720779
 GameObject:

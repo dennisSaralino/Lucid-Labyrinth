@@ -89,7 +89,7 @@ public class alDataConverter
 
         for (int i = 0; i < grid.GetLength(0); i++)
         {
-            for (int j = 0; j < grid.GetLength(1); i++)
+            for (int j = 0; j < grid.GetLength(1); j++)
             {
                 alTData ct = grid[i, j];
                 TileData d = new TileData(ct);
