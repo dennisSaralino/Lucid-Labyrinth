@@ -48,7 +48,7 @@ public class DataToMaze : MonoBehaviour
                 if (currentData == null) continue;
                 Transform p = Instantiate(prefab, transform);
                 p.localPosition = new Vector3(tileSize.x * j, 0, tileSize.z * i);
-                Debug.Log(currentData == null);
+                //Debug.Log(currentData == null);
                 currentData.loadInto(p);
 
             }

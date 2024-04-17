@@ -19,6 +19,7 @@ public class TileData
     public sideType left;
     public sideType right;
     public bool isSolutionPath;
+    public bool isBranching;
     public float layer = 0;
     public TileData()
     {
@@ -35,6 +36,7 @@ public class TileData
         left = d.l ? sideType.path : sideType.wall;
         right = d.r ? sideType.path : sideType.wall;
         isSolutionPath = d.isSolution;
+        isBranching = d.isInBranch;
         layer = 0;
     }
     public TileData(TileData t)
@@ -57,8 +59,8 @@ public class TileData
     public void loadInto(Transform p)
     {
         #region WALLS
-        p.transform.position = new Vector3(p.transform.position.x, layer * 3.9f,p.transform.position.z);
-        GameObject floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"],p);
+        p.transform.position = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
+        GameObject floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"], p);
         GameObject rightside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[right.ToString()], p);
         GameObject upside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[up.ToString()], p);
         GameObject downside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[down.ToString()], p);
@@ -72,7 +74,12 @@ public class TileData
         {
             Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
             floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-            
+
+        }
+        else if (isBranching)
+        {
+            Material solutionmaterial = Resources.Load<Material>("Material/BranchingPath");
+            floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
         }
 
 

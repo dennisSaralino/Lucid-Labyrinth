@@ -170,6 +170,8 @@ MonoBehaviour:
     isEndT: 0
     isDeadEnd: 0
     isInBranch: 0
+    tileDepth: 0
+    timesChkd: 0
     branchTiles: []
     pathCompl: 0
     currentPos: {x: 0, y: 0}
@@ -192,6 +194,8 @@ MonoBehaviour:
     isEndT: 0
     isDeadEnd: 0
     isInBranch: 0
+    tileDepth: 0
+    timesChkd: 0
     branchTiles: []
     pathCompl: 0
     currentPos: {x: 0, y: 0}
@@ -204,14 +208,13 @@ MonoBehaviour:
     isSolution: 0
     indir: {x: 0, y: 0}
     outdir: {x: 0, y: 0}
-  st2endDistLimit: 6
-  endDistMult: 0.18
-  endDistDiv: 2.5
-  minDistCheck: 2.5
+  st2endDistLimit: 0
+  minDistCheck: 4
   minPathL: 0
   maxPathL: 0
+  endDistDiv: 2
   minPathMult: 0.3
-  mxPathMult: 0.55
+  mxPathMult: 0.6
   nullInDir: {x: 0, y: 0}
   incompleteTiles: []
   allBrTiles: []
