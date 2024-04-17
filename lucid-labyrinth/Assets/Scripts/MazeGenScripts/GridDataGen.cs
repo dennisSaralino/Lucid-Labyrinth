@@ -130,7 +130,7 @@ public class GridDataGen : MonoBehaviour
                 if ( !outerEdges )
                 {
                     // fullGrid[1,1] is mazeGrid[0,0] and so on
-                    thisTile.currentPos = fullGrid[i-1, j-1].fullPos; // get Vector2Int
+                    thisTile.currentPos = new Vector2Int(i,j); // get Vector2Int
                     mazeGrid[i-1, j-1] = thisTile;   
                 }
                 #endregion
@@ -471,7 +471,7 @@ public class GridDataGen : MonoBehaviour
             }
             //Debug.Log(CrPathDB);
             compLog += (CrPathDB + "\n ===================== \n");
-            yield return null;
+            //yield return null;
         }
         #endregion
 
@@ -808,7 +808,7 @@ public class GridDataGen : MonoBehaviour
             debugBldBr += ("=================================================\n");
             ++whileCount;
 
-            yield return null;
+            //yield return null;
         }
 
         //PrintPath(rootTile.branchTiles);

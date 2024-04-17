@@ -98,7 +98,7 @@ public class alTData
     public alTData GetNeighbor(Vector2Int pos)
     {
         Vector2Int neiPos = currentPos + pos;
-        return GridDataGen.mazeGrid[neiPos.x, neiPos.y];
+        return GridDataGen.fullGrid[neiPos.x, neiPos.y];
     }
 
     // get the logic values which ret

@@ -44,10 +44,10 @@ public class DataToMaze : MonoBehaviour
         {
             for (int j = 0; j < data.GetLength(1); j++)
             {
-                TileData currentData = data[j, i];
+                TileData currentData = data[i, j];
                 if (currentData == null) continue;
                 Transform p = Instantiate(prefab, transform);
-                p.localPosition = new Vector3(tileSize.x * j, 0, tileSize.z * i);
+                p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
                 //Debug.Log(currentData == null);
                 currentData.loadInto(p);
 
