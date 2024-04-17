@@ -10,10 +10,8 @@ public class LevelLoader : MonoBehaviour
 
     public void Awake()
     {
-        if (PlayerPrefs.HasKey("volume"))
-        {
-            audioMixer.SetFloat("volume", PlayerPrefs.GetFloat("volume"));
-        }
+        audioMixer = FindFirstObjectByType<AudioMixer>();
+        audioMixer.SetFloat("volume", PlayerPrefs.GetFloat("volume"));
     }
     public void LoadLevel(int sceneIndex)
     {

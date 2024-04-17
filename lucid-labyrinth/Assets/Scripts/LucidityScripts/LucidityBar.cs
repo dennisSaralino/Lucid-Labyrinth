@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Data;
 
 public class LucidityBar : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class LucidityBar : MonoBehaviour
     public PlayerController player;
     public EnvironmentController state;
     // public TMP_Text gameOver;
+
+    public Image fillBar;
+    public Image fillBorder;
 
     private float sprintModifier;
 
@@ -24,6 +28,17 @@ public class LucidityBar : MonoBehaviour
     private void Awake()
     {
         SetStartingLucidity(100);
+
+        if (PlayerPrefs.GetInt("showUI") == 0)
+        {
+            fillBar.gameObject.SetActive(false);
+            fillBorder.gameObject.SetActive(false);
+        }
+        else
+        {
+            fillBar.gameObject.SetActive(true);
+            fillBorder.gameObject.SetActive(true);
+        }
     }
 
     private void FixedUpdate()
