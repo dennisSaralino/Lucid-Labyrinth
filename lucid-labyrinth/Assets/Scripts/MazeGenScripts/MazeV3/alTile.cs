@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using System.Linq;
 public enum SideLogic
 {
     opnSide,   // open side for potential path or wall
@@ -91,6 +91,7 @@ public class alTData
     public bool isSolution;
     public Vector2Int indir;
     public Vector2Int outdir;
+    public int solutionIndex;
     #endregion
 
 
@@ -107,7 +108,6 @@ public class alTData
         Vector2Int neibPos = fullPos + offsetN;
         return GridDataGen.fullGrid[neibPos.x, neibPos.y];
     }
-
     /// <summary>
     /// store current SideLogic values and access them via index.
     /// used for comparison, Loops and switch statements
@@ -540,13 +540,17 @@ public class alTData
         chkBrDB += ("branchDs count is: " + branchDs.Count);
         //Debug.Log(chkBrDB);
     }
-    
+
 
 
 
 
     #endregion
 
+    public bool isInOuterEdges()
+    {
+        return currentPos.x == 0 || currentPos.x == GridDataGen.fullGrid.GetLength(0) - 1 || currentPos.y == 0 || currentPos.y == GridDataGen.fullGrid.GetLength(1) - 1;
+    }
     public void PrepTile()
     {
         SideLogic[] tileSides = this.CheckSides();
@@ -580,12 +584,15 @@ public class alTData
             }
 
             ++indxDir;
-        }
 
+        }
         this.u = dirFace[0];
         this.d = dirFace[1];
         this.l = dirFace[2];
         this.r = dirFace[3];
+        isDeadEnd = dirFace.Count(f => !f) == 3 && !isInOuterEdges();
+
+        
     }
 
 }

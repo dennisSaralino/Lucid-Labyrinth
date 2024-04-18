@@ -41,6 +41,9 @@ public class GridDataGen : MonoBehaviour
     public static int noBranch = 4;                //  setup of a stop option for branch logic
     public string compLog;
 
+
+
+
     public void Awake()
     {
         if (thisGrid != null) { Destroy(gameObject); return; }
@@ -180,6 +183,7 @@ public class GridDataGen : MonoBehaviour
         #endregion ============================================================
         
         startTile.isSolution = true;
+
         pathTiles.Add(startTile);
 
         // prep the next path tile to start for looping
@@ -926,10 +930,27 @@ public class GridDataGen : MonoBehaviour
         yield return StartCoroutine(CreateBranches(pathTiles));  // incomplete
         FullCleanUp();
         StopAllCoroutines();
-        DataToMaze.i.dataToMaze(alDataConverter.convertToTiledata(fullGrid));
+        DataToMaze.i.dataToMaze(alDataConverter.convertToTiledata(new GridData(fullGrid, pathTiles)));
         Debug.Log("Compiled Debugs from GenPath and BuildBranches: \n" + compLog +
              "=========== End of Log ========================");
     }
 
     
+}
+
+
+public class GridData
+{
+    public List<alTData> solution;
+    public alTData[,] data;
+    public GridData(alTData[,] al, List<alTData> solution)
+    {
+        this.data = al;
+        this.solution = solution;
+        for (int i = 1; i < solution.Count - 2; i++)
+        {
+            solution[i].solutionIndex = i - 1;
+        }
+
+    }
 }

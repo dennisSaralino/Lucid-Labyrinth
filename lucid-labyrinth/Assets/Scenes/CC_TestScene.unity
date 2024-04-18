@@ -184,6 +184,7 @@ MonoBehaviour:
     isSolution: 0
     indir: {x: 0, y: 0}
     outdir: {x: 0, y: 0}
+    solutionIndex: 0
   endTile:
     fullPos: {x: 0, y: 0}
     upLog: 0
@@ -208,6 +209,7 @@ MonoBehaviour:
     isSolution: 0
     indir: {x: 0, y: 0}
     outdir: {x: 0, y: 0}
+    solutionIndex: 0
   st2endDistLimit: 0
   minDistCheck: 4
   minPathL: 0

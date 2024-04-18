@@ -23,6 +23,7 @@ public class TileData
     public bool isInBranch;
     public bool isDeadEnd;
     public float layer = 0;
+    public bool visited;
     public TileData()
     {
         up = sideType.wall;
@@ -75,7 +76,6 @@ public class TileData
     {
         #region WALLS
         p.transform.position = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
-        GameObject floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"], p);
         GameObject rightside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[right.ToString()], p);
         GameObject upside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[up.ToString()], p);
         GameObject downside = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[down.ToString()], p);
@@ -83,90 +83,49 @@ public class TileData
         downside.transform.Rotate(Vector3.up, 90f);
         leftside.transform.Rotate(Vector3.up, 180f);
         upside.transform.Rotate(Vector3.up, 270f);
+        GameObject floor = null;
         #endregion
 
 
         bool isThereDOOR = (right == sideType.door || left == sideType.door || up == sideType.door || down == sideType.door);
-
+        bool isThereStair = (right == sideType.upStair || right == sideType.downStair || left == sideType.upStair || left == sideType.downStair || up == sideType.upStair || up == sideType.downStair || down == sideType.upStair || down == sideType.downStair);
+        if (!isThereStair)
+        {
+            floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"], p);
+        }
         if (isDeadEnd)
         {
             Material solutionmaterial = Resources.Load<Material>("Material/isDeadEnd");
-            floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+            if(floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
         }
-        else if (isBranching)
+        else if (isThereStair)
         {
-            Material solutionmaterial = Resources.Load<Material>("Material/BranchingPath");
-            floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-        }
-        else if (isInBranch)
-        {
-            Material solutionmaterial = Resources.Load<Material>("Material/inBranch");
-            floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+            Material solutionmaterial = Resources.Load<Material>("Material/isStair");
+            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
         }
         else if (isThereDOOR)
         {
             Material solutionmaterial = Resources.Load<Material>("Material/isDoor");
-            floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        }
+        //else if (isBranching)
+        //{
+        //    Material solutionmaterial = Resources.Load<Material>("Material/BranchingPath");
+        //    floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        //}
+        else if (isInBranch)
+        {
+            Material solutionmaterial = Resources.Load<Material>("Material/inBranch");
+            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
         }
         else if (isSolutionPath)
         {
             Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
-            floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-
+            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
         }
 
 
         #region TRAP
         #endregion
     }
-}
-public class alDataConverter
-{
-    alTData[,] grid;
-    static int MaxDoorNum = 3;
-   
-
-
-    public static TileData[,] convertToTiledata(alTData[,] grid)
-    {
-        TileData[,] tile = new TileData[grid.GetLength(0), grid.GetLength(1)];
-        Debug.Log("FULLGRID SZiE" + GridDataGen.thisGrid.xMaxSize + " " + GridDataGen.thisGrid.yMaxSize);
-        int mWidth = GridDataGen.fullGrid.GetLength(0);
-        int mHeigth = GridDataGen.fullGrid.GetLength(1);
-        int doorPlaced = 0;
-        Debug.Log("WARN GRID SIZE" + grid.GetLength(0) + " " + grid.GetLength(1));
-        int doorNum = MaxDoorNum;
-        for (int i = 0; i < grid.GetLength(0); i++)
-        {
-            for (int j = 0; j < grid.GetLength(1); j++)
-            {
-                alTData ct = grid[i, j];
-                TileData tileD = null;
-               
-                //if outerEdges
-                if (ct.currentPos.x == 0 || ct.currentPos.x == mWidth - 1 || ct.currentPos.y == 0 || ct.currentPos.y == mHeigth - 1)
-                {
-                    tileD = new TileData(ct);
-
-                }
-                //if qualified for a DOOR
-                else if (ct.isSolution && doorNum > 0 && (i > ((mWidth - 2) * (doorPlaced + 1) / MaxDoorNum) || (j > (mHeigth - 2) * (doorPlaced + 1) / MaxDoorNum)))
-                {
-                    tileD = new TileData(ct);
-                    tileD.getSide(ct.outdir - ct.currentPos) = sideType.door;
-                    doorNum--;
-                    doorPlaced++;
-                }
-                else
-                {
-                    tileD = new TileData(ct);
-                }
-
-
-                tile[i, j] = tileD;
-            }
-        }
-        return tile;
-    }
-    
 }
