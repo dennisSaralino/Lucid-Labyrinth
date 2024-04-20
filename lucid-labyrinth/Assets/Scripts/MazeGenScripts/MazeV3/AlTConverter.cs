@@ -6,8 +6,8 @@ using System.Linq;
 public class alDataConverter
 {
     #region SETTING
-    static int MaxDoorNum = 2;
-    static int MaxStairNum = 2;
+    static int MaxDoorNum = 6;
+    static int MaxStairNum = 5;
     #endregion
     static alTData[,] grid;
     static int solutionLength;
@@ -89,7 +89,7 @@ public class alDataConverter
 
 
 
-        if (doorNum > 0 && canPlaceDoor(ct.solutionIndex))
+        if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && ct.isStartT)
         {
             tileD.getSide(ct.outdir - ct.fullPos) = sideType.door;
             doorNum--;
@@ -152,7 +152,7 @@ public class alDataConverter
     static List<Vector2Int> previousStair;
     public static bool canPlaceStair(alTData d)
     {
-        if (d.isBranching || d.isDeadEnd) return false;
+        if (d.isBranching || d.isDeadEnd || d.isStartT || d.isEndT) return false;
 
         Vector2Int preToc = d.indir - d.fullPos;
         Vector2Int nextToc = d.outdir - d.fullPos;

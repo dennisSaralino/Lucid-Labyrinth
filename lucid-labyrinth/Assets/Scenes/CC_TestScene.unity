@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b05c67a34450446ae75bb5ab44bc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xMaxSize: 5
-  yMaxSize: 5
+  xMaxSize: 8
+  yMaxSize: 8
   fullGridSize: 0
   edgesSize: 0
   mazeTilesSize: 0
