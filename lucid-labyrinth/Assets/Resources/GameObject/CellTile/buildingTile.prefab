@@ -322,7 +322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5228076873866694216
 Transform:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 665258551787802471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -543,7 +543,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4636150966367123681}
   m_Layer: 0
-  m_Name: Building Tile v2 (12x12)
+  m_Name: buildingTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -556,7 +556,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129488088378556718}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 91.41, y: 0, z: 34.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -664,7 +664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1979454748020081645
 Transform:
   m_ObjectHideFlags: 0
@@ -701,7 +701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6926335682153765473
 Transform:
   m_ObjectHideFlags: 0
@@ -948,7 +948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 89
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8532861056440835282
 Transform:
   m_ObjectHideFlags: 0
@@ -983,7 +983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3666638586257491092
 Transform:
   m_ObjectHideFlags: 0
@@ -992,7 +992,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3888034881317797188}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 12}
+  m_LocalPosition: {x: 6, y: 0, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1015,7 +1015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 89
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7238567402831863546
 Transform:
   m_ObjectHideFlags: 0
@@ -1355,7 +1355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4107738474332247189
 Transform:
   m_ObjectHideFlags: 0
@@ -1364,7 +1364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4490500771083614450}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -12, y: 0, z: 12}
+  m_LocalPosition: {x: -6, y: 0, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1387,7 +1387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1801878626877827977
 Transform:
   m_ObjectHideFlags: 0
@@ -1396,7 +1396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4540012932673045946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1517,7 +1517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 89
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6830589374462112964
 Transform:
   m_ObjectHideFlags: 0
@@ -1930,7 +1930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 89
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5605514113180891527
 Transform:
   m_ObjectHideFlags: 0
@@ -3370,7 +3370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8686682680926993448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4093,6 +4093,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_Entrance_01
       objectReference: {fileID: 0}
+    - target: {fileID: 115988, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 441516, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -4213,6 +4217,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1801878626877827977}
     m_Modifications:
+    - target: {fileID: 130224, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 164026, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
       propertyPath: m_Name
       value: Wall_Segment_01
@@ -4961,6 +4969,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_Entrance_01
       objectReference: {fileID: 0}
+    - target: {fileID: 115988, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 441516, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -5519,6 +5531,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_Entrance_01
       objectReference: {fileID: 0}
+    - target: {fileID: 115988, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 441516, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -5766,6 +5782,10 @@ PrefabInstance:
     - target: {fileID: 115988, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
       propertyPath: m_Name
       value: Building_Entrance_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 115988, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 441516, guid: 709a3a517e84cfa4488aefe98011e5d1, type: 3}
       propertyPath: m_RootOrder

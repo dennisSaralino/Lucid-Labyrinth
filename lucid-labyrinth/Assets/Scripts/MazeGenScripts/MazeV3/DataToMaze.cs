@@ -18,26 +18,17 @@ public class DataToMaze : MonoBehaviour
         startPos = new Vector3(-1000, -1000, -1000);
         transform.position = startPos;
         tileDict = new Dictionary<string, GameObject>();
-        string path = "GameObject/Tile/";
-        string path2 = "GameObject/CellTile/";
+        string path = "GameObject/Tile";
+        string path2 = "GameObject/CellTile";
         string path3 = "GameObject/";
 
-        tileDict["wall"] = Resources.Load<GameObject>(path + "Wall");
-
-        tileDict["floor"] = Resources.Load<GameObject>(path + "Floor");
-
-        tileDict["path"] = Resources.Load<GameObject>(path + "Path");
-
-        tileDict["door"] = Resources.Load<GameObject>(path + "Door");
-
-        tileDict["upStair"] = Resources.Load<GameObject>(path + "upStair");
-
-        tileDict["downStair"] = Resources.Load<GameObject>(path + "downStair");
-
-        tileDict["startTile"] = Resources.Load<GameObject>(path2 + "Start Tile");
-        tileDict["endTile"] = Resources.Load<GameObject>(path2 + "End Tile");
-
-
+        List<GameObject> loadedtile = Resources.LoadAll<GameObject>(path).ToList();
+        List<GameObject> loadedCell = Resources.LoadAll<GameObject>(path2).ToList();
+        loadedtile.AddRange(loadedCell);
+        loadedtile.ForEach(x =>
+        {
+            tileDict[x.name] = x;
+        });
         wallDecoration = Resources.LoadAll<GameObject>(path3 + "WallDeco").ToList();
         floorDecoration = Resources.LoadAll<GameObject>(path3 + "FloorDeco").ToList();
     }

@@ -900,6 +900,15 @@ public class GridDataGen : MonoBehaviour
                 fullGrid[i, j].PrepTile();
             }
         }
+        for (int i = 0; i <= xMaxSize + 1; ++i)
+        {
+            for (int j = 0; j <= yMaxSize + 1; ++j)
+            {
+                fullGrid[i, j].PrepTile2();
+            }
+        }
+
+
         Debug.Log("fullCleanUp complete");
     }
 

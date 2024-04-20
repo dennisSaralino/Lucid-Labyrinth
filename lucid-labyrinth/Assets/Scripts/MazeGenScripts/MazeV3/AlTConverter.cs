@@ -8,7 +8,15 @@ public class alDataConverter
     #region SETTING
     static int MaxDoorNum = 6;
     static int MaxStairNum = 5;
+    static int trapFrequency = 6; //1 Trap for every {trapFrequency} tiles.
+    static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
     #endregion
+    #region REPORT
+    static int trapCount;
+    static int decoCount;
+    #endregion
+
+
     static alTData[,] grid;
     static int solutionLength;
     static TileData[,] resultTileGrid;
@@ -18,7 +26,13 @@ public class alDataConverter
     static int stairNum;
     static float diagonal;
     static int decorationTimer;
-    static int initalDecoRandom = 1;
+
+    static int trapTimer;
+
+
+
+
+
     public static TileData[,] convertToTiledata(GridData gridd)
     {
         grid = gridd.data;
@@ -40,9 +54,19 @@ public class alDataConverter
         }
 
         handleOuterEdges();
+
+        printReport();
+
+        
         return resultTileGrid;
     }
-
+    public static void printReport()
+    {
+        string report = "";
+        report += "PLACED TRAP: " + trapCount + "\n";
+        report += "PLACED DECORATION: " + decoCount + "\n";
+        StaticTool.printReport(report, "MAZE CONVERSION");
+    }
 
     public static void handleOuterEdges()
     {
@@ -56,10 +80,14 @@ public class alDataConverter
                 {
                     TileData tileD = new TileData(grid[i, 0]);
                     tileD.layer = resultTileGrid[i, 1].layer;
+
+                    tileD.setBaseOnSides();
                     resultTileGrid[i, 0] = tileD;
 
                     TileData tileD1 = new TileData(grid[i, mHeight - 1]);
                     tileD1.layer = resultTileGrid[i, mHeight - 2].layer;
+
+                    tileD1.setBaseOnSides();
                     resultTileGrid[i, mHeight - 1] = tileD1;
                 }
 
@@ -70,10 +98,12 @@ public class alDataConverter
                 {
                     TileData tileD = new TileData(grid[0, i]);
                     tileD.layer = resultTileGrid[1, i].layer;
+                    tileD.setBaseOnSides();
                     resultTileGrid[0, i] = tileD;
 
                     TileData tileD1 = new TileData(grid[mWidth - 1, i]);
                     tileD1.layer = resultTileGrid[mWidth - 2, i].layer;
+                    tileD1.setBaseOnSides();
                     resultTileGrid[mWidth - 1, i] = tileD1;
                 }
             }
@@ -88,13 +118,13 @@ public class alDataConverter
         if (resultTileGrid[x, y] != null && resultTileGrid[x, y].visited) return;
         TileData tileD = new TileData(ct);
         tileD.layer = layer;
-        checkForDecoration(tileD);
+    
 
 
 
         if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && ct.isStartT)
         {
-            tileD.getSide(ct.outdir - ct.fullPos) = sideType.door;
+            tileD.getSide(ct.outdir - ct.fullPos) = SideType.door;
             doorNum--;
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
@@ -111,7 +141,10 @@ public class alDataConverter
             }
         }
 
-            
+
+        tileD.setBaseOnSides();
+        checkForDecoration(tileD);
+        checkForTrap(tileD);
         resultTileGrid[x, y] = tileD;
     }
 
@@ -122,7 +155,7 @@ public class alDataConverter
         int y = ct.fullPos.y;
         TileData tileD = new TileData(ct);
         tileD.layer = layer;
-        checkForDecoration(tileD);
+       
         if (stairNum > 0 &&canPlaceStair(ct))
         {
             placeAStair(ct, tileD, ref layer);
@@ -136,6 +169,9 @@ public class alDataConverter
                 handleBranch(GridDataGen.fullGrid[branch.x, branch.y], ref subLayer, 0);
             }
         }
+        tileD.setBaseOnSides();
+        checkForDecoration(tileD);
+        checkForTrap(tileD);
         resultTileGrid[x, y] = tileD;
         if (!ct.isDeadEnd && !ct.isInOuterEdges())
         {
@@ -171,7 +207,7 @@ public class alDataConverter
     public static void placeAStair(alTData ct, TileData tileD, ref int layer)
     {
         bool isUp = Random.Range(0, 2) == 0;
-        tileD.getSide(ct.outdir - ct.fullPos) =  isUp? sideType.upStair : sideType.downStair;
+        tileD.getSide(ct.outdir - ct.fullPos) =  isUp? SideType.upStair : SideType.downStair;
         layer += isUp ? 1 : -1;
         stairNum--;
         previousStair.Add(ct.fullPos);
@@ -180,11 +216,21 @@ public class alDataConverter
     public static void checkForDecoration(TileData tileD)
     {
         decorationTimer++;
-        if (decorationTimer == initalDecoRandom)
+        if (decorationTimer >= decoFrequency && tileD.setDecorationTrue())
         {
-            tileD.setDecorationTrue();
             decorationTimer = 0;
-            initalDecoRandom = Random.Range(1, 3);
+            decoCount++;
         }
     }
+    public static void checkForTrap(TileData tileD)
+    {
+        trapTimer++;
+        if(trapTimer >= trapFrequency && tileD.setTrap())
+        {
+            trapTimer = 0;
+            trapCount++;
+        }
+    }
+    
 }
+

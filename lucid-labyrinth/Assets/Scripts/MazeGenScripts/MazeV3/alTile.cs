@@ -594,5 +594,19 @@ public class alTData
 
         
     }
+    public void PrepTile2()
+    {
+        float h = GridDataGen.fullGrid.GetLength(1);
+        float w = GridDataGen.fullGrid.GetLength(0);
+        if (!((fullPos.y != h - 1) && GetLogNeighbor(new Vector2Int(0, 1)).d))
+            u = false;
+        if (!((fullPos.y != 0) && GetLogNeighbor(new Vector2Int(0, -1)).u))
+            d = false;
+
+        if (!((fullPos.x != 0) && GetLogNeighbor(new Vector2Int(-1, 0)).r))
+            l = false;
+        if (!((fullPos.x != w - 1) && GetLogNeighbor(new Vector2Int(1, 0)).l))
+            r = false;
+    }
 
 }

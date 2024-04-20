@@ -47,7 +47,13 @@ public static class StaticTool
 #endif
 
 
-
+    public static void printReport(string content, string name)
+    {
+        string report = "=========REPORT: " + name  + "=========\n";
+        report += content;
+        report += "=========END=========";
+        Debug.Log(report);
+    }
     public static bool checkInternetConnection()
     {
         return Application.internetReachability != NetworkReachability.NotReachable;
