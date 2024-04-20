@@ -9,53 +9,41 @@ public class Log : MonoBehaviour
 {
     public GameObject logPrefab;
     public Transform logPosition;
-    public float rotateSpeed = 5f;
+    public float rotateSpeed = 200f;
     private GameObject logInstance;
-     public GameObject[] walls = new GameObject[4];
-    //will have transforms of enabled walls,
-    public List<GameObject> spawnList = new List<GameObject>();
-    private bool up, down, left, right = false;
+    
+    
+    // 
+    // prefab not working out of the box 
+    // code needs editing
 
     void Start()
     {
-        //start with four potential walls
-        foreach(GameObject w in walls  ){
-            //check for each active wall
-            if(w.activeInHierarchy){
-                //add active wall to list
-                spawnList.Add(w);
-            }
-        }
+        // reference parent to reference other children
+        Transform parentTransform = transform.parent;
+        Transform wallTransform = parentTransform.Find("Wall");
 
-        // mark active walls
-        foreach(GameObject w in spawnList){
-            if(w.CompareTag("UpWall")){
-                up = true;
-            }
-            if(w.CompareTag("DownWall")){
-                down = true;
-            }
-            if(w.CompareTag("LeftWall")){
-                left = true;
-            }
-            if(w.CompareTag("RightWall")){
-                right = true;
-            }
-        }
-
+   
+        //Debug.Log($"wall rotation x: {wallTransform.rotation.x}");
+        //Debug.Log($"wall rotation y: {wallTransform.rotation.y}");
+        //Debug.Log($"wall rotation z: {wallTransform.rotation.z}");
+        
         //log attached to two parallel walls
         //change rotation of log upon active parallel walls
-        if(up && down){
-            
+        //***  inactive walls still seen and cause instantiation ***
+
+        
+        if(wallTransform.rotation.y == 0.7071068f){//<-- quaternion value for 90 degrees
+            Debug.Log("in 90");
             Quaternion logRot = Quaternion.Euler(0,90,-90);
-            Vector3 newVector3 = new Vector3(logPosition.position.x, logPosition.position.y, logPosition.position.z);
+            Vector3 newVector3 = new Vector3(logPosition.position.x, logPosition.position.y + 1.0f, logPosition.position.z);
             logInstance = Instantiate(logPrefab,newVector3, logRot);
         }
 
-        else if(left && right){
-            
+        else if(parentTransform.rotation.y == 0f){
+            Debug.Log("In 0");
             Quaternion logRot = Quaternion.Euler(0,0,-90);
-            Vector3 newVector3 = new Vector3(logPosition.position.x, logPosition.position.y, logPosition.position.z);
+            Vector3 newVector3 = new Vector3(logPosition.position.x, logPosition.position.y + 1.0f, logPosition.position.z);
             logInstance = Instantiate(logPrefab,newVector3, logRot);
             
         }
@@ -65,6 +53,7 @@ public class Log : MonoBehaviour
 
         //spin the log
         //works for both orientations
+        if(logInstance != null)
         logInstance.transform.Rotate(0,rotateSpeed * Time.deltaTime,0);
       
     }

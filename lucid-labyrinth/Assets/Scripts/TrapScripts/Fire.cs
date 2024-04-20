@@ -11,7 +11,7 @@ public class Fire : MonoBehaviour
     void Start()
     {
         //get random int between 1-4
-        int spawnChange = Random.Range(1,3);
+        int spawnChange = Random.Range(1,2);
 
         // 1 in 3 chance to spawn fire
         if(spawnChange == 1){
