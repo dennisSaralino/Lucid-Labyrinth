@@ -12,6 +12,8 @@ public class alDataConverter
     static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
     #endregion
     #region REPORT
+    static int stairCount;
+    static int doorCount;
     static int trapCount;
     static int decoCount;
     #endregion
@@ -63,6 +65,8 @@ public class alDataConverter
     public static void printReport()
     {
         string report = "";
+        report += "PLACED DOOR: " + doorCount + "\n";
+        report += "PLACED STAIR: " + stairCount + "\n";
         report += "PLACED TRAP: " + trapCount + "\n";
         report += "PLACED DECORATION: " + decoCount + "\n";
         StaticTool.printReport(report, "MAZE CONVERSION");
@@ -122,8 +126,9 @@ public class alDataConverter
 
 
 
-        if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && ct.isStartT)
+        if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && !ct.isStartT)
         {
+            doorCount++;
             tileD.getSide(ct.outdir - ct.fullPos) = SideType.door;
             doorNum--;
         }
@@ -209,6 +214,7 @@ public class alDataConverter
         bool isUp = Random.Range(0, 2) == 0;
         tileD.getSide(ct.outdir - ct.fullPos) =  isUp? SideType.upStair : SideType.downStair;
         layer += isUp ? 1 : -1;
+        stairCount++;
         stairNum--;
         previousStair.Add(ct.fullPos);
         

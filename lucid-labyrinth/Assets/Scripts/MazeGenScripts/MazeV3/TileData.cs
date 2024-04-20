@@ -68,12 +68,19 @@ public class TileData
     public bool isStair;
     public bool isDoor;
     public bool[] wallSides;
+    public SideType[] sideSides;
     public int traprotateable;
     public void setBaseOnSides()
     {
         wallSides = new bool[] { right == SideType.wall, down == SideType.wall, left == SideType.wall, up == SideType.wall };
+        sideSides = new SideType[] { right, down, left, up };
         isDoor = (right == SideType.door || left == SideType.door || up == SideType.door || down == SideType.door);
         isStair = (right == SideType.upStair || right == SideType.downStair || left == SideType.upStair || left == SideType.downStair || up == SideType.upStair || up == SideType.downStair || down == SideType.upStair || down == SideType.downStair);
+        if (isDoor)
+        {
+            tileT = TileType.Cell;
+            cellT = CellType.buildingTile;
+        }
     }
     #endregion
     public TileData()
@@ -198,10 +205,28 @@ public class TileData
 
             #region CellType
             Transform cell = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[cellT.ToString()], p).transform;
+            cell.transform.position = centered;
             cell.GetChild(0).gameObject.SetActive(wallSides[0]);
             cell.GetChild(1).gameObject.SetActive(wallSides[1]);
             cell.GetChild(2).gameObject.SetActive(wallSides[2]);
             cell.GetChild(3).gameObject.SetActive(wallSides[3]);
+            if (cellT == CellType.buildingTile)
+            {
+                if (isDoor)
+                {
+                    Transform door = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[SideType.door.ToString()], p).transform;
+                    door.transform.position = centered;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (sideSides[i] == SideType.door)
+                        {
+                            door.transform.Rotate(Vector3.up, 90f * i);
+                            break;
+                        }
+                    }
+                }
+            }
+
             #endregion
         }
         else
