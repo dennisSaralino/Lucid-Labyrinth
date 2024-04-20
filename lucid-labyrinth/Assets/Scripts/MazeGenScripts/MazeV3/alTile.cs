@@ -549,7 +549,7 @@ public class alTData
 
     public bool isInOuterEdges()
     {
-        return currentPos.x == 0 || currentPos.x == GridDataGen.fullGrid.GetLength(0) - 1 || currentPos.y == 0 || currentPos.y == GridDataGen.fullGrid.GetLength(1) - 1;
+        return fullPos.x == 0 || fullPos.x == GridDataGen.fullGrid.GetLength(0) - 1 || fullPos.y == 0 || fullPos.y == GridDataGen.fullGrid.GetLength(1) - 1;
     }
     public void PrepTile()
     {

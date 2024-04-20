@@ -6,8 +6,8 @@ using UnityEditor;
 
 public class GridDataGen : MonoBehaviour
 {
-    public int xMaxSize = 12;  // number of main tiles across
-    public int yMaxSize = 12;  // number of main tiles up
+    public int xMaxSize = 5;  // number of main tiles across
+    public int yMaxSize = 5;  // number of main tiles up
     public int fullGridSize;   // number of grid tiles including the outside edge
     public int edgesSize;      // number of edge tiles that border the main tiles, on start and end side
     public int mazeTilesSize;  // number of main tiles in the center

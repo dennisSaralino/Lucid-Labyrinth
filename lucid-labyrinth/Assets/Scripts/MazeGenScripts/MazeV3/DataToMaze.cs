@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
-
 public class DataToMaze : MonoBehaviour
 {
     public static DataToMaze i;
@@ -40,6 +40,7 @@ public class DataToMaze : MonoBehaviour
         yield return null;
         Transform prefab = new GameObject("Cell").transform;
         Vector3 tileSize = new Vector3(12, 0, 12);
+        List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
         for (int i = 0; i < data.GetLength(0); i++)
         {
             for (int j = 0; j < data.GetLength(1); j++)
@@ -49,11 +50,12 @@ public class DataToMaze : MonoBehaviour
                 Transform p = Instantiate(prefab, transform);
                 p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
                 //Debug.Log(currentData == null);
-                currentData.loadInto(p);
+                surfaces.Add(currentData.loadInto(p));
 
             }
             yield return null;
         }
+        navigationBaker.baker.bakeMap(surfaces);
 
     }
 }

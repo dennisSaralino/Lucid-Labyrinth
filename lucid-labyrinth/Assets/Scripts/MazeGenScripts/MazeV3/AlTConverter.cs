@@ -6,16 +6,12 @@ using System.Linq;
 public class alDataConverter
 {
     #region SETTING
-    static int MaxDoorNum = 10;
-    static int MaxStairNum = 5;
+    static int MaxDoorNum = 2;
+    static int MaxStairNum = 2;
     #endregion
-
-
-
-
     static alTData[,] grid;
     static int solutionLength;
-    static TileData[,] tile;
+    static TileData[,] resultTileGrid;
     static int mWidth;
     static int mHeight;
     static int doorNum;
@@ -26,7 +22,7 @@ public class alDataConverter
     {
         grid = gridd.data;
         solutionLength = gridd.solution.Count;
-        tile = new TileData[grid.GetLength(0), grid.GetLength(1)];
+        resultTileGrid = new TileData[grid.GetLength(0), grid.GetLength(1)];
         mWidth = GridDataGen.fullGrid.GetLength(0);
         mHeight = GridDataGen.fullGrid.GetLength(1);
         doorNum = MaxDoorNum;
@@ -41,14 +37,53 @@ public class alDataConverter
         {
             handleASolution(i, ref layer);
         }
-        return tile;
+
+        handleOuterEdges();
+        return resultTileGrid;
+    }
+
+
+    public static void handleOuterEdges()
+    {
+        int maxLength = Mathf.Max(mWidth, mHeight);
+        for (int i = 0; i < maxLength; i++)
+        {
+            if (i < mWidth)
+            {
+
+                if (i != 0 && i != mWidth - 1)
+                {
+                    TileData tileD = new TileData(grid[i, 0]);
+                    tileD.layer = resultTileGrid[i, 1].layer;
+                    resultTileGrid[i, 0] = tileD;
+
+                    TileData tileD1 = new TileData(grid[i, mHeight - 1]);
+                    tileD1.layer = resultTileGrid[i, mHeight - 2].layer;
+                    resultTileGrid[i, mHeight - 1] = tileD1;
+                }
+
+            }
+            if (i < mHeight)
+            {
+                if (i != 0 && i != mHeight - 1)
+                {
+                    TileData tileD = new TileData(grid[0, i]);
+                    tileD.layer = resultTileGrid[1, i].layer;
+                    resultTileGrid[0, i] = tileD;
+
+                    TileData tileD1 = new TileData(grid[mWidth - 1, i]);
+                    tileD1.layer = resultTileGrid[mWidth - 2, i].layer;
+                    resultTileGrid[mWidth - 1, i] = tileD1;
+                }
+            }
+        }
     }
 
     public static void handleASolution(alTData ct, ref int layer)
     {
-        int x = ct.currentPos.x;
-        int y = ct.currentPos.y;
-        if (tile[x, y] != null && tile[x, y].visited) return;
+        int x = ct.fullPos.x;
+        int y = ct.fullPos.y;
+        if (resultTileGrid[x, y] != null && resultTileGrid[x, y].visited) return;
         TileData tileD = new TileData(ct);
         tileD.layer = layer;
 
@@ -56,7 +91,7 @@ public class alDataConverter
 
         if (doorNum > 0 && canPlaceDoor(ct.solutionIndex))
         {
-            tileD.getSide(ct.outdir - ct.currentPos) = sideType.door;
+            tileD.getSide(ct.outdir - ct.fullPos) = sideType.door;
             doorNum--;
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
@@ -74,13 +109,13 @@ public class alDataConverter
         }
 
             
-        tile[x, y] = tileD;
+        resultTileGrid[x, y] = tileD;
     }
 
     public static void handleBranch(alTData ct, ref int layer, int branchIndex)
     {
-        int x = ct.currentPos.x;
-        int y = ct.currentPos.y;
+        int x = ct.fullPos.x;
+        int y = ct.fullPos.y;
         TileData tileD = new TileData(ct);
         tileD.layer = layer;
 
@@ -97,9 +132,8 @@ public class alDataConverter
                 handleBranch(GridDataGen.fullGrid[branch.x, branch.y], ref subLayer, 0);
             }
         }
-        tile[x, y] = tileD;
-        Debug.Log("BRANCH: " + ct.currentPos);
-        if (!ct.isDeadEnd)
+        resultTileGrid[x, y] = tileD;
+        if (!ct.isDeadEnd && !ct.isInOuterEdges())
         {
             handleBranch(GridDataGen.fullGrid[ct.outdir.x, ct.outdir.y], ref layer, branchIndex++);
         }
@@ -120,12 +154,12 @@ public class alDataConverter
     {
         if (d.isBranching || d.isDeadEnd) return false;
 
-        Vector2Int preToc = d.indir - d.currentPos;
-        Vector2Int nextToc = d.outdir - d.currentPos;
+        Vector2Int preToc = d.indir - d.fullPos;
+        Vector2Int nextToc = d.outdir - d.fullPos;
         Vector2Int off = nextToc + preToc;
         if (off.x != 0) return false;
 
-        Vector2Int c = new Vector2Int(d.currentPos.x, d.currentPos.y);
+        Vector2Int c = new Vector2Int(d.fullPos.x, d.fullPos.y);
         float min = 0;
         min = previousStair.Min(x => Vector2Int.Distance(x, c));
         return min > diagonal / MaxStairNum;
@@ -133,9 +167,10 @@ public class alDataConverter
     public static void placeAStair(alTData ct, TileData tileD, ref int layer)
     {
         bool isUp = Random.Range(0, 2) == 0;
-        tileD.getSide(ct.outdir - ct.currentPos) =  isUp? sideType.upStair : sideType.downStair;
+        tileD.getSide(ct.outdir - ct.fullPos) =  isUp? sideType.upStair : sideType.downStair;
         layer += isUp ? 1 : -1;
         stairNum--;
-        previousStair.Add(ct.currentPos);
+        previousStair.Add(ct.fullPos);
+        
     }
 }

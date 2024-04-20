@@ -378,6 +378,12 @@ MonoBehaviour:
     down: 1
     left: 0
     right: 0
+    isSolutionPath: 0
+    isBranching: 0
+    isInBranch: 0
+    isDeadEnd: 0
+    layer: 0
+    visited: 0
 --- !u!1 &794325719271308323
 GameObject:
   m_ObjectHideFlags: 0

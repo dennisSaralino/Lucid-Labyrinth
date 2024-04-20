@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 public enum sideType
 {
@@ -72,7 +73,7 @@ public class TileData
         }
     }
 
-    public void loadInto(Transform p)
+    public NavMeshSurface loadInto(Transform p)
     {
         #region WALLS
         p.transform.position = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
@@ -93,39 +94,43 @@ public class TileData
         {
             floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"], p);
         }
-        if (isDeadEnd)
-        {
-            Material solutionmaterial = Resources.Load<Material>("Material/isDeadEnd");
-            if(floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-        }
-        else if (isThereStair)
-        {
-            Material solutionmaterial = Resources.Load<Material>("Material/isStair");
-            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-        }
-        else if (isThereDOOR)
-        {
-            Material solutionmaterial = Resources.Load<Material>("Material/isDoor");
-            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-        }
-        //else if (isBranching)
+        //if (isDeadEnd)
         //{
-        //    Material solutionmaterial = Resources.Load<Material>("Material/BranchingPath");
-        //    floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        //    Material solutionmaterial = Resources.Load<Material>("Material/isDeadEnd");
+        //    if(floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
         //}
-        else if (isInBranch)
-        {
-            Material solutionmaterial = Resources.Load<Material>("Material/inBranch");
-            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-        }
-        else if (isSolutionPath)
-        {
-            Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
-            if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-        }
+        //else if (isThereStair)
+        //{
+        //    Material solutionmaterial = Resources.Load<Material>("Material/isStair");
+        //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        //}
+        //else if (isThereDOOR)
+        //{
+        //    Material solutionmaterial = Resources.Load<Material>("Material/isDoor");
+        //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        //}
+        ////else if (isBranching)
+        ////{
+        ////    Material solutionmaterial = Resources.Load<Material>("Material/BranchingPath");
+        ////    floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        ////}
+        //else if (isInBranch)
+        //{
+        //    Material solutionmaterial = Resources.Load<Material>("Material/inBranch");
+        //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        //}
+        //else if (isSolutionPath)
+        //{
+        //    Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
+        //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+        //}
 
 
         #region TRAP
         #endregion
+
+
+
+        return p.GetComponentInChildren<NavMeshSurface>();
     }
 }
