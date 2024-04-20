@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
+using System.Linq;
 public class DataToMaze : MonoBehaviour
 {
     public static DataToMaze i;
     public Vector3 startPos;
     public Dictionary<string, GameObject> tileDict;
+
+    public List<GameObject> wallDecoration;
+    public List<GameObject> floorDecoration;
     public void Awake()
     {
         if (i == null) i = this;
@@ -16,6 +20,7 @@ public class DataToMaze : MonoBehaviour
         tileDict = new Dictionary<string, GameObject>();
         string path = "GameObject/Tile/";
         string path2 = "GameObject/CellTile/";
+        string path3 = "GameObject/";
 
         tileDict["wall"] = Resources.Load<GameObject>(path + "Wall");
 
@@ -32,6 +37,9 @@ public class DataToMaze : MonoBehaviour
         tileDict["startTile"] = Resources.Load<GameObject>(path2 + "Start Tile");
         tileDict["endTile"] = Resources.Load<GameObject>(path2 + "End Tile");
 
+
+        wallDecoration = Resources.LoadAll<GameObject>(path3 + "WallDeco").ToList();
+        floorDecoration = Resources.LoadAll<GameObject>(path3 + "FloorDeco").ToList();
     }
 
 

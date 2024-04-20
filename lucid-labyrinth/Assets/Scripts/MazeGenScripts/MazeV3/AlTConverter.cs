@@ -17,7 +17,8 @@ public class alDataConverter
     static int doorNum;
     static int stairNum;
     static float diagonal;
-    
+    static int decorationTimer;
+    static int initalDecoRandom = 1;
     public static TileData[,] convertToTiledata(GridData gridd)
     {
         grid = gridd.data;
@@ -81,11 +82,13 @@ public class alDataConverter
 
     public static void handleASolution(alTData ct, ref int layer)
     {
+       
         int x = ct.fullPos.x;
         int y = ct.fullPos.y;
         if (resultTileGrid[x, y] != null && resultTileGrid[x, y].visited) return;
         TileData tileD = new TileData(ct);
         tileD.layer = layer;
+        checkForDecoration(tileD);
 
 
 
@@ -114,11 +117,12 @@ public class alDataConverter
 
     public static void handleBranch(alTData ct, ref int layer, int branchIndex)
     {
+
         int x = ct.fullPos.x;
         int y = ct.fullPos.y;
         TileData tileD = new TileData(ct);
         tileD.layer = layer;
-
+        checkForDecoration(tileD);
         if (stairNum > 0 &&canPlaceStair(ct))
         {
             placeAStair(ct, tileD, ref layer);
@@ -172,5 +176,15 @@ public class alDataConverter
         stairNum--;
         previousStair.Add(ct.fullPos);
         
+    }
+    public static void checkForDecoration(TileData tileD)
+    {
+        decorationTimer++;
+        if (decorationTimer == initalDecoRandom)
+        {
+            tileD.setDecorationTrue();
+            decorationTimer = 0;
+            initalDecoRandom = Random.Range(1, 3);
+        }
     }
 }

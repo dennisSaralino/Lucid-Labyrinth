@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 
 public enum tileType
 {
@@ -24,6 +24,11 @@ public enum sideType
     upStair,
     downStair,
 }
+public enum decorationType
+{
+    wall,
+    floor
+}
 [Serializable]
 public class TileData
 {
@@ -41,6 +46,8 @@ public class TileData
     public bool visited;
     public bool isStartTile;
     public bool isEndTile;
+    public bool haveDecoration;
+    public decorationType decoT;
     public TileData()
     {
         up = sideType.wall;
@@ -68,6 +75,11 @@ public class TileData
             tileT = tileType.Cell;
             cellT = isStartTile ? CellType.startTile : CellType.endTile;
         }
+    }
+    public void setDecorationTrue()
+    {
+        haveDecoration = true;
+        decoT = (decorationType)Random.Range(0, 2);
     }
     public TileData(TileData t)
     {
@@ -98,7 +110,11 @@ public class TileData
     }
     public NavMeshSurface loadInto(Transform p)
     {
-        p.transform.position = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
+        bool[] sideWall = new bool[] { right == sideType.wall, down == sideType.wall, left == sideType.wall, up == sideType.wall };
+
+
+        Vector3 centered = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
+        p.transform.position = centered;
         bool isThereDOOR = (right == sideType.door || left == sideType.door || up == sideType.door || down == sideType.door);
         bool isThereStair = (right == sideType.upStair || right == sideType.downStair || left == sideType.upStair || left == sideType.downStair || up == sideType.upStair || up == sideType.downStair || down == sideType.upStair || down == sideType.downStair);
         if (tileT == tileType.Cell)
@@ -106,10 +122,10 @@ public class TileData
 
             #region CellType
             Transform cell = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[cellT.ToString()], p).transform;
-            cell.GetChild(0).gameObject.SetActive(up == sideType.wall);
-            cell.GetChild(1).gameObject.SetActive(down == sideType.wall);
-            cell.GetChild(2).gameObject.SetActive(left == sideType.wall);
-            cell.GetChild(3).gameObject.SetActive(right == sideType.wall);
+            cell.GetChild(0).gameObject.SetActive(sideWall[0]);
+            cell.GetChild(1).gameObject.SetActive(sideWall[1]);
+            cell.GetChild(2).gameObject.SetActive(sideWall[2]);
+            cell.GetChild(3).gameObject.SetActive(sideWall[3]);
             #endregion
         }
         else
@@ -167,7 +183,33 @@ public class TileData
 
 
 
-
+        #region Decoration
+        if (haveDecoration)
+        {
+            Transform deco = null;
+            if (decoT == decorationType.wall)
+            {
+                deco = UnityEngine.Object.Instantiate(DataToMaze.i.wallDecoration[Random.Range(0, DataToMaze.i.wallDecoration.Count)], p).transform;
+               
+                for (int i = 0; i < 4; i++)
+                {
+                    float degree = 90 * i;
+                    if (sideWall[i] == true)
+                    {
+                        deco.transform.Rotate(Vector3.up, degree);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                deco = UnityEngine.Object.Instantiate(DataToMaze.i.floorDecoration[Random.Range(0, DataToMaze.i.floorDecoration.Count)], p).transform;
+                float degree = 90 * Random.Range(0, 4);
+                deco.transform.Rotate(Vector3.up, degree);
+            }
+            deco.transform.position = centered;
+        }
+        #endregion
 
         #region TRAP
         #endregion
