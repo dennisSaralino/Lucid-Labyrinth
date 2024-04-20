@@ -477,3 +477,9 @@ MonoBehaviour:
     down: 1
     left: 1
     right: 1
+    isSolutionPath: 0
+    isBranching: 0
+    isInBranch: 0
+    isDeadEnd: 0
+    layer: 0
+    visited: 0

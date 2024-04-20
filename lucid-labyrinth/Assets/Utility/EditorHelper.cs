@@ -170,15 +170,13 @@ public class EditorHelper : MonoBehaviour
     }
     #endregion
 
-
     [MenuItem("EditorHelper/MazeModify/modifyMaterial")]
     public static void changeMaterial()
     {
-        string scenePath = "Assets/Scenes/StaticMazeV2.unity";
+        string scenePath = "Assets/Scenes/CC_TestScene.unity";
         var currentScene = EditorSceneManager.OpenScene(scenePath);
-        Material m = StaticTool.loadAllAsset<Material>("MazeTest/MazeV2/Material").ToList().Find(x=>x.name == "mazeWall");
-        mazeTile tpre = Resources.Load<mazeTile>("GameObject/SampleTile");
-        Transform parent = GameObject.Find("MazeGen").transform;
+        Material m = StaticTool.loadAllAsset<Material>("Eternal Temple/Source_FBX/Materials").ToList().Find(x=>x.name == "Atlas_Architecture_01");
+        Transform parent = GameObject.Find("StaticMap").transform;
         StaticTool.foreachChild(parent, (x =>
         {
             x.GetComponent<Renderer>().material = m;
