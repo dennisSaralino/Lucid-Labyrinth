@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEditor.UIElements;
+//using UnityEditor.UIElements;
 using Cinemachine;
 
 public class PlayerController : MonoBehaviour
@@ -15,20 +15,29 @@ public class PlayerController : MonoBehaviour
     public NoiseSettings extremeShake;
     public CinemachineVirtualCamera mainCam;
     public GameObject environmentCont;
+    //public GameObject pickupHitBox;
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
-    private pickupHitboxScript pickupHitbox;
+    //private pickupHitboxScript pickupHitboxScript;
+    private GameObject currentPickup;
+
+    private float xRot;
+    private float yRot;
 
     // global movement bools
     public bool isGrappling = false;
     public bool isSprinting = false;
-    public bool doFalling = true;
-    public float jumpTimer = 0.0f;
+    //private bool holdingObj = false;
 
-    // global gravity variable
-    private float gravity = -9.81f;
+    // timer ints
+    private float jumpTimer = 0.0f;
+    private float pickupCooldown = 0.0f;
+
+    // layer mask
+
+    private int pickupLayerMask = 1 << 3;
 
     // global vectors for storing input values
     private Vector3 moveVector = Vector3.zero;
@@ -43,10 +52,19 @@ public class PlayerController : MonoBehaviour
     [Range(1.0f, 10.0f)]
     public float yLookSensitivity = 3.0f;
 
-    // used for traps/hazards
-    public float playerDamage = 3.0f;
-    
+    // values for decrementing after taking damage
+    private float damagePool = 10f;
+    private float damageProjectile = 12f;
 
+    // For walking audio
+
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        yRot = mainCam.transform.rotation.y;
+        xRot = mainCam.transform.rotation.x;
+    }
 
     // Private GameObject variables inititalized
     private void Awake()
@@ -55,10 +73,10 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
-        //Cursor.lockState = CursorLockMode.Locked;
+        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
     }
 
-
+    
     // The following functions exist for enabling and disabling player movement
     private void OnEnable()
     {
@@ -99,50 +117,18 @@ public class PlayerController : MonoBehaviour
 
     private void Update() // Camera Controls are in Update for smoothness
     {
-        // set current player/camera rotations equal to temporary quaternions
-        var playerQuat = transform.rotation.eulerAngles;
-        var camQuat = mainCam.transform.rotation.eulerAngles;
-
-        // update temp player/camera Quaternions based on mouse delta/right stick position (depending on input method)
-        playerQuat.y += reduceNum(cameraVector.x) * yLookSensitivity;
-        camQuat.y = playerQuat.y;
-        camQuat.x -= Mathf.Clamp(reduceNum(cameraVector.y) * xLookSensitivity, -80, 90);
-
-        // these two lines exist for the sole fact that moving the mouse was rotating the 
-        // player/camera on the z-axis even though these values were never changed
-        playerQuat.z = 0;
-        camQuat.z = 0;
-
-        // set the player/camera rotation equal to the updated temp player/camera quaternions
-        transform.rotation = Quaternion.Euler(playerQuat);
-        mainCam.transform.rotation = Quaternion.Euler(camQuat);
-
-        if (input.player.sprint.WasPerformedThisFrame())
-        {
-            isSprinting = true;
-            speedScalar += 2.0f;
-            camEffect.m_FrequencyGain += 0.5f;
-        }
-        if (input.player.sprint.WasReleasedThisFrame())
-        {
-            isSprinting = false;
-            speedScalar -= 2.0f;
-            camEffect.m_FrequencyGain -= 0.5f;
-        }
-
-        if (pickupHitbox.grabableObj() != null)
-        {
-            pickupHitbox.grabableObj().GetComponent<pickupObjScript>().Hold(); 
-        }
-    }
-
-    private void FixedUpdate()
-    {
         // update velocity based on current input
-        
+        yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
+        xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
+        xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
+
+        // set the player/camera rotation equal to the the new x and y rotation values
+        mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+        transform.rotation = Quaternion.Euler(0f, yRot, 0);
+
         Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
-        if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.5f; }
-        else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 1.0f; }
+        if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
+        else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
         else if (playerController.isGrounded) { playerMoveDelta.y = 0; }
 
         if (jumpTimer != 0.0f)
@@ -167,17 +153,87 @@ public class PlayerController : MonoBehaviour
         {
             camEffect.m_NoiseProfile = weakShake;
         }
+    }
 
-        
+    private void FixedUpdate()
+    {
+        // add mouse deltas to current camera rotation
+        yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
+        xRot -= cameraVector.y *Time.deltaTime * yLookSensitivity;
+        xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
+
+        // set the player/camera rotation equal to the the new x and y rotation values
+        mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+        transform.rotation = Quaternion.Euler(0f, yRot, 0);
+
+        if (input.player.sprint.WasPerformedThisFrame())
+        {
+            isSprinting = true;
+            speedScalar += 2.0f;
+            camEffect.m_FrequencyGain += 0.5f;
+        }
+        if (input.player.sprint.WasReleasedThisFrame())
+        {
+            isSprinting = false;
+            speedScalar -= 2.0f;
+            camEffect.m_FrequencyGain -= 0.5f;
+        }
+
+        if (input.player.interact.WasPerformedThisFrame() && currentPickup == null)
+        {
+            RaycastHit pickupHit;
+            Physics.SphereCast(mainCam.transform.position, 1.0f, mainCam.transform.forward, out pickupHit, 5f, pickupLayerMask);
+            if (pickupHit.collider != null)
+            {
+                currentPickup = pickupHit.collider.gameObject;
+                currentPickup.GetComponent<pickupObjScript>().Hold();
+                pickupCooldown = 0.5f;
+            }
+
+        }
+        else if (input.player.interact.WasPerformedThisFrame() && currentPickup != null)
+        {
+            if (pickupCooldown == 0.0f)
+            {
+                currentPickup.GetComponent<pickupObjScript>().Drop();
+                currentPickup = null;
+            }
+        }
+        else
+        {
+            if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
+            else { pickupCooldown = 0.0f; }
+        }
+
+
+        if (input.player.throwObj.WasPerformedThisFrame())
+        {
+            if (currentPickup != null)
+            {
+                currentPickup.GetComponent<Rigidbody>().isKinematic = false;
+                Vector3 thVec = mainCam.transform.forward * 1000;
+                Debug.Log(thVec);
+                thVec.y = xRot;
+                //Debug.DrawRay(transform.position + new Vector3(0, 0.6f, 0.1f), thVec, Color.white, 120f);
+                currentPickup.GetComponent<pickupObjScript>().Drop();
+                currentPickup.GetComponent<Rigidbody>().AddForce(thVec);
+                currentPickup = null;
+            }
+        }
+    }
+
+    public bool isJumping()
+    {
+        return jumpTimer == 0.0f;
     }
 
 
-    void enableGrapple()
+    public void enableGrapple()
     {
         isGrappling = true;
     }
 
-    void disableGrapple()
+    public void disableGrapple()
     {
         isGrappling = false;
     }
@@ -205,15 +261,14 @@ public class PlayerController : MonoBehaviour
         
         if (other.gameObject.CompareTag("Fire"))
         {
-            lucidityBar.value -= playerDamage;
+            lucidityBar.value -= damagePool;
         }
         if (other.gameObject.CompareTag("Arrow"))
         {
-            lucidityBar.value -= playerDamage;
+            lucidityBar.value -= damageProjectile;
         }
-        if (other.gameObject.CompareTag("Log"))
-        {
-            lucidityBar.value -= playerDamage;
-        }
+       
     }
+
+    
 }

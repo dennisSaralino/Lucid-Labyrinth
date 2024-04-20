@@ -8,7 +8,7 @@ public class ProjectileSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public GameObject arrowPrefab;
+    public GameObject arrowPrefab; 
     public float arrowSpeed = 3f;
     //Holds 4 walls around pressure plate
     public GameObject[] walls = new GameObject[4];
