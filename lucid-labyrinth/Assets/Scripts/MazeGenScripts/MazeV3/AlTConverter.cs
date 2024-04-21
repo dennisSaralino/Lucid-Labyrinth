@@ -6,10 +6,10 @@ using System.Linq;
 public class alDataConverter
 {
     #region SETTING
-    static int MaxDoorNum = 6;
-    static int MaxStairNum = 5;
-    static int trapFrequency = 6; //1 Trap for every {trapFrequency} tiles.
-    static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
+    public static int MaxDoorNum = 6;
+    public static int MaxStairNum = 5;
+    public static int trapFrequency = 6; //1 Trap for every {trapFrequency} tiles.
+    public static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
     #endregion
     #region REPORT
     static int stairCount;

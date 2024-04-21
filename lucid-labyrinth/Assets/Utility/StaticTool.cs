@@ -8,6 +8,8 @@ using System;
 
 public static class StaticTool
 {
+
+    
 #if UNITY_EDITOR
     public static void saveAsset(UnityEngine.Object j)
     {

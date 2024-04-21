@@ -8,9 +8,10 @@ public class DataToMaze : MonoBehaviour
     public static DataToMaze i;
     public Vector3 startPos;
     public Dictionary<string, GameObject> tileDict;
-
+    public bool materialDebug;
     public List<GameObject> wallDecoration;
     public List<GameObject> floorDecoration;
+    public List<TileData> tileFullGrid;
     public void Awake()
     {
         if (i == null) i = this;
@@ -36,6 +37,7 @@ public class DataToMaze : MonoBehaviour
 
     public void dataToMaze(TileData[,] data)
     {
+        tileFullGrid = new List<TileData>();
         StartCoroutine(dataToMazeI(data));   
     }
     IEnumerator dataToMazeI(TileData[,] data)
@@ -50,8 +52,13 @@ public class DataToMaze : MonoBehaviour
             for (int j = 0; j < data.GetLength(1); j++)
             {
                 TileData currentData = data[i, j];
+                
+
                 if (currentData == null) continue;
+                tileFullGrid.Add(currentData);
+                currentData.fullPos = new Vector2Int(i, j);
                 Transform p = Instantiate(prefab, transform);
+                p.name = "[" + i.ToString() + " , " + j.ToString() + "]";
                 p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
                 //Debug.Log(currentData == null);
                 surfaces.Add(currentData.loadInto(p));

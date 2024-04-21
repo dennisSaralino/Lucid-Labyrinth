@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class Log : MonoBehaviour
 {
     public float rotateSpeed = 200f;
-    private GameObject log;
+    public GameObject log;
 
     void FixedUpdate()
     {

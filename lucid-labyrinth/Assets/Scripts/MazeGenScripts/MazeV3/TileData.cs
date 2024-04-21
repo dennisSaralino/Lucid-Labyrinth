@@ -44,6 +44,7 @@ public enum DecorationType
 [Serializable]
 public class TileData
 {
+    public Vector2Int fullPos;
     public TileType tileT;
     public CellType cellT;
     public SideType up;
@@ -256,45 +257,48 @@ public class TileData
             downside.transform.Rotate(Vector3.up, 90f);
             leftside.transform.Rotate(Vector3.up, 180f);
             upside.transform.Rotate(Vector3.up, 270f);
-            
+
             #endregion
             if (!isStair)
             {
                 floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"], p);
                 floor.transform.position = centered;
             }
-            #region TESTING MATERIAL
-            //if (isDeadEnd)
-            //{
-            //    Material solutionmaterial = Resources.Load<Material>("Material/isDeadEnd");
-            //    if(floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-            //}
-            //else if (isThereStair)
-            //{
-            //    Material solutionmaterial = Resources.Load<Material>("Material/isStair");
-            //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-            //}
-            //else if (isThereDOOR)
-            //{
-            //    Material solutionmaterial = Resources.Load<Material>("Material/isDoor");
-            //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-            //}
-            ////else if (isBranching)
-            ////{
-            ////    Material solutionmaterial = Resources.Load<Material>("Material/BranchingPath");
-            ////    floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-            ////}
-            //else if (isInBranch)
-            //{
-            //    Material solutionmaterial = Resources.Load<Material>("Material/inBranch");
-            //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-            //}
-            //else if (isSolutionPath)
-            //{
-            //    Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
-            //    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
-            //}
-            #endregion
+            if (DataToMaze.i.materialDebug)
+            {
+                #region TESTING MATERIAL
+                if (isDeadEnd)
+                {
+                    Material solutionmaterial = Resources.Load<Material>("Material/isDeadEnd");
+                    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                }
+                else if (isStair)
+                {
+                    Material solutionmaterial = Resources.Load<Material>("Material/isStair");
+                    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                }
+                else if (isDoor)
+                {
+                    Material solutionmaterial = Resources.Load<Material>("Material/isDoor");
+                    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                }
+                //else if (isBranching)
+                //{
+                //    Material solutionmaterial = Resources.Load<Material>("Material/BranchingPath");
+                //    floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                //}
+                else if (isInBranch)
+                {
+                    Material solutionmaterial = Resources.Load<Material>("Material/inBranch");
+                    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                }
+                else if (isSolutionPath)
+                {
+                    Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
+                    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                }
+                #endregion
+            }
             #endregion
         }
 
