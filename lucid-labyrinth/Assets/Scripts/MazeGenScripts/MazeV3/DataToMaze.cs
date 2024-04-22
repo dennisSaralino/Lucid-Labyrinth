@@ -16,7 +16,7 @@ public class DataToMaze : MonoBehaviour
     {
         if (i == null) i = this;
         else Destroy(this.gameObject);
-        startPos = new Vector3(-1000, -1000, -1000);
+        startPos = new Vector3(0, 0, 0);
         transform.position = startPos;
         tileDict = new Dictionary<string, GameObject>();
         string path = "GameObject/Tile";
@@ -69,4 +69,39 @@ public class DataToMaze : MonoBehaviour
         navigationBaker.baker.bakeMap(surfaces);
 
     }
+}
+
+
+public class mazeData
+{
+    public Vector3 startTile;
+    public Vector3 endTile;
+    public List<solutionPart> part;
+
+
+    public solutionPart nearestBackward(int index)
+    {
+        for (int i = index; i <= 0; i--)
+        {
+            if (part[i].haveBranches) return part[i];
+        }
+        return null;
+    }
+    public solutionPart nearestForward(int index)
+    {
+        for (int i = index; i <= 0; i--)
+        {
+            if (part[i].haveBranches) return part[i];
+        }
+        return null;
+    }
+}
+public class solutionPart
+{
+    public int index;
+    public Vector3 pos;
+    public bool haveBranches;
+    public List<Vector3> lucidityPickupPos;
+    public List<Vector3> keyPickupPos;
+    public List<Vector3> enemySpawnPos;
 }

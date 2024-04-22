@@ -44,6 +44,7 @@ public enum DecorationType
 [Serializable]
 public class TileData
 {
+    public Vector3 position;
     public Vector2Int fullPos;
     public TileType tileT;
     public CellType cellT;
@@ -195,6 +196,7 @@ public class TileData
     {
 
         Vector3 centered = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
+        this.position = centered;
         p.transform.position = centered;
         GameObject floor = null;
         GameObject rightside = null;
