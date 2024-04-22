@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
-
+using System.Linq;
 public class DataToMaze : MonoBehaviour
 {
     public static DataToMaze i;
     public Vector3 startPos;
     public Dictionary<string, GameObject> tileDict;
+    public bool materialDebug;
+    public List<GameObject> wallDecoration;
+    public List<GameObject> floorDecoration;
+    public List<TileData> tileFullGrid;
     public void Awake()
     {
         if (i == null) i = this;
@@ -14,24 +19,25 @@ public class DataToMaze : MonoBehaviour
         startPos = new Vector3(-1000, -1000, -1000);
         transform.position = startPos;
         tileDict = new Dictionary<string, GameObject>();
-        string path = "GameObject/Tile/";
+        string path = "GameObject/Tile";
+        string path2 = "GameObject/CellTile";
+        string path3 = "GameObject/";
 
-        tileDict["wall"] = Resources.Load<GameObject>(path + "Wall");
-
-        tileDict["floor"] = Resources.Load<GameObject>(path + "Floor");
-
-        tileDict["path"] = Resources.Load<GameObject>(path + "Path");
-
-        tileDict["door"] = Resources.Load<GameObject>(path + "Door");
-
-        tileDict["upStair"] = Resources.Load<GameObject>(path + "upStair");
-
-        tileDict["downStair"] = Resources.Load<GameObject>(path + "downStair");
+        List<GameObject> loadedtile = Resources.LoadAll<GameObject>(path).ToList();
+        List<GameObject> loadedCell = Resources.LoadAll<GameObject>(path2).ToList();
+        loadedtile.AddRange(loadedCell);
+        loadedtile.ForEach(x =>
+        {
+            tileDict[x.name] = x;
+        });
+        wallDecoration = Resources.LoadAll<GameObject>(path3 + "WallDeco").ToList();
+        floorDecoration = Resources.LoadAll<GameObject>(path3 + "FloorDeco").ToList();
     }
 
 
     public void dataToMaze(TileData[,] data)
     {
+        tileFullGrid = new List<TileData>();
         StartCoroutine(dataToMazeI(data));   
     }
     IEnumerator dataToMazeI(TileData[,] data)
@@ -40,20 +46,27 @@ public class DataToMaze : MonoBehaviour
         yield return null;
         Transform prefab = new GameObject("Cell").transform;
         Vector3 tileSize = new Vector3(12, 0, 12);
+        List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
         for (int i = 0; i < data.GetLength(0); i++)
         {
             for (int j = 0; j < data.GetLength(1); j++)
             {
-                TileData currentData = data[j, i];
+                TileData currentData = data[i, j];
+                
+
                 if (currentData == null) continue;
+                tileFullGrid.Add(currentData);
+                currentData.fullPos = new Vector2Int(i, j);
                 Transform p = Instantiate(prefab, transform);
-                p.localPosition = new Vector3(tileSize.x * j, 0, tileSize.z * i);
-                Debug.Log(currentData == null);
-                currentData.loadInto(p);
+                p.name = "[" + i.ToString() + " , " + j.ToString() + "]";
+                p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
+                //Debug.Log(currentData == null);
+                surfaces.Add(currentData.loadInto(p));
 
             }
             yield return null;
         }
+        navigationBaker.baker.bakeMap(surfaces);
 
     }
 }

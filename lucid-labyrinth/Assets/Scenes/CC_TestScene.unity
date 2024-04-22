@@ -107,7 +107,7 @@ NavMeshSettings:
     serializedVersion: 2
     agentTypeID: 0
     agentRadius: 0.5
-    agentHeight: 2
+    agentHeight: 1
     agentSlope: 45
     agentClimb: 0.4
     ledgeDropHeight: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 74109010e6ab01a429fd206c3dccd3e2, type: 2}
 --- !u!1 &177846118
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +159,7 @@ MonoBehaviour:
   mazeTilesSize: 0
   zeroEdges: []
   maxEdges: []
+  pathTiles: []
   startTile:
     fullPos: {x: 0, y: 0}
     upLog: 0
@@ -167,17 +168,23 @@ MonoBehaviour:
     rightLog: 0
     isStartT: 0
     isEndT: 0
+    isDeadEnd: 0
+    isInBranch: 0
+    tileDepth: 0
+    timesChkd: 0
+    branchTiles: []
+    pathCompl: 0
     currentPos: {x: 0, y: 0}
     u: 0
     d: 0
     l: 0
     r: 0
     isBranching: 0
-    outBranch: {x: 0, y: 0}
-    branch: []
+    outBranches: []
     isSolution: 0
     indir: {x: 0, y: 0}
     outdir: {x: 0, y: 0}
+    solutionIndex: 0
   endTile:
     fullPos: {x: 0, y: 0}
     upLog: 0
@@ -186,21 +193,34 @@ MonoBehaviour:
     rightLog: 0
     isStartT: 0
     isEndT: 0
+    isDeadEnd: 0
+    isInBranch: 0
+    tileDepth: 0
+    timesChkd: 0
+    branchTiles: []
+    pathCompl: 0
     currentPos: {x: 0, y: 0}
     u: 0
     d: 0
     l: 0
     r: 0
     isBranching: 0
-    outBranch: {x: 0, y: 0}
-    branch: []
+    outBranches: []
     isSolution: 0
     indir: {x: 0, y: 0}
     outdir: {x: 0, y: 0}
-  pathTiles: []
-  st2endDistLimit: 6
+    solutionIndex: 0
+  st2endDistLimit: 0
+  minDistCheck: 4
+  minPathL: 0
+  maxPathL: 0
+  endDistDiv: 2
+  minPathMult: 0.3
+  mxPathMult: 0.6
   nullInDir: {x: 0, y: 0}
-  nullOutDir: {x: 0, y: 0}
+  incompleteTiles: []
+  allBrTiles: []
+  compLog: 
 --- !u!4 &177846120
 Transform:
   m_ObjectHideFlags: 0
@@ -215,6 +235,100 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &576322670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 576322672}
+  - component: {fileID: 576322671}
+  - component: {fileID: 576322673}
+  m_Layer: 0
+  m_Name: DataConverter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &576322671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576322670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba03623821aa5dd45897f81f4a9c5808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPos: {x: 0, y: 0, z: 0}
+  materialDebug: 0
+  wallDecoration: []
+  floorDecoration: []
+  tileFullGrid: []
+--- !u!4 &576322672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576322670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 116.36015, y: 7.145135, z: 31.045462}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &576322673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576322670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e3d285af3c15348a85339251f6050e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  surface: {fileID: 0}
+--- !u!1 &610688178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610688179}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &610688179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610688178}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -961.29865, y: 5.585661, z: -978.9272}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1567720779
 GameObject:
@@ -342,6 +456,7 @@ GameObject:
   - component: {fileID: 1640147271}
   - component: {fileID: 1640147270}
   - component: {fileID: 1640147269}
+  - component: {fileID: 1640147272}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -397,7 +512,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!4 &1640147271
@@ -415,3 +530,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1640147272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640147268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
