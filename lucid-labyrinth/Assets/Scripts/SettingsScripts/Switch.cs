@@ -8,9 +8,22 @@ public class Switch : MonoBehaviour
     public Image On;
     public Image Off;
 
-    private void Update()
+    private void Awake()
     {
-        
+        if (PlayerPrefs.HasKey("showUI"))
+        {
+            if (PlayerPrefs.GetInt("showUI") == 0)
+            {
+                Off.gameObject.SetActive(true);
+                On.gameObject.SetActive(false);
+            }
+
+            if (PlayerPrefs.GetInt("showUI") == 1)
+            {
+                On.gameObject.SetActive(true);
+                Off.gameObject.SetActive(false);
+            }
+        }     
     }
 
     public void ON()
