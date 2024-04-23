@@ -148,7 +148,7 @@ public class GridDataGen : MonoBehaviour
 
         // pick the start of the maze
         #region PICK START AND DO SETUP =======================================
-        print("picking start Tile");
+        //print("picking start Tile");
         startTile = zeroEdges[Random.Range(0, edgesSize)];
         startTile.isStartT = true; // store the value for later logic
         
@@ -480,7 +480,7 @@ public class GridDataGen : MonoBehaviour
         #endregion
 
         pathTiles.Add(endTile);
-        Debug.Log("Solution Path has been generated");
+        //Debug.Log("Solution Path has been generated");
 
         string pathlist = "solution values: ";
         int currTileIndx = 0;
@@ -525,7 +525,7 @@ public class GridDataGen : MonoBehaviour
             ++currTileIndx;
         }
         #endregion
-        print(pathlist);
+        //print(pathlist);
 
         yield return null;
     }
@@ -574,7 +574,6 @@ public class GridDataGen : MonoBehaviour
             // should allow one final runthrough after completion of tiles to do cleanup
             if (incompleteTiles.Count == 0) branchDepth = (int)maxPathL-1;
         }
-        Debug.Log("Branch Creation complete");
         yield return null;
     }
 
@@ -891,8 +890,8 @@ public class GridDataGen : MonoBehaviour
 
     public void FullCleanUp()
     {
-        Debug.Log("entering fullCleanup");
-        // loop to fill grid
+        //Debug.Log("entering fullCleanup");
+        //// loop to fill grid
         for (int i = 0; i <= xMaxSize + 1; ++i)
         {
             for (int j = 0; j <= yMaxSize + 1; ++j)
@@ -909,7 +908,7 @@ public class GridDataGen : MonoBehaviour
         }
 
 
-        Debug.Log("fullCleanUp complete");
+        //Debug.Log("fullCleanUp complete");
     }
 
     /// <summary>
@@ -940,11 +939,9 @@ public class GridDataGen : MonoBehaviour
         FullCleanUp();
         StopAllCoroutines();
         DataToMaze.i.dataToMaze(alDataConverter.convertToTiledata(new GridData(fullGrid, pathTiles)));
-        Debug.Log("Compiled Debugs from GenPath and BuildBranches: \n" + compLog +
-             "=========== End of Log ========================");
+        //Debug.Log("Compiled Debugs from GenPath and BuildBranches: \n" + compLog +
+        //     "=========== End of Log ========================");
     }
-
-    
 }
 
 
@@ -956,9 +953,9 @@ public class GridData
     {
         this.data = al;
         this.solution = solution;
-        for (int i = 1; i < solution.Count - 2; i++)
+        for (int i = 0; i < solution.Count; i++)
         {
-            solution[i].solutionIndex = i - 1;
+            solution[i].solutionIndex = i;
         }
 
     }

@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
             camEffect.m_NoiseProfile = weakShake;
         }
     }
-
+    public int solutionIndex;
     private void FixedUpdate()
     {
         // add mouse deltas to current camera rotation
@@ -217,6 +217,7 @@ public class PlayerController : MonoBehaviour
                 currentPickup = null;
             }
         }
+
     }
 
     public bool isJumping()

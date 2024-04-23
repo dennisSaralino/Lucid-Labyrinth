@@ -565,7 +565,7 @@ public class alTData
             if (tileSide == SideLogic.opnSide)
                 if (this.NeighborLog(indxDir) == SideLogic.fWall)
                 {
-                    Debug.Log("Prep: needed to finish Tile: " + fullPos.ToString());
+                    //Debug.Log("Prep: needed to finish Tile: " + fullPos.ToString());
                     this.SetSides(indxDir, SideLogic.fWall);
                     needsFixed = true;
                 }

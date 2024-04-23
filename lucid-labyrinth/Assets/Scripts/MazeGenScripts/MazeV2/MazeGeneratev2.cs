@@ -181,7 +181,7 @@ public class MazeGeneratev2 : MonoBehaviour
 
             }
         }
-        DataToMaze.i.dataToMaze(finalMazeData);
+        //DataToMaze.i.dataToMaze(finalMazeData);
     }
 }
 
