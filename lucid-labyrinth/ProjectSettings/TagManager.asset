@@ -18,6 +18,7 @@ TagManager:
   - ThrowableObj
   - Log
   - Spikes
+  - PlayerVCam
   layers:
   - Default
   - TransparentFX

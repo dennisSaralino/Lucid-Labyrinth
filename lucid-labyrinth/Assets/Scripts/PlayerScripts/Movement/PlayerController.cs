@@ -15,19 +15,16 @@ public class PlayerController : MonoBehaviour
     public NoiseSettings extremeShake;
     public CinemachineVirtualCamera mainCam;
     public GameObject environmentCont;
-    //public GameObject pickupHitBox;
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
-    //private pickupHitboxScript pickupHitboxScript;
     private GameObject currentPickup;
 
     private float xRot;
     private float yRot;
 
     // global movement bools
-    public bool isGrappling = false;
     public bool isSprinting = false;
     //private bool holdingObj = false;
 
@@ -69,11 +66,11 @@ public class PlayerController : MonoBehaviour
     // Private GameObject variables inititalized
     private void Awake()
     {
+        mainCam = GetComponentInChildren<CinemachineVirtualCamera>();
         input = new PlayerControls();
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
-        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
     }
 
     
@@ -225,17 +222,6 @@ public class PlayerController : MonoBehaviour
     public bool isJumping()
     {
         return jumpTimer == 0.0f;
-    }
-
-
-    public void enableGrapple()
-    {
-        isGrappling = true;
-    }
-
-    public void disableGrapple()
-    {
-        isGrappling = false;
     }
 
     // A little recursive function that reduces a value to be between -1 and 1.
