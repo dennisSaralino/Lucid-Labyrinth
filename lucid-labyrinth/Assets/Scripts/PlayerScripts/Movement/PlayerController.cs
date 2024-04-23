@@ -118,13 +118,13 @@ public class PlayerController : MonoBehaviour
     private void Update() // Camera Controls are in Update for smoothness
     {
         // update velocity based on current input
-        yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
-        xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
-        xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
+        //yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
+        //xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
+        //xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
-        // set the player/camera rotation equal to the the new x and y rotation values
-        mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
-        transform.rotation = Quaternion.Euler(0f, yRot, 0);
+        //// set the player/camera rotation equal to the the new x and y rotation values
+        //mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+        //transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
         Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
         if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
