@@ -44,6 +44,8 @@ public enum DecorationType
 [Serializable]
 public class TileData
 {
+
+    public int solutionIndex;
     public Vector3 position;
     public Vector2Int fullPos;
     public TileType tileT;
@@ -68,6 +70,7 @@ public class TileData
 
     #region SET UPON FINISHED SETUP
     public bool isStair;
+    public bool isStairUp;
     public bool isDoor;
     public bool[] wallSides;
     public SideType[] sideSides;
@@ -77,13 +80,23 @@ public class TileData
         wallSides = new bool[] { right == SideType.wall, down == SideType.wall, left == SideType.wall, up == SideType.wall };
         sideSides = new SideType[] { right, down, left, up };
         isDoor = (right == SideType.door || left == SideType.door || up == SideType.door || down == SideType.door);
-        isStair = (right == SideType.upStair || right == SideType.downStair || left == SideType.upStair || left == SideType.downStair || up == SideType.upStair || up == SideType.downStair || down == SideType.upStair || down == SideType.downStair);
+        isStairUp = right == SideType.upStair || left == SideType.upStair || up == SideType.upStair || down == SideType.upStair || right == SideType.upStair;
+        isStair = isStairUp || (right == SideType.downStair ||  left == SideType.downStair || up == SideType.downStair || down == SideType.downStair);
         if (isDoor)
         {
             tileT = TileType.Cell;
             cellT = CellType.buildingTile;
         }
     }
+    #endregion
+
+
+
+
+    #region FOR GAME MANAGER
+    public bool haveLpickup;
+    public bool haveKey;
+    public bool enemySpawn;
     #endregion
     public TileData()
     {
@@ -96,11 +109,13 @@ public class TileData
     public TileData(alTData d)
     {
         if (d == null) return;
+        fullPos = d.fullPos;
         up = d.u ? SideType.path: SideType.wall;
         down = d.d ? SideType.path : SideType.wall;
         left = d.l ? SideType.path : SideType.wall;
         right = d.r ? SideType.path : SideType.wall;
         isSolutionPath = d.isSolution;
+        solutionIndex = d.solutionIndex;
         isBranching = d.isBranching;
         isInBranch = d.isInBranch;
         isDeadEnd = d.isDeadEnd;
@@ -114,11 +129,17 @@ public class TileData
             cellT = isStartTile ? CellType.startTile : CellType.endTile;
         }
     }
+    public void setHaveKey()
+    {
+        if (haveDecoration) decoT = DecorationType.wall;
+        haveTrap = false;
+        haveKey = true;
+    }
     public bool setDecorationTrue()
     {
         List<DecorationType> possible = new List<DecorationType>();
         possible.Add(DecorationType.wall);
-        if (!isStair) possible.Add(DecorationType.floor);
+        if (!isStair && !haveLpickup && !haveKey) possible.Add(DecorationType.floor);
 
         if (possible.Count > 0)
         {
@@ -134,9 +155,12 @@ public class TileData
         List<TrapMazeType> possible = new List<TrapMazeType>();
         if (!isStair && !isDoor && tileT == TileType.Side && decoT != DecorationType.floor)
         {
-            possible.Add(TrapMazeType.watertrap);
-            possible.Add(TrapMazeType.firetrap);
-            possible.Add(TrapMazeType.spikestrap);
+            if (!haveLpickup && !haveKey)
+            {
+                possible.Add(TrapMazeType.watertrap);
+                possible.Add(TrapMazeType.firetrap);
+                possible.Add(TrapMazeType.spikestrap);
+            }
 
             if (wallSides[0] && wallSides[2])
             {
@@ -335,7 +359,7 @@ public class TileData
         #endregion
 
         #region TRAP
-        if (haveTrap)
+        if (/*haveTrap*/false)
         {
             Transform cell = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[trapT.ToString()], p).transform;
             cell.transform.position = centered;
@@ -365,6 +389,3 @@ public class TileData
         return p.GetComponentInChildren<NavMeshSurface>();
     }
 }
-
-
-
