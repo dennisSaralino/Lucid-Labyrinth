@@ -148,7 +148,6 @@ public class alDataConverter
         tileD.layer = layer;
         if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && !ct.isStartT)
         {
-            Debug.Log("DOORRR: " + tileD.fullPos);
             tileBeforeDoor = tileBeforeDoor.FindAll(x=>!x.haveLpickup);
             TileData keyTile = tileBeforeDoor[Random.Range(0, tileBeforeDoor.Count)];
             tileBeforeDoor.Clear();
@@ -156,7 +155,6 @@ public class alDataConverter
             doorCount++;
             tileD.getSide(ct.outdir - ct.fullPos) = SideType.door;
             doorNum--;
-            Debug.Log("========END DOOR");
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
         {
@@ -180,7 +178,6 @@ public class alDataConverter
 
 
         tileBeforeDoor.Add(tileD);
-        Debug.Log(tileD.fullPos);
         solutionD.Add(tileD);
         resultTileGrid[x, y] = tileD;
     }
@@ -212,7 +209,6 @@ public class alDataConverter
         checkForTrap(tileD);
 
         tileBeforeDoor.Add(tileD);
-        Debug.Log(tileD.fullPos);
         resultTileGrid[x, y] = tileD;
         if (ct.isDeadEnd)
         {
@@ -232,10 +228,6 @@ public class alDataConverter
         {
             if (solutionIndex % comparer == 0 && solutionIndex / comparer == i)
             {
-                Debug.Log("===DOOR OK====");
-                Debug.Log(solutionIndex);
-                Debug.Log(comparer);
-                Debug.Log(i);
                 return true;
             }
         }

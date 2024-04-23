@@ -107,7 +107,7 @@ public class DataToMaze : MonoBehaviour
             yield return null;
         }
         navigationBaker.baker.bakeMap(surfaces);
-
+        MazeController.i.mazeData.isReady = true;
     }
 }
 
@@ -123,6 +123,7 @@ public enum posType
 [System.Serializable]
 public class mazeData
 {
+    public bool isReady;
     public Vector3 startPos;
     public Vector3 endPos;
     public solutionPart[] part;
