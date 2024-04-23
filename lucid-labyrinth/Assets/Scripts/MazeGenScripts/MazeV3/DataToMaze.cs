@@ -1,51 +1,107 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
-
+using System.Linq;
 public class DataToMaze : MonoBehaviour
 {
     public static DataToMaze i;
     public Vector3 startPos;
     public Dictionary<string, GameObject> tileDict;
+    public bool materialDebug;
+    public List<GameObject> wallDecoration;
+    public List<GameObject> floorDecoration;
+    public List<TileData> tileFullGrid;
     public void Awake()
     {
         if (i == null) i = this;
         else Destroy(this.gameObject);
-        startPos = new Vector3(-1000, -1000, -1000);
+        startPos = new Vector3(0, 0, 0);
         transform.position = startPos;
         tileDict = new Dictionary<string, GameObject>();
-        string path = "GameObject/Tile/";
+        string path = "GameObject/Tile";
+        string path2 = "GameObject/CellTile";
+        string path3 = "GameObject/";
 
-        tileDict["wall"] = Resources.Load<GameObject>(path + "WallTile");
-
-        tileDict["floor"] = Resources.Load<GameObject>(path + "Floor");
-
-        tileDict["path"] = Resources.Load<GameObject>(path + "PathTile");
-
-        tileDict["door"] = Resources.Load<GameObject>(path + "DoorTile");
+        List<GameObject> loadedtile = Resources.LoadAll<GameObject>(path).ToList();
+        List<GameObject> loadedCell = Resources.LoadAll<GameObject>(path2).ToList();
+        loadedtile.AddRange(loadedCell);
+        loadedtile.ForEach(x =>
+        {
+            tileDict[x.name] = x;
+        });
+        wallDecoration = Resources.LoadAll<GameObject>(path3 + "WallDeco").ToList();
+        floorDecoration = Resources.LoadAll<GameObject>(path3 + "FloorDeco").ToList();
     }
 
 
     public void dataToMaze(TileData[,] data)
     {
+        tileFullGrid = new List<TileData>();
         StartCoroutine(dataToMazeI(data));   
     }
     IEnumerator dataToMazeI(TileData[,] data)
     {
+        StaticTool.destroyChildOb(transform);
+        yield return null;
         Transform prefab = new GameObject("Cell").transform;
         Vector3 tileSize = new Vector3(12, 0, 12);
+        List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
         for (int i = 0; i < data.GetLength(0); i++)
         {
             for (int j = 0; j < data.GetLength(1); j++)
             {
+                TileData currentData = data[i, j];
+                
+
+                if (currentData == null) continue;
+                tileFullGrid.Add(currentData);
+                currentData.fullPos = new Vector2Int(i, j);
                 Transform p = Instantiate(prefab, transform);
-                TileData currentData = data[j, i];
-                p.localPosition = new Vector3(tileSize.x * j, 0, tileSize.z * i);
-                currentData.loadInto(p);
+                p.name = "[" + i.ToString() + " , " + j.ToString() + "]";
+                p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
+                //Debug.Log(currentData == null);
+                surfaces.Add(currentData.loadInto(p));
 
             }
             yield return null;
         }
+        navigationBaker.baker.bakeMap(surfaces);
 
     }
+}
+
+
+public class mazeData
+{
+    public Vector3 startTile;
+    public Vector3 endTile;
+    public List<solutionPart> part;
+
+
+    public solutionPart nearestBackward(int index)
+    {
+        for (int i = index; i <= 0; i--)
+        {
+            if (part[i].haveBranches) return part[i];
+        }
+        return null;
+    }
+    public solutionPart nearestForward(int index)
+    {
+        for (int i = index; i <= 0; i--)
+        {
+            if (part[i].haveBranches) return part[i];
+        }
+        return null;
+    }
+}
+public class solutionPart
+{
+    public int index;
+    public Vector3 pos;
+    public bool haveBranches;
+    public List<Vector3> lucidityPickupPos;
+    public List<Vector3> keyPickupPos;
+    public List<Vector3> enemySpawnPos;
 }

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LucidityBar : MonoBehaviour
 {
@@ -23,39 +25,20 @@ public class LucidityBar : MonoBehaviour
     private void Awake()
     {
         SetStartingLucidity(100);
-        //StartCoroutine(TimeDecrease());
     }
 
-    /*
-    public IEnumerator TimeDecrease()
-    {
-        if (!debugging)
-        {
-            if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
-
-            if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
-            else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
-            else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
-
-            if (slider.value == 0)
-            {
-                player.input.Disable();
-                SceneManager.LoadScene(3);
-            }
-        }
-    }
-    */
     private void FixedUpdate()
     {
-        slider.value -= Time.deltaTime * 2;
-        // if (slider.value <= 0)
-        //     Die();
-    }
- 
-    private void Die()
-    {
-        Debug.Log("You died");
+        if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
+
+        if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
+        else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
+        else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
+
+        if (slider.value == 0)
+        {
+            player.input.Disable();
+            SceneManager.LoadScene(3);
+        }
     }
 }
-
-

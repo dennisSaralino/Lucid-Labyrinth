@@ -10,22 +10,19 @@ TagManager:
   - Arrow
   - Water
   - Rock
-
-  - DamageProjectile
-  - ThrowableObj
-  - Dummy
-  - GlowTag
-  - Obstacle
-  - UpWall
-  - DownWall
   - LeftWall
+  - DownWall
+  - UpWall
   - RightWall
-
+  - ArrowPlate
+  - ThrowableObj
+  - Log
+  - Spikes
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Pickup
+  - 
   - Water
   - UI
   - Ground

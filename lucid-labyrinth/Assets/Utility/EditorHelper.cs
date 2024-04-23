@@ -170,15 +170,13 @@ public class EditorHelper : MonoBehaviour
     }
     #endregion
 
-
     [MenuItem("EditorHelper/MazeModify/modifyMaterial")]
     public static void changeMaterial()
     {
-        string scenePath = "Assets/Scenes/StaticMazeV2.unity";
+        string scenePath = "Assets/Scenes/CC_TestScene.unity";
         var currentScene = EditorSceneManager.OpenScene(scenePath);
-        Material m = StaticTool.loadAllAsset<Material>("MazeTest/MazeV2/Material").ToList().Find(x=>x.name == "mazeWall");
-        mazeTile tpre = Resources.Load<mazeTile>("GameObject/SampleTile");
-        Transform parent = GameObject.Find("MazeGen").transform;
+        Material m = StaticTool.loadAllAsset<Material>("Eternal Temple/Source_FBX/Materials").ToList().Find(x=>x.name == "Atlas_Architecture_01");
+        Transform parent = GameObject.Find("StaticMap").transform;
         StaticTool.foreachChild(parent, (x =>
         {
             x.GetComponent<Renderer>().material = m;
@@ -193,6 +191,11 @@ public class EditorHelper : MonoBehaviour
     {
         Material m = StaticTool.loadAllAsset<Material>("MazeTest/MazeV2/Material").ToList().Find(x => x.name == "mazeWall");
         List<mazeTile> tpre = StaticTool.loadAllAsset<mazeTile>("MazeTest/MazeV2/Tile").ToList();
+
+
+
+
+
         tpre.ForEach(x =>
         {
             StaticTool.foreachChild(x.transform, (y) =>
@@ -215,10 +218,10 @@ public class EditorHelper : MonoBehaviour
         foreach (char i in n)
         {
             if (i == 'u')
-                t.up = sideType.path;
-            else if (i == 'd') t.down = sideType.path;
-            else if (i == 'l') t.left = sideType.path;
-            else if (i == 'r') t.right = sideType.path;
+                t.up = SideType.path;
+            else if (i == 'd') t.down = SideType.path;
+            else if (i == 'l') t.left = SideType.path;
+            else if (i == 'r') t.right = SideType.path;
         }
         return t;
     }

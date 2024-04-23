@@ -37,22 +37,46 @@ public class MazeGeneratev2 : MonoBehaviour
         mazeGrid[1, 1].isSolution = true;
         finalMazeData[1, 1] = new TileData(mazeGrid[1, 1].finalTile.tileData);
         finalMazeData[1, 1].isSolutionPath = mazeGrid[1, 1].isSolution;
-        finalMazeData[1, 1].right = sideType.door;
+        finalMazeData[1, 1].right = SideType.door;
+        int stepCount = 0;
+        string previous = "";
+        int cLayer = 0;
         while (currentPoint != endPoint)
         {
             int i = currentPoint.x == endPoint.x ? 1: currentPoint.y == endPoint.y? 0: Random.Range(0, 2);
+            bool isStair = false;
+            MazeCellV3 target = mazeGrid[currentPoint.x, currentPoint.y];
             if (i == 0)
             {
-                mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("r",true);
-                mazeGrid[currentPoint.x, currentPoint.y].isSolution = true;
+                if (stepCount > 5 && previous == "r" && target.finalOptionList.Find(x => x.name == "lr"))
+                {
+
+                    target.finishThisCell("lr", false);
+                    target.isStair = true;
+                    isStair = true;
+                    stepCount = 0;
+                }
+                else
+                {
+                    target.finishThisCell("r", true);
+                    previous = "r";
+                }
+
+
+
+                target.isSolution = true;
                 currentPoint.x += 1;
             }
             else
             {
-                mazeGrid[currentPoint.x, currentPoint.y].finishThisCell("lu",true);
-                mazeGrid[currentPoint.x, currentPoint.y].isSolution = true;
+                target.finishThisCell("lu",true);
+                previous = "lu";
+                target.isSolution = true;
                 currentPoint.y += 1;
             }
+            target.layer = cLayer;
+            if (isStair) cLayer++;
+            stepCount++;
         }
         yield return null;
     }
@@ -144,8 +168,15 @@ public class MazeGeneratev2 : MonoBehaviour
             {
                 if (finalMazeData[i, j] == null)
                 {
-                    finalMazeData[i, j] = new TileData(mazeGrid[i, j].finalTile.tileData);
-                    finalMazeData[i, j].isSolutionPath = mazeGrid[i, j].isSolution;
+                    MazeCellV3 mazeCell = mazeGrid[i, j];
+
+                    finalMazeData[i, j] = new TileData(mazeCell.finalTile.tileData);
+
+                    TileData data = finalMazeData[i, j];
+                    data.isSolutionPath = mazeCell.isSolution;
+                    data.layer = mazeCell.layer;
+                    if(mazeCell.isStair)
+                        data.right = SideType.upStair;
                 }
 
             }
