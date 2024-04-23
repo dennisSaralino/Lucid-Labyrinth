@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {x: 0, y: 0, z: 0}
-  materialDebug: 1
+  materialDebug: 0
   wallDecoration: []
   floorDecoration: []
   tileFullGrid: []

@@ -337,7 +337,7 @@ public class TileData
             if (decoT == DecorationType.wall)
             {
                 deco = UnityEngine.Object.Instantiate(DataToMaze.i.wallDecoration[Random.Range(0, DataToMaze.i.wallDecoration.Count)], p).transform;
-               
+                deco.name = "decorationTT";
                 for (int i = 0; i < 4; i++)
                 {
                     float degree = 90 * i;
@@ -351,6 +351,7 @@ public class TileData
             else
             {
                 deco = UnityEngine.Object.Instantiate(DataToMaze.i.floorDecoration[Random.Range(0, DataToMaze.i.floorDecoration.Count)], p).transform;
+                deco.name = "decorationTT";
                 float degree = 90 * Random.Range(0, 4);
                 deco.transform.Rotate(Vector3.up, degree);
             }
@@ -362,6 +363,7 @@ public class TileData
         if (/*haveTrap*/false)
         {
             Transform cell = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[trapT.ToString()], p).transform;
+            cell.gameObject.name = "decorationTT";
             cell.transform.position = centered;
             if (trapT == TrapMazeType.firetrap || trapT == TrapMazeType.watertrap || trapT == TrapMazeType.spikestrap)
             {

@@ -179,8 +179,9 @@ public class EditorHelper : MonoBehaviour
         Transform parent = GameObject.Find("StaticMap").transform;
         StaticTool.foreachChild(parent, (x =>
         {
-            x.GetComponent<Renderer>().material = m;
-        }),(x)=>x.GetComponent<Renderer>() != null);
+            if(x.GetComponent<Renderer>().sharedMaterials[0] == null)
+                 x.GetComponent<Renderer>().material = m;
+    }),(x)=>x.GetComponent<Renderer>() != null);
 
         EditorSceneManager.SaveScene(currentScene);
         EditorSceneManager.CloseScene(currentScene, true);
