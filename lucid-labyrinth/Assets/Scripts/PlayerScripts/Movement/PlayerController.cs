@@ -21,8 +21,7 @@ public class PlayerController : MonoBehaviour
     public PlayerControls input = null;
     private CharacterController playerController;
     //private pickupHitboxScript pickupHitboxScript;
-    private GameObject currentPickup;
-    public GameObject pauseMenu;
+    public GameObject currentPickup { get; set; }
 
     private float xRot;
     private float yRot;
@@ -31,7 +30,6 @@ public class PlayerController : MonoBehaviour
     public bool isGrappling = false;
     public bool isSprinting = false;
     //private bool holdingObj = false;
-    public bool paused = false;
 
     // timer ints
     private float jumpTimer = 0.0f;
@@ -75,8 +73,7 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
-        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();\
-        pauseMenu.gameObject.SetActive(false);
+        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
     }
 
     
@@ -155,22 +152,6 @@ public class PlayerController : MonoBehaviour
         else if (env.Report() == 3)
         {
             camEffect.m_NoiseProfile = weakShake;
-        }
-
-        if (input.player.pause.WasPerformedThisFrame())
-        {
-            if (paused)
-            {
-                paused = false;
-                pauseMenu.gameObject.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                paused = true;
-                pauseMenu.gameObject.SetActive(true);
-                Cursor.lockState = CursorLockMode.Confined;
-            }
         }
     }
     public int solutionIndex;

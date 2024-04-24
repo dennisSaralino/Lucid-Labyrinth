@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LucidityPickup_PW : pickable
+public class KeyPickup : pickable
 {
     
 }
