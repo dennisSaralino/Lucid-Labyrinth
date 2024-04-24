@@ -187,6 +187,30 @@ public class EditorHelper : MonoBehaviour
         EditorSceneManager.CloseScene(currentScene, true);
     }
 
+    [MenuItem("EditorHelper/MazeModify/changeLightAttributes")]
+    public static void changeLightAttributes()
+    {
+        //FloorDeco
+        //WallDeco
+        //Assets/Resources/
+        LightShadows t = LightShadows.Hard;
+        List<GameObject> m = Resources.LoadAll<GameObject>("GameObject/FloorDeco").ToList();
+        m.AddRange(Resources.LoadAll<GameObject>("GameObject/WallDeco"));
+        foreach (GameObject i in m)
+        {
+            StaticTool.foreachChild(i.transform, x =>
+             {
+                 Light l = x.GetComponent<Light>();
+                 if (l != null)
+                 {
+                     l.shadows =t;
+                     StaticTool.saveAsset(x);
+                 }
+             });
+        }
+    }
+
+
     [MenuItem("EditorHelper/MazeModify/changeTileMaterial")]
     public static void changeTilesMaterial()
     {

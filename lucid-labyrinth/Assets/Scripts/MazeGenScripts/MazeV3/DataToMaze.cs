@@ -70,7 +70,7 @@ public class DataToMaze : MonoBehaviour
                 p.name = "[" + i.ToString() + " , " + j.ToString() + "]";
                 p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
                 //Debug.Log(currentData == null);
-                surfaces.Add(currentData.loadInto(p));
+                surfaces.AddRange(currentData.loadInto(p));
 
                 Vector3 currentPos = currentData.position;
 

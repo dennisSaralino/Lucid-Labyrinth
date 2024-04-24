@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MazeController : MonoBehaviour
 {
+    public bool isReady;
     public GameObject lucidityPickup;
     public GameObject key;
     public Transform pickUpHolder;
@@ -20,6 +21,7 @@ public class MazeController : MonoBehaviour
         else Destroy(this.gameObject);
         if(!inTest)
             player = GameObject.Find("PlayerPrefab").GetComponent<PlayerController>();
+        isReady = false;
         StartCoroutine(waitForMazeData());
     }
     IEnumerator waitForMazeData()
@@ -37,6 +39,7 @@ public class MazeController : MonoBehaviour
             GameObject g = Instantiate(key, pickUpHolder);
             g.transform.position = i + offset;
         }
+        isReady = true;
 
     }
     public void spawnPickup()
