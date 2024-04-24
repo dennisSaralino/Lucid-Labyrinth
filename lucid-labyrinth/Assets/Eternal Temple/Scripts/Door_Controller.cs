@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace commanastationwww.eternaltemple{
+namespace commanastationwww.eternaltemple
+{
 public class Door_Controller : MonoBehaviour {
 		
 	public bool stayOpen = true; //If set to true, door will open once and stay like this until Close() is called. If set to false, door will close after player leaves the trigger area
@@ -86,5 +87,15 @@ public class Door_Controller : MonoBehaviour {
 	void Update () {
 	
 	}
-}
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+			if (collision.gameObject.tag == "Player")
+			{
+			}
+    }
+
+
+
+    }
 }

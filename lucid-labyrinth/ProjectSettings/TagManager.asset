@@ -17,6 +17,7 @@ TagManager:
   - ArrowPlate
   - ThrowableObj
   - Log
+  - Spikes
   layers:
   - Default
   - TransparentFX
