@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public PlayerControls input = null;
     private CharacterController playerController;
     //private pickupHitboxScript pickupHitboxScript;
-    private GameObject currentPickup;
+    public GameObject currentPickup { get; set; }
 
     private float xRot;
     private float yRot;
