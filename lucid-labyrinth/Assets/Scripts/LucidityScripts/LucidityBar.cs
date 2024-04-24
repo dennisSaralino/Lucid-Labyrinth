@@ -12,9 +12,14 @@ public class LucidityBar : MonoBehaviour
     public Slider slider;
     public PlayerController player;
     public EnvironmentController state;
+<<<<<<< HEAD
 
     public Image fillBar;
     public Image fillBorder;
+=======
+    public bool debugging = false;
+    // public TMP_Text gameOver;
+>>>>>>> origin/jsakal-PlayerMvmnt
 
     private float sprintModifier;
     public float monsterModifier;
@@ -43,6 +48,7 @@ public class LucidityBar : MonoBehaviour
 
     private void FixedUpdate()
     {
+<<<<<<< HEAD
         if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
 
         if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier + monsterModifier); }
@@ -50,9 +56,21 @@ public class LucidityBar : MonoBehaviour
         else { slider.value -= Time.deltaTime * (3 + sprintModifier + monsterModifier); }
 
         if (slider.value == 0)
+=======
+        if (!debugging)
+>>>>>>> origin/jsakal-PlayerMvmnt
         {
-            player.input.Disable();
-            SceneManager.LoadScene(3);
+            if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
+
+            if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
+            else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
+            else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
+
+            if (slider.value == 0)
+            {
+                player.input.Disable();
+                SceneManager.LoadScene(3);
+            }
         }
     }
 }
