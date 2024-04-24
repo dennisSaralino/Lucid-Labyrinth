@@ -10,7 +10,7 @@ public class alDataConverter
     public static int MaxStairNum = 5;
     public static int trapFrequency = 6; //1 Trap for every {trapFrequency} tiles.
     public static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
-    public static int lucidityPickupFrequency = 5; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
+    public static int lucidityPickupFrequency = 10; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
     #endregion
     #region REPORT
     static int stairCount;
