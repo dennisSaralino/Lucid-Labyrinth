@@ -15,21 +15,19 @@ public class PlayerController : MonoBehaviour
     public NoiseSettings extremeShake;
     public CinemachineVirtualCamera mainCam;
     public GameObject environmentCont;
+    //public GameObject pickupHitBox;
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
-<<<<<<< HEAD
     //private pickupHitboxScript pickupHitboxScript;
     public GameObject currentPickup { get; set; }
-=======
-    private GameObject currentPickup;
->>>>>>> origin/jsakal-PlayerMvmnt
 
     private float xRot;
     private float yRot;
 
     // global movement bools
+    public bool isGrappling = false;
     public bool isSprinting = false;
     //private bool holdingObj = false;
 
@@ -71,11 +69,11 @@ public class PlayerController : MonoBehaviour
     // Private GameObject variables inititalized
     private void Awake()
     {
-        mainCam = GetComponentInChildren<CinemachineVirtualCamera>();
         input = new PlayerControls();
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
+        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
     }
 
     
@@ -120,13 +118,13 @@ public class PlayerController : MonoBehaviour
     private void Update() // Camera Controls are in Update for smoothness
     {
         // update velocity based on current input
-        //yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
-        //xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
-        //xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
+        yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
+        xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
+        xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
-        //// set the player/camera rotation equal to the the new x and y rotation values
-        //mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
-        //transform.rotation = Quaternion.Euler(0f, yRot, 0);
+        // set the player/camera rotation equal to the the new x and y rotation values
+        mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+        transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
         Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
         if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
@@ -228,6 +226,17 @@ public class PlayerController : MonoBehaviour
     public bool isJumping()
     {
         return jumpTimer == 0.0f;
+    }
+
+
+    public void enableGrapple()
+    {
+        isGrappling = true;
+    }
+
+    public void disableGrapple()
+    {
+        isGrappling = false;
     }
 
     // A little recursive function that reduces a value to be between -1 and 1.

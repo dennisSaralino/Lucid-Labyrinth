@@ -18,7 +18,6 @@ TagManager:
   - ThrowableObj
   - Log
   - Spikes
-  - PlayerVCam
   layers:
   - Default
   - TransparentFX
@@ -27,13 +26,8 @@ TagManager:
   - Water
   - UI
   - Ground
-<<<<<<< HEAD
   - Wall
   - Player
-=======
-  - MonsterView
-  - 
->>>>>>> origin/jsakal-PlayerMvmnt
   - 
   - 
   - 
