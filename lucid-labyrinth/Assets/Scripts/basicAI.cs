@@ -9,6 +9,7 @@ public class basicAI : MonoBehaviour
     NavMeshAgent nav;
 
     public GameObject head;
+    public float viewRange = 30f;
     private bool isDistracted = false;
     private bool rightTurn = true;
     private bool focused = false;
@@ -16,8 +17,9 @@ public class basicAI : MonoBehaviour
     private float yTurn = 0f;
     //private float netTurn = 0f;
     Transform soundPos;
-    private int layerMask = 1 << 7;
-    private RaycastHit sawPlayer;
+    private int layerMask = 384;
+    private RaycastHit[] sawPlayer = new RaycastHit[10];
+    private RaycastHit playerCheck;
     static private float turnSpeed = 15;
 
 
@@ -58,26 +60,32 @@ public class basicAI : MonoBehaviour
         }
         if (!isDistracted && seenTimer <= 0f) {
             Debug.DrawRay(head.transform.position , head.transform.forward * 60, Color.blue, 0.2f);
-            Physics.SphereCast(head.transform.position, 5f, head.transform.forward, out sawPlayer, layerMask);
-            if (sawPlayer.collider != null)
+            Physics.SphereCastNonAlloc(head.transform.position, 3f, head.transform.forward, sawPlayer, viewRange, layerMask);
+            foreach (RaycastHit x in sawPlayer)
             {
-                //Debug.Log("saw something");            
-                if (sawPlayer.collider.gameObject.CompareTag("Player"))
+                if (x.collider != null)
                 {
-                    Physics.Linecast(head.transform.position, player.position, out sawPlayer, layerMask);
-                    Debug.DrawRay(head.transform.position, -(head.transform.position - player.position) * 60, Color.green, 2.0f);
-                    if (!sawPlayer.collider.gameObject.CompareTag("Player"))
+                    //Debug.Log("saw something");            
+                    if (x.collider.gameObject.CompareTag("Player"))
                     {
-                        nav.ResetPath();
-                        Debug.Log("Reset");
-                        return;
-                    }
-                    else if (sawPlayer.collider.gameObject.CompareTag("Player"))
-                    {
-                        seenTimer = 6.0f;
-                        focused = true;
-                        Debug.Log("Saw player");
-                        Debug.DrawRay(head.transform.position + new Vector3(0f, 0f, 2.0f), head.transform.forward * 60, Color.red, 6.0f);
+                        Physics.Linecast(head.transform.position, player.position, out playerCheck, layerMask);
+                        Debug.DrawRay(head.transform.position, -(head.transform.position - player.position) * 60, Color.green, 2.0f);
+                        if (!playerCheck.collider.gameObject.CompareTag("Player"))
+                        {
+                            nav.ResetPath();
+                            Debug.Log("Reset");
+                            sawPlayer = new RaycastHit[10];
+                            break;
+                        }
+                        else if (x.collider.gameObject.CompareTag("Player"))
+                        {
+                            seenTimer = 6.0f;
+                            focused = true;
+                            Debug.Log("Saw player");
+                            Debug.DrawRay(head.transform.position + new Vector3(0f, 0f, 2.0f), head.transform.forward * 60, Color.red, 6.0f);
+                            sawPlayer = new RaycastHit[10];
+                            break;
+                        }
                     }
                 }
             }
@@ -93,11 +101,12 @@ public class basicAI : MonoBehaviour
             {
                 seenTimer = 0.0f;
                 nav.ResetPath();
+                focused = false;
             }
         }
         else if (isDistracted)
         {
-            nav.destination = soundPos.position;
+            nav.SetDestination(soundPos.position);
             if (transform.position == soundPos.position)
             {
                 isDistracted = false;
