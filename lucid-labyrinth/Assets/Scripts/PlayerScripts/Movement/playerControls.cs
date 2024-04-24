@@ -89,6 +89,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f97007d0-cd3f-4185-91fe-c286ae7200ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -377,6 +386,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""throwObj"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d2aa435-96d4-4e4d-81b6-46cc3f077404"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9cb9dc2-3943-4b53-b591-c0158b4e9b03"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -392,6 +423,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_player_sprint = m_player.FindAction("sprint", throwIfNotFound: true);
         m_player_jump = m_player.FindAction("jump", throwIfNotFound: true);
         m_player_throwObj = m_player.FindAction("throwObj", throwIfNotFound: true);
+        m_player_pause = m_player.FindAction("pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -460,6 +492,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_player_sprint;
     private readonly InputAction m_player_jump;
     private readonly InputAction m_player_throwObj;
+    private readonly InputAction m_player_pause;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -471,6 +504,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @sprint => m_Wrapper.m_player_sprint;
         public InputAction @jump => m_Wrapper.m_player_jump;
         public InputAction @throwObj => m_Wrapper.m_player_throwObj;
+        public InputAction @pause => m_Wrapper.m_player_pause;
         public InputActionMap Get() { return m_Wrapper.m_player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -501,6 +535,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @throwObj.started += instance.OnThrowObj;
             @throwObj.performed += instance.OnThrowObj;
             @throwObj.canceled += instance.OnThrowObj;
+            @pause.started += instance.OnPause;
+            @pause.performed += instance.OnPause;
+            @pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -526,6 +563,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @throwObj.started -= instance.OnThrowObj;
             @throwObj.performed -= instance.OnThrowObj;
             @throwObj.canceled -= instance.OnThrowObj;
+            @pause.started -= instance.OnPause;
+            @pause.performed -= instance.OnPause;
+            @pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -552,5 +592,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnThrowObj(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

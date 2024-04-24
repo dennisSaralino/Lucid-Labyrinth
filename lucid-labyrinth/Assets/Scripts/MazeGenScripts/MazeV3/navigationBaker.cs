@@ -6,6 +6,7 @@ using System.Linq;
 public class navigationBaker : MonoBehaviour
 {
     public NavMeshSurface surface;
+    public bool active;
     public static navigationBaker baker;
     public void Awake()
     {
@@ -20,8 +21,9 @@ public class navigationBaker : MonoBehaviour
     {
         StartCoroutine(bakeMapSlowly(l));
     }
-    static IEnumerator bakeMapSlowly(List<NavMeshSurface> l)
+    IEnumerator bakeMapSlowly(List<NavMeshSurface> l)
     {
+        if (!active) yield break;
         int j = 10;
         foreach (NavMeshSurface i in l)
         {

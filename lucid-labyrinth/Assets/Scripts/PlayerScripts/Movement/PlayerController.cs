@@ -71,6 +71,14 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
+        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
+        StartCoroutine(waitForMaze());
+    }
+    IEnumerator waitForMaze()
+    {
+        while (MazeController.i == null) yield return null;
+        while (!MazeController.i.isReady) yield return null;
+        transform.position = MazeController.i.mazeData.startPos + new Vector3(0,2,0);
     }
 
     
