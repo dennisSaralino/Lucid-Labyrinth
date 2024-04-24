@@ -40,9 +40,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8937563096075506519}
     m_Modifications:
+    - target: {fileID: 126596, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 139492, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 160360, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
       propertyPath: m_Name
       value: Wall_Big_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 160360, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 190728, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 192408, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 472638, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
       propertyPath: m_RootOrder
@@ -102,9 +122,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8937563096075506519}
     m_Modifications:
+    - target: {fileID: 126596, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 139492, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 160360, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
       propertyPath: m_Name
       value: Wall_Big_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 160360, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 190728, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 192408, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 472638, guid: fc75eb27a9870b84b90847cf1fbfb6d9, type: 3}
       propertyPath: m_RootOrder
