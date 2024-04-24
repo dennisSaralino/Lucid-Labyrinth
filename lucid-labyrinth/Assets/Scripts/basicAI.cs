@@ -37,7 +37,7 @@ public class basicAI : MonoBehaviour
     {
         if (!focused)
         {
-            yTurn = transform.rotation.eulerAngles.y;
+            
             if (rightTurn)
             {
                 yTurn += Time.deltaTime * turnSpeed;
@@ -102,6 +102,7 @@ public class basicAI : MonoBehaviour
             nav.SetDestination(player.position);
             if (seenTimer <= 0.0f)
             {
+                yTurn = transform.rotation.eulerAngles.y;
                 seenTimer = 0.0f;
                 nav.ResetPath();
                 focused = false;
