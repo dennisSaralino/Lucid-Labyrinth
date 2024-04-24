@@ -12,12 +12,12 @@ public class LucidityBar : MonoBehaviour
     public Slider slider;
     public PlayerController player;
     public EnvironmentController state;
-    // public TMP_Text gameOver;
 
     public Image fillBar;
     public Image fillBorder;
 
     private float sprintModifier;
+    public float monsterModifier;
 
     public void SetStartingLucidity(int health)
     {
@@ -45,9 +45,9 @@ public class LucidityBar : MonoBehaviour
     {
         if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
 
-        if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
-        else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
-        else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
+        if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier + monsterModifier); }
+        else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier + monsterModifier); }
+        else { slider.value -= Time.deltaTime * (3 + sprintModifier + monsterModifier); }
 
         if (slider.value == 0)
         {
