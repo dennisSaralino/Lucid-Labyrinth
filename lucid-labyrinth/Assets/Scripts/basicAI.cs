@@ -15,7 +15,7 @@ public class basicAI : MonoBehaviour
     private bool focused = false;
     private float seenTimer = 0f;
     private float yTurn = 0f;
-    //private float netTurn = 0f;
+    private float netTurn = 0f;
     Transform soundPos;
     private int layerMask = 384;
     private RaycastHit[] sawPlayer = new RaycastHit[10];
@@ -37,30 +37,33 @@ public class basicAI : MonoBehaviour
     {
         if (!focused)
         {
+            yTurn = transform.rotation.eulerAngles.y;
             if (rightTurn)
             {
                 yTurn += Time.deltaTime * turnSpeed;
-                if (yTurn >= 60f)
+                netTurn += Time.deltaTime * turnSpeed;
+                if (netTurn >= 60f)
                 {
                     rightTurn = false;
                 }
-                yTurn = Mathf.Clamp(yTurn, -60f, 60f);
+                //yTurn = Mathf.Clamp(yTurn, -60f, 60f);
                 head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
             }
             else
             {
                 yTurn -= Time.deltaTime * turnSpeed;
-                if (yTurn <= -60f)
+                netTurn -= Time.deltaTime * turnSpeed;
+                if (netTurn <= -60f)
                 {
                     rightTurn = true;
                 }
-                yTurn = Mathf.Clamp(yTurn, -60f, 60f);
+                //yTurn = Mathf.Clamp(yTurn, -60f, 60f);
                 head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
             }
         }
         if (!isDistracted && seenTimer <= 0f) {
             Debug.DrawRay(head.transform.position , head.transform.forward * 60, Color.blue, 0.2f);
-            Physics.SphereCastNonAlloc(head.transform.position, 3f, head.transform.forward, sawPlayer, viewRange, layerMask);
+            Physics.SphereCastNonAlloc(head.transform.position, 5f, head.transform.forward, sawPlayer, viewRange, layerMask);
             foreach (RaycastHit x in sawPlayer)
             {
                 if (x.collider != null)
