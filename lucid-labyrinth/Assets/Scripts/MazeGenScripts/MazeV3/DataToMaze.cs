@@ -129,7 +129,7 @@ public class mazeData
     public solutionPart[] part;
     public List<Vector3> lucidityPickupPos;
     public List<Vector3> keyPickupPos;
-
+    
     public int currentIndex;
     public mazeData(int solutionLength)
     {
@@ -137,6 +137,7 @@ public class mazeData
         lucidityPickupPos = new List<Vector3>();
         keyPickupPos = new List<Vector3>();
     }
+    #region FOR ASSET GENERATION
     public void setStartPos(Vector3 v)
     {
         startPos = v;
@@ -166,9 +167,7 @@ public class mazeData
         part[d].setPosition(v);
     }
 
-
-
-
+    #endregion
 
 
     public void checkCurrentPos(PlayerController p)
@@ -183,7 +182,7 @@ public class mazeData
                 return;
             }
         }
-        else if (currentIndex - 1 >= 0)
+        if (currentIndex - 1 >= 0)
         {
             Vector3 preP = part[currentIndex - 1].pos;
             if (isInTile(currentP, preP))
@@ -196,13 +195,30 @@ public class mazeData
     public List<Vector3> getEnemySpawnPoints()
     {
         List<Vector3> v = new List<Vector3>();
-        for (int j = currentIndex; j < part.Length; j++)
+        int minPoint = 4;
+        for (int j = Mathf.Clamp(currentIndex - 2, 0, part.Length - 1); j < part.Length; j++)
         {
+            if (v.Count >= minPoint)
+                break;
             if (part[j].haveEnemyPos())
             {
-                v = part[j].enemySpawnPos;
-                break;
+                v.AddRange(part[j].enemySpawnPos);
             }
+
+            v = v.Distinct().ToList();
+        }
+
+        if (v.Count >= minPoint || currentIndex - 1 <= 0) return v;
+
+        for(int j = currentIndex - 1; j >= 0; j-- )
+        {
+            if (v.Count >= minPoint)
+                break;
+            if (part[j].haveEnemyPos())
+            {
+                v.AddRange(part[j].enemySpawnPos);
+            }
+            v = v.Distinct().ToList();
         }
         return v;
     }
@@ -210,8 +226,8 @@ public class mazeData
 
     public static bool isInTile(Vector3 player, Vector3 center)
     {
-        Vector3 absDis = new Vector3(Mathf.Abs(player.x - center.x), Mathf.Abs(player.y - center.y));
-        return absDis.x <= 6 && absDis.y <= 6;
+        Vector3 absDis = new Vector3(Mathf.Abs(player.x - center.x),0, Mathf.Abs(player.z - center.z));
+        return absDis.x <= 6 && absDis.z <= 6;
     }
 }
 

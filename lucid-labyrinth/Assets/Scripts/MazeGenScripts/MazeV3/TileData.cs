@@ -67,7 +67,8 @@ public class TileData
     public DecorationType decoT;
     public bool haveTrap;
     public TrapMazeType trapT;
-
+    public Vector2Int inDir;
+    public Vector2Int outDir;
 
     #region SET UPON FINISHED SETUP
     public bool isStair;
@@ -123,6 +124,8 @@ public class TileData
         isStartTile = d.isStartT;
         isEndTile = d.isEndT;
         layer = 0;
+        inDir = d.indir;
+        outDir = d.outdir;
 
         if (isStartTile || isEndTile)
         {

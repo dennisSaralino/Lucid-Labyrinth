@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 431008}
   - component: {fileID: 3331670}
   - component: {fileID: 2314182}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pPlane3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 462124}
   - component: {fileID: 4904069031223343316}
   - component: {fileID: 2880163042458757940}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: key_gold
   m_TagString: Pickup
   m_Icon: {fileID: 0}

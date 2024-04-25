@@ -40,15 +40,23 @@ public class MazeController : MonoBehaviour
             g.transform.position = i + offset;
         }
         isReady = true;
+        while (true)
+        {
+            if (!inTest)
+            {
+                int currenti = mazeData.currentIndex;
+                mazeData.checkCurrentPos(player);
+                int afi = mazeData.currentIndex;
+                yield return new WaitForEndOfFrame();
+            }
+        }
 
     }
     public void spawnPickup()
     {
         
     }
-    public void FixedUpdate()
+    public void Update()
     {
-        if(!inTest)
-            mazeData.checkCurrentPos(player);
     }
 }

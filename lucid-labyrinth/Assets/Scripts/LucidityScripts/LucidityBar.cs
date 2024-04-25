@@ -47,7 +47,7 @@ public class LucidityBar : MonoBehaviour
 
         //if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier + monsterModifier); }
         //else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier + monsterModifier); }
-        //else { slider.value -= Time.deltaTime /10 * (3 + sprintModifier + monsterModifier); }
+        //else { slider.value -= Time.deltaTime / 10 * (3 + sprintModifier + monsterModifier); }
 
         if (slider.value == 0)
         {
