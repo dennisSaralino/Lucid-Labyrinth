@@ -9,7 +9,7 @@ public class pickupObjScript : MonoBehaviour
     private bool isAirborne = false;
     private Vector3 throwAngle = Vector3.zero;
     public GameObject playerHoldPos;
-    public GameObject objGlow;
+    //public GameObject objGlow;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -19,6 +19,7 @@ public class pickupObjScript : MonoBehaviour
         {
             GetComponent<Rigidbody>().isKinematic = false;
             isThrown = false;
+            isAirborne = true;
         }
         if (isAirborne)
         {
@@ -31,7 +32,7 @@ public class pickupObjScript : MonoBehaviour
     {
         isHeld = true;
         isThrown = false;
-        objGlow.SetActive(false);
+        //objGlow.SetActive(false);
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
@@ -49,8 +50,8 @@ public class pickupObjScript : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
     }
 
-    public void ToggleGlow(bool glowState)
-    {
-        if (!isHeld) { objGlow.SetActive(glowState); }
-    }
+    //public void ToggleGlow(bool glowState)
+    //{
+    //    if (!isHeld) { objGlow.SetActive(glowState); }
+    //}
 }

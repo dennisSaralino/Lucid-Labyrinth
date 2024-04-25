@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 52015411}
   - component: {fileID: 52015410}
   - component: {fileID: 52015415}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: ThrowableObj
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52015409}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.01, y: 0.432, z: 30.54}
+  m_LocalPosition: {x: 55.9, y: 0.432, z: 137.5}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -365,8 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5dc03f6a311b384db47d8f30c817d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHoldPos: {fileID: 0}
-  objGlow: {fileID: 0}
+  playerHoldPos: {fileID: 1226102684}
 --- !u!198 &53893589 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
@@ -3449,6 +3448,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5226644978858378631, guid: 36d612a703546d54e88ee46af666760f, type: 3}
   m_PrefabInstance: {fileID: 1424777585}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1226102684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1280355557571516684, guid: 36d612a703546d54e88ee46af666760f, type: 3}
+  m_PrefabInstance: {fileID: 1424777585}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1252231212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3886,12 +3890,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lucidityBar: {fileID: 1440027850}
   inNightmare: 0
-  inNeutral: 1
   inLucid: 0
+  inNeutral: 1
+  nightmareLevel1: 0
+  nightmareLevel2: 0
+  nightmarelevel3: 0
+  lucidLevel1: 0
+  lucidLevel2: 0
+  lucidLevel3: 0
   nightmareColor: {r: 0.735849, g: 0, b: 0.029693233, a: 0.6666667}
   lucidColor: {r: 0.011764695, g: 0.972549, b: 0.9154852, a: 0.5882353}
   player: {fileID: 1901832593}
-  clearHUD: 50
   fogEffects: {fileID: 53893589}
 --- !u!4 &1466814532
 Transform:
@@ -5073,6 +5082,10 @@ PrefabInstance:
     - target: {fileID: 259468043192351569, guid: 5cdbdd988bea8564685712b21be16516, type: 3}
       propertyPath: m_Name
       value: LucidityPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 259468043192351572, guid: 5cdbdd988bea8564685712b21be16516, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 259468043192351573, guid: 5cdbdd988bea8564685712b21be16516, type: 3}
       propertyPath: m_RootOrder
@@ -8159,6 +8172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1901832594}
   breadcrumb: {fileID: 8122617739220538881, guid: c791b7e5985b20646a5d7d69eab70128, type: 3}
+  lucidityState: {fileID: 0}
   maxCrumbs: 10
   timer: 1
 --- !u!114 &5879698190666982131

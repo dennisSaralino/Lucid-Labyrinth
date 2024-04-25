@@ -19,11 +19,12 @@ TagManager:
   - Log
   - Spikes
   - PlayerVCam
+  - GlowTag
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PickupLayer
   - Water
   - UI
   - Ground
