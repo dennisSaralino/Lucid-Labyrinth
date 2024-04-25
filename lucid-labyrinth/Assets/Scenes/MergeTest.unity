@@ -505,6 +505,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LucidityPickup
       objectReference: {fileID: 0}
+    - target: {fileID: 259468043192351569, guid: 5cdbdd988bea8564685712b21be16516, type: 3}
+      propertyPath: m_TagString
+      value: Pickup
+      objectReference: {fileID: 0}
     - target: {fileID: 259468043192351573, guid: 5cdbdd988bea8564685712b21be16516, type: 3}
       propertyPath: m_RootOrder
       value: 1

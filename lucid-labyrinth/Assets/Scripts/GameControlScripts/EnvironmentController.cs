@@ -28,6 +28,11 @@ public class EnvironmentController : MonoBehaviour
     public PlayerController player;
     public ParticleSystem fogEffects;
 
+
+
+    private bool willReport = true;
+    private int returnValue = 0;
+
     private void TrackState()
     {
         // Going from neutral to Nightmare Level 1
@@ -161,15 +166,25 @@ public class EnvironmentController : MonoBehaviour
 
     public int Report()
     {
-        if (inLucid)
+        Debug.Log(inNeutral);
+        Debug.Log(inNightmare);
+        Debug.Log(inLucid);
+        if (willReport)
         {
-            return 3;
+            if (inLucid)
+            {
+                //willReport = false;
+                returnValue = 3;
+            }
+            else if (inNightmare)
+            {
+                //willReport = false;
+                returnValue = 1;
+            }
+            else { /*willReport = false;*/ returnValue = 2; }
         }
-        else if (inNightmare)
-        {
-            return 1;
-        }
-        else { return 2; }
+        //Debug.Log(returnValue);
+        return returnValue;
     }
 
     //Levels of Lucidity:

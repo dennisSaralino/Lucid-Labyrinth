@@ -6,5 +6,6 @@ public class LucidityPickup_PW : pickable
 {
     protected override void OnTriggerEnter(Collider other)
     {
+
     }
 }
