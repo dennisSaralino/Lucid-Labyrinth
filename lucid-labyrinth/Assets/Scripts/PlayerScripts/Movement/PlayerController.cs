@@ -78,7 +78,14 @@ public class PlayerController : MonoBehaviour
     {
         while (MazeController.i == null) yield return null;
         while (!MazeController.i.isReady) yield return null;
-        transform.position = MazeController.i.mazeData.startPos + new Vector3(0,2,0);
+        float i = 2;
+        while (i > 0)
+        {
+            i -= Time.deltaTime;
+
+            transform.position = MazeController.i.mazeData.startPos + new Vector3(0, 4, 0);
+            yield return null;
+        }
     }
 
     
@@ -216,7 +223,6 @@ public class PlayerController : MonoBehaviour
                 currentPickup = null;
             }
         }
-
     }
 
     public bool isJumping()

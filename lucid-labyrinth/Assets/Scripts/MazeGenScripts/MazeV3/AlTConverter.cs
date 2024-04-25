@@ -6,9 +6,9 @@ using System.Linq;
 public class alDataConverter
 {
     #region SETTING
-    public static int MaxDoorNum = 4;
+    public static int MaxDoorNum = 5;
     public static int MaxStairNum = 5;
-    public static int trapFrequency = 6; //1 Trap for every {trapFrequency} tiles.
+    public static int trapFrequency = 20; //1 Trap for every {trapFrequency} tiles.
     public static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
     public static int lucidityPickupFrequency = 10; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
     #endregion
@@ -88,26 +88,14 @@ public class alDataConverter
                 if (i != 0 && i != mWidth - 1)
                 {
                     TileData tileD = new TileData(grid[i, 0]);
-                    tileD.layer = resultTileGrid[i, 1].layer;
-                    if (resultTileGrid[i, 1].isStair)
-                    {
-                        tileD.layer = resultTileGrid[i, 1].layer + (resultTileGrid[i, 1].isStairUp ? 1 : -1);
-                    }
-                    
-                    tileD.setBaseOnSides();
+                    TileData t0 = resultTileGrid[i, 1];
+                    setOuterTile(tileD, t0);
                     resultTileGrid[i, 0] = tileD;
 
 
                     TileData tileD1 = new TileData(grid[i, mHeight - 1]);
-                    tileD1.layer = resultTileGrid[i, mHeight - 2].layer;
-                    if (resultTileGrid[i, mHeight - 2].isStair)
-                    {
-                        tileD1.layer = resultTileGrid[i, mHeight - 2].layer + (resultTileGrid[i, mHeight - 2].isStairUp ? 1 : -1);
-                    }
-
-
-
-                    tileD1.setBaseOnSides();
+                    TileData t = resultTileGrid[i, mHeight - 2];
+                    setOuterTile(tileD1, t);
                     resultTileGrid[i, mHeight - 1] = tileD1;
                 }
 
@@ -117,26 +105,42 @@ public class alDataConverter
                 if (i != 0 && i != mHeight - 1)
                 {
                     TileData tileD = new TileData(grid[0, i]);
-                    tileD.layer = resultTileGrid[1, i].layer;
-                    if (resultTileGrid[1, i].isStair)
-                    {
-                        tileD.layer = resultTileGrid[1, i].layer + (resultTileGrid[1, i].isStairUp ? 1 : -1);
-                    }
-                    tileD.setBaseOnSides();
+                    TileData t0 = resultTileGrid[1, i];
+                    setOuterTile(tileD, t0);
                     resultTileGrid[0, i] = tileD;
 
+
                     TileData tileD1 = new TileData(grid[mWidth - 1, i]);
-                    tileD1.layer = resultTileGrid[mWidth - 2, i].layer;
-                    if (resultTileGrid[mWidth - 2, i].isStair)
-                    {
-                        tileD1.layer = resultTileGrid[mWidth - 2, i].layer + (resultTileGrid[mWidth - 2, i].isStairUp ? 1 : -1);
-                    }
-                    tileD1.setBaseOnSides();
+                    TileData t = resultTileGrid[mWidth - 2, i];
+                    setOuterTile(tileD1, t);
                     resultTileGrid[mWidth - 1, i] = tileD1;
                 }
             }
         }
     }
+
+    public static void setOuterTile(TileData tileD1, TileData t)
+    {
+        tileD1.layer = t.layer;
+        if (t.isStair)
+        {
+            int offset = 0;
+            offset = tileD1.isStartTile ? 0 : t.isStairUp ? 1 : -1;
+            tileD1.layer = t.layer + offset;
+        }
+        tileD1.setBaseOnSides();
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public static void handleASolution(alTData ct, ref int layer)
     {
