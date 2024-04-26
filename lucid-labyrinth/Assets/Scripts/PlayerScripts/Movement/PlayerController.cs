@@ -155,15 +155,15 @@ public class PlayerController : MonoBehaviour
         Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
         playerController.Move(transform.TransformDirection(scaledVelocity));
 
-        if (env.Report() == 1)
+        if (env.inNightmare)
         {
             camEffect.m_NoiseProfile = extremeShake;
         }
-        else if (env.Report() == 2)
+        else if (env.inNeutral)
         {
             camEffect.m_NoiseProfile = strongShake;
         }
-        else if (env.Report() == 3)
+        else if (env.inLucid)
         {
             camEffect.m_NoiseProfile = weakShake;
         }
