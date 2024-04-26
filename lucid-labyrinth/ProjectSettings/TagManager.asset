@@ -20,6 +20,8 @@ TagManager:
   - Spikes
   - PlayerVCam
   - GlowTag
+  - Key
+  - Monster
   layers:
   - Default
   - TransparentFX

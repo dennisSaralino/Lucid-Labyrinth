@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
+    public GameObject holdPos;
     public GameObject currentPickup { get; set; }
 
     private float xRot;
@@ -169,6 +170,8 @@ public class PlayerController : MonoBehaviour
         mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
         transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
+
+        // Handels Sprinting
         if (input.player.sprint.WasPerformedThisFrame())
         {
             isSprinting = true;
@@ -182,18 +185,21 @@ public class PlayerController : MonoBehaviour
             camEffect.m_FrequencyGain -= 0.5f;
         }
 
+        // Picking up an object
         if (input.player.interact.WasPerformedThisFrame() && currentPickup == null)
         {
             RaycastHit pickupHit;
             Physics.SphereCast(mainCam.transform.position, 1.0f, mainCam.transform.forward, out pickupHit, 5f, pickupLayerMask);
             if (pickupHit.collider != null)
             {
-                currentPickup = pickupHit.collider.gameObject;
+                if (pickupHit.collider.gameObject.CompareTag("ThrowableObj")) { currentPickup = pickupHit.collider.gameObject; }
+                else if (pickupHit.collider.gameObject.CompareTag("Key")) { currentPickup = pickupHit.collider.gameObject.transform.parent.gameObject; }
                 currentPickup.GetComponent<pickupObjScript>().Hold();
                 pickupCooldown = 0.5f;
             }
 
         }
+        // Dropping an object
         else if (input.player.interact.WasPerformedThisFrame() && currentPickup != null)
         {
             if (pickupCooldown == 0.0f)
@@ -208,16 +214,15 @@ public class PlayerController : MonoBehaviour
             else { pickupCooldown = 0.0f; }
         }
 
-
+        // Throwing an object
         if (input.player.throwObj.WasPerformedThisFrame())
         {
             if (currentPickup != null)
             {
                 currentPickup.GetComponent<Rigidbody>().isKinematic = false;
-                Vector3 thVec = mainCam.transform.forward * 1000;
+                Vector3 thVec = mainCam.transform.forward;
                 Debug.Log(thVec);
                 thVec.y = xRot;
-                //Debug.DrawRay(transform.position + new Vector3(0, 0.6f, 0.1f), thVec, Color.white, 120f);
                 currentPickup.GetComponent<pickupObjScript>().Drop();
                 currentPickup.GetComponent<Rigidbody>().AddForce(thVec);
                 currentPickup = null;
