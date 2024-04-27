@@ -18,7 +18,7 @@ public class pickupObjScript : MonoBehaviour
     {
         playerHoldPos = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().holdPos;
         objCollider = GetComponentInChildren<BoxCollider>();
-        monsters = GameObject.FindGameObjectWithTag("Monster").GetComponentsInChildren<GameObject>();
+        //monsters = GameObject.FindGameObjectWithTag("Monster").GetComponentsInChildren<GameObject>();
     }
 
     // Update is called once per frame

@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
     {
         // add mouse deltas to current camera rotation
         yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
-        xRot -= cameraVector.y *Time.deltaTime * yLookSensitivity;
+        xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
         xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
         // set the player/camera rotation equal to the the new x and y rotation values
@@ -220,9 +220,9 @@ public class PlayerController : MonoBehaviour
             if (currentPickup != null)
             {
                 currentPickup.GetComponent<Rigidbody>().isKinematic = false;
-                Vector3 thVec = mainCam.transform.forward;
+                Vector3 thVec = mainCam.transform.forward * 1000;
+                thVec.y += xRot;
                 Debug.Log(thVec);
-                thVec.y = xRot;
                 currentPickup.GetComponent<pickupObjScript>().Drop();
                 currentPickup.GetComponent<Rigidbody>().AddForce(thVec);
                 currentPickup = null;
