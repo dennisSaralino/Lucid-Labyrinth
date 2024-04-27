@@ -11,6 +11,11 @@ public class LoadScreen : MonoBehaviour
     public MazeController maze;
     private float time = 0.0f;
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     IEnumerator Load()
     {
         while (loadBar.value < 250.0f)
@@ -25,7 +30,7 @@ public class LoadScreen : MonoBehaviour
     {
         StartCoroutine(Load());
 
-        if (loadBar.value == 250.0f && maze.isReady)
+        if (loadBar.value >= 250.0f && maze.isReady)
             this.gameObject.SetActive(false);
             
     }
