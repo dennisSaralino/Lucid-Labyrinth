@@ -17,24 +17,27 @@ public class pickupObjScript : MonoBehaviour
     private void Start()
     {
         playerHoldPos = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().holdPos;
-        objCollider = GetComponentInChildren<BoxCollider>();
-        //monsters = GameObject.FindGameObjectWithTag("Monster").GetComponentsInChildren<GameObject>();
+        objCollider = GetComponent<BoxCollider>();
+        monsters = GameObject.FindGameObjectsWithTag("Monster");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (isHeld) { transform.position = playerHoldPos.transform.position; }
-        if (isAirborne)
+        if (hitGround)
         {
-            if (hitGround)
+            foreach (GameObject x in monsters)
             {
-                foreach (GameObject x in monsters)
-                {
-                    x.GetComponent<basicAI>().alert(transform);
-                }
+                x.GetComponent<basicAI>().alert(transform);
             }
+            hitGround = false;
         }
+        if (gameObject.CompareTag("Key"))
+        {
+            transform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+        
     }
 
     public void Hold()
@@ -60,5 +63,10 @@ public class pickupObjScript : MonoBehaviour
     public bool isKey()
     {
         return gameObject.CompareTag("Key");
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground")) { hitGround = true; }
     }
 }
