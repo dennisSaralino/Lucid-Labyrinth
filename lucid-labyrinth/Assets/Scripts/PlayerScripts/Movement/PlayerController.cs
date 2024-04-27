@@ -25,15 +25,15 @@ public class PlayerController : MonoBehaviour
     public GameObject currentPickup { get; set; }
     public PauseMenu pauseMenu;
 
-
     private float xRot;
     private float yRot;
 
     // global movement bools
     public bool isGrappling = false;
     public bool isSprinting = false;
-    //private bool holdingObj = false;
+    //private bool holdingObj = false
     //public bool paused = false;
+
 
     // timer ints
     private float jumpTimer = 0.0f;
@@ -77,8 +77,21 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
-        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();\
-        pauseMenu.gameObject.SetActive(false);
+        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
+        StartCoroutine(waitForMaze());
+    }
+    IEnumerator waitForMaze()
+    {
+        while (MazeController.i == null) yield return null;
+        while (!MazeController.i.isReady) yield return null;
+        float i = 2;
+        while (i > 0)
+        {
+            i -= Time.deltaTime;
+
+            transform.position = MazeController.i.mazeData.startPos + new Vector3(0, 4, 0);
+            yield return null;
+        }
     }
 
     
@@ -146,19 +159,19 @@ public class PlayerController : MonoBehaviour
         Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
         playerController.Move(transform.TransformDirection(scaledVelocity));
 
-        if (env.Report() == 1)
+        if (env.inNightmare)
         {
             camEffect.m_NoiseProfile = extremeShake;
         }
-        else if (env.Report() == 2)
+        else if (env.inNeutral)
         {
             camEffect.m_NoiseProfile = strongShake;
         }
-        else if (env.Report() == 3)
+        else if (env.inLucid)
         {
             camEffect.m_NoiseProfile = weakShake;
         }
-
+        
         if (input.player.pause.WasPerformedThisFrame())
         { 
             if (pauseMenu.paused == false)
@@ -241,7 +254,6 @@ public class PlayerController : MonoBehaviour
                 currentPickup = null;
             }
         }
-
     }
 
     public bool isJumping()

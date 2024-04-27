@@ -8,6 +8,7 @@ public class BreadcrumbSpawner : MonoBehaviour
 {
     public Transform playerTransform;
     public GameObject breadcrumb;
+    public EnvironmentController lucidityState;
     public int maxCrumbs;
     private int numOfCrumbs = 0;
     private bool beginSpawning = false;

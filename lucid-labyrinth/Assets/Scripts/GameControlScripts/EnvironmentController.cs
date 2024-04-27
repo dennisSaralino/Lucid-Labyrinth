@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,115 +14,101 @@ public class EnvironmentController : MonoBehaviour
     public Slider lucidityBar;
 
     public bool inNightmare = false;
-    public bool inNeutral   = true;
     public bool inLucid     = false;
+    public bool inNeutral   = true;
+
+    public bool nightmareLevel1 = false;
+    public bool nightmareLevel2 = false;
+    public bool nightmareLevel3 = false;
+    public bool lucidLevel1 = false;
+    public bool lucidLevel2 = false;
+    public bool lucidLevel3 = false;
 
     public Color nightmareColor;
     public Color lucidColor;
 
     public PlayerController player;
-    public float clearHUD = 50f;
-
     public ParticleSystem fogEffects;
 
     private void TrackState()
     {
-        // we can replace Report() with whatever functions change the environment
+        lucidLevel1 = lucidLevel2 = lucidLevel3 = false;
+        nightmareLevel1 = nightmareLevel2 = nightmareLevel3 = false;
 
-        // going from neutral to nightmare
-        if (inNeutral && lucidityBar.value < 25)
+        //In Lucid State
+        if (lucidityBar.value >= 55)
         {
-            inNeutral = false;
-            inNightmare = true;
-            player.speedScalar = 2.5f;
-
-            fogEffects.startColor = nightmareColor;
-
-            //Report();
-        }
-
-        // going from nightmare to neutral
-        else if (inNightmare && lucidityBar.value >= 25 && lucidityBar.value < 75)
-        {
-            inNightmare = false;
-            inNeutral = true;
-            player.speedScalar = 5f;
-
-            fogEffects.startColor = Color.white;
-
-            //Report();
-        }
-
-        // going from neutral to lucid
-        else if (inNeutral && lucidityBar.value >= 75)
-        {
-            inNeutral = false;
+            Debug.Log("In Lucid");
             inLucid = true;
-            player.speedScalar = 6.5f;
-
-            fogEffects.startColor = lucidColor;
-
-            //Report();
-        }
-
-        // going from lucid to neutral
-        else if (inLucid && lucidityBar.value < 75 && lucidityBar.value > 25)
-        {
-            inLucid = false;
-            inNeutral = true;
-            player.speedScalar = 5f;
-
-            fogEffects.startColor = Color.white;
-
-            //Report();
-        }
-
-        // going from nightmare to lucid (completely fill bar, for example)
-        else if (inNightmare && lucidityBar.value >= 75)
-        {
             inNightmare = false;
-            inLucid = true;
-            player.speedScalar = 6.5f;
-
-            fogEffects.startColor = lucidColor;
-
-            //Report();
+            inNeutral = false;
+            // Lucid Level 3
+            if (lucidityBar.value >= 95)
+            {
+                Debug.Log("In Lucid 3");
+                lucidLevel3 = true;
+                player.speedScalar = 6.5f;
+            }
+            // Lucid Level 2
+            else if (lucidityBar.value >= 70)
+            {
+                Debug.Log("In Lucid 2");
+                lucidLevel2 = true;
+                player.speedScalar = 6f;
+                fogEffects.startColor = lucidColor;
+            }
+            // Lucid Level 1
+            else
+            {
+                Debug.Log("In Lucid 1");
+                lucidLevel1 = true;
+                player.speedScalar = 5.5f;
+            }
         }
-
-        // going from lucid to nightmare (large drop from injury, for example)
-        else if (inLucid && lucidityBar.value < 25)
+        //In Nightmare State
+        if (lucidityBar.value <= 45)
         {
-            inLucid = false;
+            Debug.Log("In Nightmare");
             inNightmare = true;
-            player.speedScalar = 2.5f;
-
-            fogEffects.startColor = nightmareColor;
-
-            //Report();
+            inLucid = false;
+            inNeutral = false;
+            // Nightmare Level 3
+            if (lucidityBar.value <= 5)
+            {
+                Debug.Log("In Nightmare 3");
+                nightmareLevel3 = true;
+                player.speedScalar = 0f;
+            }
+            // Nightmare Level 2
+            else if (lucidityBar.value <= 20)
+            {
+                Debug.Log("In Nightmare 2");
+                nightmareLevel2 = true;
+                player.speedScalar = 2.5f;
+                fogEffects.startColor = nightmareColor;
+            }
+            // Nightmare Level 1
+            else
+            {
+                Debug.Log("In Nightmare 1");
+                nightmareLevel1 = true;
+                player.speedScalar = 3.75f;
+            }
+        }
+        //In Neutral State
+        else
+        {
+            inNeutral = true;
+            inLucid = false;
+            inNightmare = false;
+            player.speedScalar = 5f;
         }
     }
-    
-    public int Report()
-    {
 
-        if (inNightmare) {
-            //Debug.Log("In nightmare mode");
-            return 1;
-        }
-
-        if (inNeutral) { 
-            //Debug.Log("In neutral mode");
-            return 2;
-        }
-
-        if (inLucid) {
-            //Debug.Log("In lucid mode");
-            return 3;
-        }
-
-        return 0;
-    }
-
+    //Levels of Lucidity:
+    //Lucid Level 3 (95-100), Lucid Level 2 (70-95), Lucid Level 1 (55-70)
+    //Neutral/Dreaming (45-55)
+    //Nightmare Level 1 (20-45), Nightmare Level 2 (5-20), Nightmare Level 3 (0-5)
     private void FixedUpdate()
     {
         TrackState();

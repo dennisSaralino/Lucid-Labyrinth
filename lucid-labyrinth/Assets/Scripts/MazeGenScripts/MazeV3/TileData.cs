@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -66,7 +67,8 @@ public class TileData
     public DecorationType decoT;
     public bool haveTrap;
     public TrapMazeType trapT;
-
+    public Vector2Int inDir;
+    public Vector2Int outDir;
 
     #region SET UPON FINISHED SETUP
     public bool isStair;
@@ -122,6 +124,8 @@ public class TileData
         isStartTile = d.isStartT;
         isEndTile = d.isEndT;
         layer = 0;
+        inDir = d.indir;
+        outDir = d.outdir;
 
         if (isStartTile || isEndTile)
         {
@@ -216,7 +220,7 @@ public class TileData
             return ref left;
         }
     }
-    public NavMeshSurface loadInto(Transform p)
+    public List<NavMeshSurface> loadInto(Transform p)
     {
 
         Vector3 centered = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
@@ -287,7 +291,7 @@ public class TileData
             #endregion
             if (!isStair)
             {
-                floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"], p);
+                floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[layer > 0? "floor2": "floor"], p);
                 floor.transform.position = centered;
             }
             if (DataToMaze.i.materialDebug)
@@ -388,6 +392,6 @@ public class TileData
         #endregion
 
 
-        return p.GetComponentInChildren<NavMeshSurface>();
+        return p.gameObject.GetComponentsInChildren<NavMeshSurface>().ToList();
     }
 }

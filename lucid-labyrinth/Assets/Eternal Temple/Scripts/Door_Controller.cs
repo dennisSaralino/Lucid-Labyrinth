@@ -30,6 +30,15 @@ public class Door_Controller : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other)
 	{
+		if (other.gameObject.CompareTag("Player"))
+		{
+				PlayerController p = other.gameObject.GetComponent<PlayerController>();
+				if (p.currentPickup != null && p.GetComponent<KeyPickup>())
+				{
+					locked = false;
+					Open();
+				}
+		}
 		Open();
 	}
 	
