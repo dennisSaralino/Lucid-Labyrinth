@@ -18,6 +18,10 @@ TagManager:
   - ThrowableObj
   - Log
   - Spikes
+  - PlayerVCam
+  - GlowTag
+  - Key
+  - Monster
   layers:
   - Default
   - TransparentFX

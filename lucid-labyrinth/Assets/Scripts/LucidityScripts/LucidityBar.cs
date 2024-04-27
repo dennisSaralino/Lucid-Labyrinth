@@ -12,6 +12,8 @@ public class LucidityBar : MonoBehaviour
     public Slider slider;
     public PlayerController player;
     public EnvironmentController state;
+    public bool debugging = false;
+    // public TMP_Text gameOver;
 
     public Image fillBar;
     public Image fillBorder;
@@ -47,12 +49,22 @@ public class LucidityBar : MonoBehaviour
 
         //if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier + monsterModifier); }
         //else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier + monsterModifier); }
-        //else { slider.value -= Time.deltaTime / 10 * (3 + sprintModifier + monsterModifier); }
+        //else { slider.value -= Time.deltaTime /10 * (3 + sprintModifier + monsterModifier); }
+        if (!debugging) {
+            if (slider.value == 0)
+            {
+                if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
 
-        if (slider.value == 0)
-        {
-            player.input.Disable();
-            SceneManager.LoadScene(3);
+                if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
+                else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
+                else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
+
+                if (slider.value == 0)
+                {
+                    player.input.Disable();
+                    SceneManager.LoadScene(3);
+                }
+            }
         }
     }
 }
