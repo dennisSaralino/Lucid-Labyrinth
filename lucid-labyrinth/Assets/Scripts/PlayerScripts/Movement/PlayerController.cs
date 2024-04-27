@@ -223,8 +223,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 thVec = mainCam.transform.forward * 1000;
                 thVec.y += xRot;
                 Debug.Log(thVec);
-                currentPickup.GetComponent<pickupObjScript>().Drop();
-                currentPickup.GetComponent<Rigidbody>().AddForce(thVec);
+                currentPickup.GetComponent<pickupObjScript>().ThrowObj(thVec);
                 currentPickup = null;
             }
         }
@@ -267,5 +266,8 @@ public class PlayerController : MonoBehaviour
        
     }
 
-    
+    public bool MovedThisFrame()
+    {
+        return input.player.move.WasPerformedThisFrame();
+    }  
 }

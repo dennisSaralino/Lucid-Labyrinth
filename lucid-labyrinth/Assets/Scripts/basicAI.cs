@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class basicAI : MonoBehaviour
 {
@@ -18,12 +19,13 @@ public class basicAI : MonoBehaviour
     private float seenTimer = 0f;
     private float yTurn = 0f;
     private float netTurn = 0f;
-    Transform soundPos;
+    private Vector3 soundPos;
     private int layerMask = 384;
     private RaycastHit[] sawPlayer = new RaycastHit[10];
     private RaycastHit playerCheck;
     static private float turnSpeed = 15;
     private List<Vector3> wanderPoints;
+    private Vector3 currentWanderDestination;
     private int randIndex = 0;
 
 
@@ -34,7 +36,6 @@ public class basicAI : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         nav.speed = 0.75f;
         yTurn = transform.rotation.eulerAngles.y;
-        //wanderPoints = MazeController.i.mazeData.getEnemySpawnPoints();
     }
 
     // Update is called once per frame
@@ -44,11 +45,13 @@ public class basicAI : MonoBehaviour
         {
             if (!hasDestination)
             {
+                wanderPoints = MazeController.i.mazeData.getEnemySpawnPoints();
                 randIndex = Random.Range(0, wanderPoints.Count);
-                nav.SetDestination(wanderPoints[randIndex]);
+                currentWanderDestination = wanderPoints[randIndex];
+                nav.SetDestination(currentWanderDestination);
                 hasDestination = true;
             }
-            if (hasDestination && nav.destination == wanderPoints[randIndex])
+            if (hasDestination && nav.destination.x == currentWanderDestination.x && nav.destination.z == currentWanderDestination.z)
             {
                 if (transform.position == nav.destination)
                 {
@@ -59,7 +62,6 @@ public class basicAI : MonoBehaviour
         }
         if (!focused)
         {
-            
             if (rightTurn)
             {
                 yTurn += Time.deltaTime * turnSpeed;
@@ -79,7 +81,6 @@ public class basicAI : MonoBehaviour
                 {
                     rightTurn = true;
                 }
-                //yTurn = Mathf.Clamp(yTurn, -60f, 60f);
                 head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
             }
         }
@@ -98,7 +99,7 @@ public class basicAI : MonoBehaviour
                         if (!playerCheck.collider.gameObject.CompareTag("Player"))
                         {
                             nav.ResetPath();
-                            Debug.Log("Reset");
+                            //Debug.Log("Reset");
                             sawPlayer = new RaycastHit[10];
                             break;
                         }
@@ -107,7 +108,7 @@ public class basicAI : MonoBehaviour
                             seenTimer = 6.0f;
                             hasDestination = true;
                             focused = true;
-                            Debug.Log("Saw player");
+                            //Debug.Log("Saw player");
                             Debug.DrawRay(head.transform.position + new Vector3(0f, 0f, 2.0f), head.transform.forward * 60, Color.red, 6.0f);
                             sawPlayer = new RaycastHit[10];
                             break;
@@ -119,7 +120,6 @@ public class basicAI : MonoBehaviour
         else if (seenTimer > 0.0f)
         {
             seenTimer -= Time.deltaTime;
-            //transform.LookAt(player.position);
             head.transform.LookAt(player.position);
             transform.rotation = Quaternion.Euler(0, head.transform.rotation.eulerAngles.y, 0);
             nav.SetDestination(player.position);
@@ -134,18 +134,22 @@ public class basicAI : MonoBehaviour
         }
         else if (isDistracted)
         {
-            nav.SetDestination(soundPos.position);
+            nav.ResetPath();
+            nav.SetDestination(soundPos);
             hasDestination = true;
-            if (transform.position == soundPos.position)
+            focused = true;
+            head.transform.LookAt(soundPos);
+            if (transform.position.x == soundPos.x && transform.position.z == soundPos.z)
             {
+                Debug.Log("reached destination");
                 isDistracted = false;
                 hasDestination = false;
+                focused = false;
             }
         }
-        
     }
 
-    public void alert(Transform position)
+    public void alert(Vector3 position)
     {
         soundPos = position;
         isDistracted = true;

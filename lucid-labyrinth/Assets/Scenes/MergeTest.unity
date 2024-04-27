@@ -1623,8 +1623,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamPos: {fileID: 1241157401}
-  xLookSensitivity: 4.5
-  yLookSensitivity: 3
 --- !u!114 &1798039543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,7 +1670,7 @@ GameObject:
   - component: {fileID: 1912298406}
   m_Layer: 0
   m_Name: DataConverter
-  m_TagString: Untagged
+  m_TagString: Maze
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1703,7 +1701,6 @@ MonoBehaviour:
     currentIndex: 0
   player: {fileID: 0}
   inTest: 0
-  g: {fileID: 0}
 --- !u!114 &1912298407
 MonoBehaviour:
   m_ObjectHideFlags: 0

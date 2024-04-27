@@ -29,7 +29,8 @@ public class pickupObjScript : MonoBehaviour
         {
             foreach (GameObject x in monsters)
             {
-                x.GetComponent<basicAI>().alert(transform);
+                Debug.Log(transform.position);
+                x.GetComponent<basicAI>().alert(transform.position);
             }
             hitGround = false;
         }
@@ -46,7 +47,7 @@ public class pickupObjScript : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
-    public void Throw(Vector3 thVec)
+    public void ThrowObj(Vector3 thVec)
     {
         isHeld = false;
         GetComponent<Rigidbody>().isKinematic = false;
@@ -67,6 +68,12 @@ public class pickupObjScript : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")) { hitGround = true; }
+        if (collision.gameObject.CompareTag("Ground")) {
+            if (isAirborne)
+            {
+                hitGround = true;
+                isAirborne = false;
+            }
+        }
     }
 }
