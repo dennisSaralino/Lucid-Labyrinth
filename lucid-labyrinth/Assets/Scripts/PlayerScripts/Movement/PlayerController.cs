@@ -21,7 +21,9 @@ public class PlayerController : MonoBehaviour
     public PlayerControls input = null;
     private CharacterController playerController;
     //private pickupHitboxScript pickupHitboxScript;
+
     public GameObject currentPickup { get; set; }
+    public PauseMenu pauseMenu;
 
     private float xRot;
     private float yRot;
@@ -29,7 +31,9 @@ public class PlayerController : MonoBehaviour
     // global movement bools
     public bool isGrappling = false;
     public bool isSprinting = false;
-    //private bool holdingObj = false;
+    //private bool holdingObj = false
+    //public bool paused = false;
+
 
     // timer ints
     private float jumpTimer = 0.0f;
@@ -166,6 +170,22 @@ public class PlayerController : MonoBehaviour
         else if (env.inLucid)
         {
             camEffect.m_NoiseProfile = weakShake;
+        }
+        
+        if (input.player.pause.WasPerformedThisFrame())
+        { 
+            if (pauseMenu.paused == false)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                pauseMenu.gameObject.SetActive(true);
+                pauseMenu.paused = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                pauseMenu.paused = false;
+                pauseMenu.gameObject.SetActive(false);
+            }
         }
     }
     public int solutionIndex;
