@@ -8,13 +8,14 @@ public class LoadScreen : MonoBehaviour
     public Canvas lucidityUI;
     public Camera mainCam;
     public BreadcrumbSpawner bspawner;
-    public float time = 0.0f;
+    public MazeController maze;
+    private float time = 0.0f;
 
     IEnumerator Load()
     {
-        while (time < 100.0f)
+        while (loadBar.value < 250.0f)
         {
-            loadBar.value += (time / Mathf.Max(100.0f)) / 10;
+            loadBar.value += (time / Mathf.Max(250.0f)) / 100;
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
@@ -24,8 +25,9 @@ public class LoadScreen : MonoBehaviour
     {
         StartCoroutine(Load());
 
-        if (loadBar.value == 100.0f)
+        if (loadBar.value == 250.0f && maze.isReady)
             this.gameObject.SetActive(false);
+            
     }
 
     private void OnDisable()
@@ -34,4 +36,6 @@ public class LoadScreen : MonoBehaviour
         mainCam.gameObject.SetActive(true);
         bspawner.gameObject.SetActive(true);
     }
+
+
 }

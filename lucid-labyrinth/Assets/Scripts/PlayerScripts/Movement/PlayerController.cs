@@ -21,8 +21,13 @@ public class PlayerController : MonoBehaviour
     public PlayerControls input = null;
     private CharacterController playerController;
     //private pickupHitboxScript pickupHitboxScript;
+<<<<<<< Updated upstream
     private GameObject currentPickup;
     public GameObject pauseMenu;
+=======
+    public GameObject currentPickup { get; set; }
+    public PauseMenu pauseMenu;
+>>>>>>> Stashed changes
 
     private float xRot;
     private float yRot;
@@ -159,6 +164,7 @@ public class PlayerController : MonoBehaviour
 
         if (input.player.pause.WasPerformedThisFrame())
         {
+<<<<<<< Updated upstream
             if (paused)
             {
                 paused = false;
@@ -170,6 +176,19 @@ public class PlayerController : MonoBehaviour
                 paused = true;
                 pauseMenu.gameObject.SetActive(true);
                 Cursor.lockState = CursorLockMode.Confined;
+=======
+            if (pauseMenu.paused == false)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                pauseMenu.gameObject.SetActive(true);
+                pauseMenu.paused = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                pauseMenu.paused = false;
+                pauseMenu.gameObject.SetActive(false);
+>>>>>>> Stashed changes
             }
         }
     }
