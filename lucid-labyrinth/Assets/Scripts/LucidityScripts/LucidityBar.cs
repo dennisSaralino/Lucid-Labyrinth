@@ -62,7 +62,7 @@ public class LucidityBar : MonoBehaviour
                 if (slider.value == 0)
                 {
                     player.input.Disable();
-                    SceneManager.LoadScene(3);
+                    SceneManager.LoadScene(2);
                 }
             }
         }
