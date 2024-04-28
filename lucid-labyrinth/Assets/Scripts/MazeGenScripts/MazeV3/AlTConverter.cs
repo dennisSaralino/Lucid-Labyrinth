@@ -157,7 +157,7 @@ public class alDataConverter
             tileBeforeDoor.Clear();
             keyTile.setHaveKey();
             doorCount++;
-            tileD.getSide(ct.outdir - ct.fullPos) = SideType.door;
+            tileD.getSide(ct.outdir - ct.fullPos) = SideType.Door;
             doorNum--;
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
