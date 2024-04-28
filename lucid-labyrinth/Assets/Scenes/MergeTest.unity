@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6383560602413666252, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6383560602413831242, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
       propertyPath: m_RootOrder
@@ -1163,6 +1163,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
+      propertyPath: timer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
       propertyPath: maxCrumbs
       value: 10
       objectReference: {fileID: 0}
@@ -1557,7 +1561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {x: 0, y: 0, z: 0}
-  materialDebug: 1
+  materialDebug: 0
   wallDecoration: []
   floorDecoration: []
   tileFullGrid: []
