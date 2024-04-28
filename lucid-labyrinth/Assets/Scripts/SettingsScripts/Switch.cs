@@ -10,20 +10,17 @@ public class Switch : MonoBehaviour
 
     private void Awake()
     {
-        if (PlayerPrefs.HasKey("showUI"))
+        if (PlayerPrefs.GetInt("showUI") == 0)
         {
-            if (PlayerPrefs.GetInt("showUI") == 0)
-            {
-                Off.gameObject.SetActive(true);
-                On.gameObject.SetActive(false);
-            }
+            Off.gameObject.SetActive(true);
+            On.gameObject.SetActive(false);
+        }
 
-            if (PlayerPrefs.GetInt("showUI") == 1)
-            {
-                On.gameObject.SetActive(true);
-                Off.gameObject.SetActive(false);
-            }
-        }     
+        if (PlayerPrefs.GetInt("showUI") == 1)
+        {
+            On.gameObject.SetActive(true);
+            Off.gameObject.SetActive(false);
+        }    
     }
 
     public void ON()
