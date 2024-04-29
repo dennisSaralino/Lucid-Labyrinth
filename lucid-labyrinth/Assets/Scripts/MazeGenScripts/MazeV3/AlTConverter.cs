@@ -8,9 +8,10 @@ public class alDataConverter
     #region SETTING
     public static int MaxDoorNum = 5;
     public static int MaxStairNum = 5;
-    public static int trapFrequency = 20; //1 Trap for every {trapFrequency} tiles.
+    public static int trapFrequency = 10;//20; //1 Trap for every {trapFrequency} tiles.
     public static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
-    public static int lucidityPickupFrequency = 10; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
+    public static int lucidityPickupFrequency = 5; //10; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
+                                                   //should be >= 4  for generation purposes
     #endregion
     #region REPORT
     static int stairCount;
@@ -157,7 +158,7 @@ public class alDataConverter
             tileBeforeDoor.Clear();
             keyTile.setHaveKey();
             doorCount++;
-            tileD.getSide(ct.outdir - ct.fullPos) = SideType.door;
+            tileD.getSide(ct.outdir - ct.fullPos) = SideType.Door;
             doorNum--;
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
@@ -180,8 +181,8 @@ public class alDataConverter
         checkForDecoration(tileD);
         checkForTrap(tileD);
 
-
-        tileBeforeDoor.Add(tileD);
+        if (!tileD.isStartTile && !tileD.isDoor) 
+            tileBeforeDoor.Add(tileD);
         solutionD.Add(tileD);
         resultTileGrid[x, y] = tileD;
     }

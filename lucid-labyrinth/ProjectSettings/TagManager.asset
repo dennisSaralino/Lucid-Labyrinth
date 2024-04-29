@@ -22,6 +22,8 @@ TagManager:
   - GlowTag
   - Key
   - Monster
+  - Maze
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -45,11 +45,11 @@ public class LucidityBar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
+        if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
 
-        //if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier + monsterModifier); }
-        //else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier + monsterModifier); }
-        //else { slider.value -= Time.deltaTime /10 * (3 + sprintModifier + monsterModifier); }
+        if (state.inLucid == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
+        else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
+        else { slider.value -= Time.deltaTime * (1 + sprintModifier + monsterModifier); }
         if (!debugging) {
             if (slider.value == 0)
             {

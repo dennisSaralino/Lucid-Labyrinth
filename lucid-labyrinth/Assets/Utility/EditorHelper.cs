@@ -243,10 +243,10 @@ public class EditorHelper : MonoBehaviour
         foreach (char i in n)
         {
             if (i == 'u')
-                t.up = SideType.path;
-            else if (i == 'd') t.down = SideType.path;
-            else if (i == 'l') t.left = SideType.path;
-            else if (i == 'r') t.right = SideType.path;
+                t.up = SideType.Path;
+            else if (i == 'd') t.down = SideType.Path;
+            else if (i == 'l') t.left = SideType.Path;
+            else if (i == 'r') t.right = SideType.Path;
         }
         return t;
     }
