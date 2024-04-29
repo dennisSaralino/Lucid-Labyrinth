@@ -17,6 +17,7 @@ public class basicAI : MonoBehaviour
     private bool focused = false;
     private bool hasDestination = false;
     private float seenTimer = 0f;
+    private float distractedTimer = 0f;
     private float yTurn = 0f;
     private float netTurn = 0f;
     private Vector3 soundPos;
@@ -139,7 +140,7 @@ public class basicAI : MonoBehaviour
             hasDestination = true;
             focused = true;
             head.transform.LookAt(soundPos);
-            if (transform.position.x == soundPos.x && transform.position.z == soundPos.z)
+            if (distractedTimer == 0f)
             {
                 Debug.Log("reached destination");
                 isDistracted = false;
@@ -153,5 +154,14 @@ public class basicAI : MonoBehaviour
     {
         soundPos = position;
         isDistracted = true;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("soundArea"))
+        {
+            distractedTimer = 1.5f;
+            Destroy(other.gameObject);
+        }
     }
 }

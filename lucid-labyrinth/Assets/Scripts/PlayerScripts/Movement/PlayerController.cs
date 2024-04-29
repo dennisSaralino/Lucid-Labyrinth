@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
 
     // global movement bools
     public bool isSprinting = false;
-    //private bool holdingObj = false;
 
     // timer ints
     private float jumpTimer = 0.0f;

@@ -10,8 +10,9 @@ public class pickupObjScript : MonoBehaviour
     private bool hitGround = false;
     private Vector3 throwAngle = Vector3.zero;
     private GameObject playerHoldPos;
-    private BoxCollider objCollider;
+    public GameObject soundRadius;
     private GameObject[] monsters;
+    private BoxCollider objCollider;
     public string throwableType;
 
     private void Start()
@@ -71,6 +72,7 @@ public class pickupObjScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground")) {
             if (isAirborne)
             {
+                Instantiate(soundRadius, transform.position, Quaternion.identity);
                 hitGround = true;
                 isAirborne = false;
             }
