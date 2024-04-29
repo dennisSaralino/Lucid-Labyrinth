@@ -391,10 +391,10 @@ Canvas:
   m_GameObject: {fileID: 465317120}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1798039537}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PlaneDistance: 1
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -628,6 +628,10 @@ PrefabInstance:
       propertyPath: fillBar
       value: 
       objectReference: {fileID: 1475202252}
+    - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 2134559272}
     - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: fillBorder
       value: 
