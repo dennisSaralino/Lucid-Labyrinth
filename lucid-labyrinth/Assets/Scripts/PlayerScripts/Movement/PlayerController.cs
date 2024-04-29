@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         yRot = mainCam.transform.rotation.y;
         xRot = mainCam.transform.rotation.x;
+        Application.targetFrameRate = 80;
     }
 
     // Private GameObject variables inititalized
@@ -80,6 +81,7 @@ public class PlayerController : MonoBehaviour
         env = environmentCont.GetComponent<EnvironmentController>();
         //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
         StartCoroutine(waitForMaze());
+        camEffect.enabled = false;
     }
     IEnumerator waitForMaze()
     {
@@ -136,6 +138,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update() // Camera Controls are in Update for smoothness
     {
+        // add mouse deltas to current camera rotation
+        yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
+        xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
+        xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
+
+        // set the player/camera rotation equal to the the new x and y rotation values
+        mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+        transform.rotation = Quaternion.Euler(0f, yRot, 0);
+
         Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
         if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
         else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
@@ -150,7 +161,6 @@ public class PlayerController : MonoBehaviour
 
         Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
         playerController.Move(transform.TransformDirection(scaledVelocity));
-
         if (env.inNightmare)
         {
             camEffect.m_NoiseProfile = extremeShake;
@@ -183,14 +193,6 @@ public class PlayerController : MonoBehaviour
     public int solutionIndex;
     private void FixedUpdate()
     {
-        // add mouse deltas to current camera rotation
-        yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
-        xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
-        xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
-
-        // set the player/camera rotation equal to the the new x and y rotation values
-        mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
-        transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
 
         // Handels Sprinting

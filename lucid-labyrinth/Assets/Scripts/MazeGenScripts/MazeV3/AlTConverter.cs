@@ -32,7 +32,8 @@ public class alDataConverter
     static int decorationTimer;
     static int lucidityPickupTimer;
     static int trapTimer;
-
+    public static int minLayer = 10000;
+    public static int maxLayer = -10000;
     static List<TileData> tileBeforeDoor;
     static Dictionary<Vector2Int, int> deadEndDict;
     static List<TileData> solutionD;
@@ -65,7 +66,7 @@ public class alDataConverter
 
         printReport();
 
-        tileGridData d = new tileGridData(resultTileGrid, deadEndDict, solutionD);
+        tileGridData d = new tileGridData(resultTileGrid, deadEndDict, solutionD, minLayer, maxLayer);
         return d;
     }
     public static void printReport()
@@ -158,7 +159,7 @@ public class alDataConverter
             tileBeforeDoor.Clear();
             keyTile.setHaveKey();
             doorCount++;
-            tileD.getSide(ct.outdir - ct.fullPos) = SideType.Door;
+            tileD.getSide(ct.indir - ct.fullPos) = SideType.Door;
             doorNum--;
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
@@ -258,6 +259,8 @@ public class alDataConverter
         bool isUp = Random.Range(0, 2) == 0;
         tileD.getSide(ct.outdir - ct.fullPos) =  isUp? SideType.upStair : SideType.downStair;
         layer += isUp ? 1 : -1;
+        if (layer > maxLayer) maxLayer = layer;
+        else if (layer < minLayer) minLayer = layer;
         stairCount++;
         stairNum--;
         previousStair.Add(ct.fullPos);
@@ -298,10 +301,15 @@ public class tileGridData
     public TileData[,] data;
     public Dictionary<Vector2Int, int> deadEndDict;
     public List<TileData> solution;
-    public tileGridData(TileData[,] d, Dictionary<Vector2Int, int> deade, List<TileData> so)
+    public int minLayer;
+    public int maxLayer;
+
+    public tileGridData(TileData[,] d, Dictionary<Vector2Int, int> deade, List<TileData> so, int minl, int maxl)
     {
         data = d;
         deadEndDict = deade;
         solution = so;
+        minLayer = minl;
+        maxLayer = maxl;
     }
 }
