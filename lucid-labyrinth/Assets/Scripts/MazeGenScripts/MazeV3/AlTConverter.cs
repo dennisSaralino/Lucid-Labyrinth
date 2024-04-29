@@ -6,10 +6,12 @@ using System.Linq;
 public class alDataConverter
 {
     #region SETTING
-    public static int MaxDoorNum = 6;
+    public static int MaxDoorNum = 5;
     public static int MaxStairNum = 5;
-    public static int trapFrequency = 6; //1 Trap for every {trapFrequency} tiles.
+    public static int trapFrequency = 10;//20; //1 Trap for every {trapFrequency} tiles.
     public static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
+    public static int lucidityPickupFrequency = 5; //10; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
+                                                   //should be >= 4  for generation purposes
     #endregion
     #region REPORT
     static int stairCount;
@@ -28,15 +30,18 @@ public class alDataConverter
     static int stairNum;
     static float diagonal;
     static int decorationTimer;
-
+    static int lucidityPickupTimer;
     static int trapTimer;
 
+    static List<TileData> tileBeforeDoor;
+    static Dictionary<Vector2Int, int> deadEndDict;
+    static List<TileData> solutionD;
 
-
-
-
-    public static TileData[,] convertToTiledata(GridData gridd)
+    public static tileGridData convertToTiledata(GridData gridd)
     {
+        deadEndDict = new Dictionary<Vector2Int, int>();
+        solutionD = new List<TileData>();
+        tileBeforeDoor = new List<TileData>();
         grid = gridd.data;
         solutionLength = gridd.solution.Count;
         resultTileGrid = new TileData[grid.GetLength(0), grid.GetLength(1)];
@@ -53,14 +58,15 @@ public class alDataConverter
         foreach (alTData i in gridd.solution)
         {
             handleASolution(i, ref layer);
+
         }
 
         handleOuterEdges();
 
         printReport();
 
-        
-        return resultTileGrid;
+        tileGridData d = new tileGridData(resultTileGrid, deadEndDict, solutionD);
+        return d;
     }
     public static void printReport()
     {
@@ -83,15 +89,14 @@ public class alDataConverter
                 if (i != 0 && i != mWidth - 1)
                 {
                     TileData tileD = new TileData(grid[i, 0]);
-                    tileD.layer = resultTileGrid[i, 1].layer;
-
-                    tileD.setBaseOnSides();
+                    TileData t0 = resultTileGrid[i, 1];
+                    setOuterTile(tileD, t0);
                     resultTileGrid[i, 0] = tileD;
 
-                    TileData tileD1 = new TileData(grid[i, mHeight - 1]);
-                    tileD1.layer = resultTileGrid[i, mHeight - 2].layer;
 
-                    tileD1.setBaseOnSides();
+                    TileData tileD1 = new TileData(grid[i, mHeight - 1]);
+                    TileData t = resultTileGrid[i, mHeight - 2];
+                    setOuterTile(tileD1, t);
                     resultTileGrid[i, mHeight - 1] = tileD1;
                 }
 
@@ -101,35 +106,59 @@ public class alDataConverter
                 if (i != 0 && i != mHeight - 1)
                 {
                     TileData tileD = new TileData(grid[0, i]);
-                    tileD.layer = resultTileGrid[1, i].layer;
-                    tileD.setBaseOnSides();
+                    TileData t0 = resultTileGrid[1, i];
+                    setOuterTile(tileD, t0);
                     resultTileGrid[0, i] = tileD;
 
+
                     TileData tileD1 = new TileData(grid[mWidth - 1, i]);
-                    tileD1.layer = resultTileGrid[mWidth - 2, i].layer;
-                    tileD1.setBaseOnSides();
+                    TileData t = resultTileGrid[mWidth - 2, i];
+                    setOuterTile(tileD1, t);
                     resultTileGrid[mWidth - 1, i] = tileD1;
                 }
             }
         }
     }
 
+    public static void setOuterTile(TileData tileD1, TileData t)
+    {
+        tileD1.layer = t.layer;
+        if (t.isStair)
+        {
+            int offset = 0;
+            offset = tileD1.isStartTile ? 0 : t.isStairUp ? 1 : -1;
+            tileD1.layer = t.layer + offset;
+        }
+        tileD1.setBaseOnSides();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     public static void handleASolution(alTData ct, ref int layer)
     {
-       
+        
         int x = ct.fullPos.x;
         int y = ct.fullPos.y;
         if (resultTileGrid[x, y] != null && resultTileGrid[x, y].visited) return;
         TileData tileD = new TileData(ct);
         tileD.layer = layer;
-    
-
-
-
         if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && !ct.isStartT)
         {
+            tileBeforeDoor = tileBeforeDoor.FindAll(x=>!x.haveLpickup);
+            TileData keyTile = tileBeforeDoor[Random.Range(0, tileBeforeDoor.Count)];
+            tileBeforeDoor.Clear();
+            keyTile.setHaveKey();
             doorCount++;
-            tileD.getSide(ct.outdir - ct.fullPos) = SideType.door;
+            tileD.getSide(ct.outdir - ct.fullPos) = SideType.Door;
             doorNum--;
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
@@ -142,18 +171,23 @@ public class alDataConverter
             {
                 int subLayer = layer;
                 
-                handleBranch(GridDataGen.fullGrid[branch.x, branch.y], ref subLayer, 0);
+                handleBranch(tileD,GridDataGen.fullGrid[branch.x, branch.y], ref subLayer, 0);
             }
         }
 
 
         tileD.setBaseOnSides();
+        checkForLucidityPickup(tileD);
         checkForDecoration(tileD);
         checkForTrap(tileD);
+
+        if (!tileD.isStartTile && !tileD.isDoor) 
+            tileBeforeDoor.Add(tileD);
+        solutionD.Add(tileD);
         resultTileGrid[x, y] = tileD;
     }
 
-    public static void handleBranch(alTData ct, ref int layer, int branchIndex)
+    public static void handleBranch(TileData solutionT,alTData ct, ref int layer, int branchIndex)
     {
 
         int x = ct.fullPos.x;
@@ -171,16 +205,23 @@ public class alDataConverter
             foreach (Vector2Int branch in ct.outBranches)
             {
                 int subLayer = layer;
-                handleBranch(GridDataGen.fullGrid[branch.x, branch.y], ref subLayer, 0);
+                handleBranch(solutionT, GridDataGen.fullGrid[branch.x, branch.y], ref subLayer, 0);
             }
         }
         tileD.setBaseOnSides();
+        checkForLucidityPickup(tileD);
         checkForDecoration(tileD);
         checkForTrap(tileD);
+
+        tileBeforeDoor.Add(tileD);
         resultTileGrid[x, y] = tileD;
+        if (ct.isDeadEnd)
+        {
+            deadEndDict[ct.fullPos] = solutionT.solutionIndex;
+        }
         if (!ct.isDeadEnd && !ct.isInOuterEdges())
         {
-            handleBranch(GridDataGen.fullGrid[ct.outdir.x, ct.outdir.y], ref layer, branchIndex++);
+            handleBranch(solutionT, GridDataGen.fullGrid[ct.outdir.x, ct.outdir.y], ref layer, branchIndex++);
         }
     }
 
@@ -190,7 +231,10 @@ public class alDataConverter
         int comparer = Mathf.FloorToInt((solutionLength - 2) / MaxDoorNum) - 1;
         for (int i = 1; i < MaxDoorNum + 1; i++)
         {
-            if (solutionIndex % comparer == 0 && solutionIndex / comparer == i) return true;
+            if (solutionIndex % comparer == 0 && solutionIndex / comparer == i)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -219,6 +263,15 @@ public class alDataConverter
         previousStair.Add(ct.fullPos);
         
     }
+    public static void checkForLucidityPickup(TileData tileD)
+    {
+        lucidityPickupTimer++;
+        if (lucidityPickupTimer >= lucidityPickupFrequency)
+        {
+            tileD.haveLpickup = true;
+            lucidityPickupTimer = 0;
+        }
+    }
     public static void checkForDecoration(TileData tileD)
     {
         decorationTimer++;
@@ -240,3 +293,15 @@ public class alDataConverter
     
 }
 
+public class tileGridData
+{
+    public TileData[,] data;
+    public Dictionary<Vector2Int, int> deadEndDict;
+    public List<TileData> solution;
+    public tileGridData(TileData[,] d, Dictionary<Vector2Int, int> deade, List<TileData> so)
+    {
+        data = d;
+        deadEndDict = deade;
+        solution = so;
+    }
+}

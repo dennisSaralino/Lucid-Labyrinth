@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,52 +6,67 @@ using UnityEngine;
 public class pickupObjScript : MonoBehaviour
 {
     private bool isHeld = false;
-    private bool isThrown = false;
     private bool isAirborne = false;
+    private bool hitGround = false;
     private Vector3 throwAngle = Vector3.zero;
-    public GameObject playerHoldPos;
-    public GameObject objGlow;
+    private GameObject playerHoldPos;
+    private BoxCollider objCollider;
+    private GameObject[] monsters;
+    public string throwableType;
+
+    private void Start()
+    {
+        playerHoldPos = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().holdPos;
+        objCollider = GetComponent<BoxCollider>();
+        monsters = GameObject.FindGameObjectsWithTag("Monster");
+    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (isHeld) { transform.position = playerHoldPos.transform.position; }
-        else if (isThrown)
+        if (hitGround)
         {
-            GetComponent<Rigidbody>().isKinematic = false;
-            isThrown = false;
+            foreach (GameObject x in monsters)
+            {
+                x.GetComponent<basicAI>().alert(transform);
+            }
+            hitGround = false;
         }
-        if (isAirborne)
+        if (gameObject.CompareTag("Key"))
         {
-            //check for when the object hits the ground
-            //call the alert() function in basicAI
+            transform.rotation = Quaternion.Euler(Vector3.zero);
         }
+        
     }
 
     public void Hold()
     {
         isHeld = true;
-        isThrown = false;
-        objGlow.SetActive(false);
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
-    public void Throw(Vector3 var)
+    public void Throw(Vector3 thVec)
     {
         isHeld = false;
-        isThrown = true;
-        throwAngle = var;
+        GetComponent<Rigidbody>().isKinematic = false;
+        isAirborne = true;
+        GetComponent<Rigidbody>().AddForce(thVec);
     }
 
     public void Drop()
     {
         isHeld = false;
-        isThrown = false;
         GetComponent<Rigidbody>().isKinematic = false;
     }
 
-    public void ToggleGlow(bool glowState)
+    public bool isKey()
     {
-        if (!isHeld) { objGlow.SetActive(glowState); }
+        return gameObject.CompareTag("Key");
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground")) { hitGround = true; }
     }
 }

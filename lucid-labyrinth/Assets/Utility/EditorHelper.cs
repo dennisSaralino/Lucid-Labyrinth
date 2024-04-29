@@ -179,12 +179,37 @@ public class EditorHelper : MonoBehaviour
         Transform parent = GameObject.Find("StaticMap").transform;
         StaticTool.foreachChild(parent, (x =>
         {
-            x.GetComponent<Renderer>().material = m;
-        }),(x)=>x.GetComponent<Renderer>() != null);
+            if(x.GetComponent<Renderer>().sharedMaterials[0] == null)
+                 x.GetComponent<Renderer>().material = m;
+    }),(x)=>x.GetComponent<Renderer>() != null);
 
         EditorSceneManager.SaveScene(currentScene);
         EditorSceneManager.CloseScene(currentScene, true);
     }
+
+    [MenuItem("EditorHelper/MazeModify/changeLightAttributes")]
+    public static void changeLightAttributes()
+    {
+        //FloorDeco
+        //WallDeco
+        //Assets/Resources/
+        LightShadows t = LightShadows.Hard;
+        List<GameObject> m = Resources.LoadAll<GameObject>("GameObject/FloorDeco").ToList();
+        m.AddRange(Resources.LoadAll<GameObject>("GameObject/WallDeco"));
+        foreach (GameObject i in m)
+        {
+            StaticTool.foreachChild(i.transform, x =>
+             {
+                 Light l = x.GetComponent<Light>();
+                 if (l != null)
+                 {
+                     l.shadows =t;
+                     StaticTool.saveAsset(x);
+                 }
+             });
+        }
+    }
+
 
     [MenuItem("EditorHelper/MazeModify/changeTileMaterial")]
     public static void changeTilesMaterial()
@@ -218,10 +243,10 @@ public class EditorHelper : MonoBehaviour
         foreach (char i in n)
         {
             if (i == 'u')
-                t.up = SideType.path;
-            else if (i == 'd') t.down = SideType.path;
-            else if (i == 'l') t.left = SideType.path;
-            else if (i == 'r') t.right = SideType.path;
+                t.up = SideType.Path;
+            else if (i == 'd') t.down = SideType.Path;
+            else if (i == 'l') t.left = SideType.Path;
+            else if (i == 'r') t.right = SideType.Path;
         }
         return t;
     }

@@ -18,16 +18,22 @@ TagManager:
   - ThrowableObj
   - Log
   - Spikes
+  - PlayerVCam
+  - GlowTag
+  - Key
+  - Monster
+  - Maze
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Pickup
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - Wall
+  - Player
   - 
   - 
   - 

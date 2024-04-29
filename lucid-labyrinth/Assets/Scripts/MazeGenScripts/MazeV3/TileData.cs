@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -29,9 +30,9 @@ public enum CellType
 }
 public enum SideType
 {
-    wall, 
-    path,
-    door,
+    Wall, 
+    Path,
+    Door,
     upStair,
     downStair,
 }
@@ -44,6 +45,9 @@ public enum DecorationType
 [Serializable]
 public class TileData
 {
+
+    public int solutionIndex;
+    public Vector3 position;
     public Vector2Int fullPos;
     public TileType tileT;
     public CellType cellT;
@@ -63,20 +67,23 @@ public class TileData
     public DecorationType decoT;
     public bool haveTrap;
     public TrapMazeType trapT;
-
+    public Vector2Int inDir;
+    public Vector2Int outDir;
 
     #region SET UPON FINISHED SETUP
     public bool isStair;
+    public bool isStairUp;
     public bool isDoor;
     public bool[] wallSides;
     public SideType[] sideSides;
     public int traprotateable;
     public void setBaseOnSides()
     {
-        wallSides = new bool[] { right == SideType.wall, down == SideType.wall, left == SideType.wall, up == SideType.wall };
+        wallSides = new bool[] { right == SideType.Wall, down == SideType.Wall, left == SideType.Wall, up == SideType.Wall };
         sideSides = new SideType[] { right, down, left, up };
-        isDoor = (right == SideType.door || left == SideType.door || up == SideType.door || down == SideType.door);
-        isStair = (right == SideType.upStair || right == SideType.downStair || left == SideType.upStair || left == SideType.downStair || up == SideType.upStair || up == SideType.downStair || down == SideType.upStair || down == SideType.downStair);
+        isDoor = (right == SideType.Door || left == SideType.Door || up == SideType.Door || down == SideType.Door);
+        isStairUp = right == SideType.upStair || left == SideType.upStair || up == SideType.upStair || down == SideType.upStair || right == SideType.upStair;
+        isStair = isStairUp || (right == SideType.downStair ||  left == SideType.downStair || up == SideType.downStair || down == SideType.downStair);
         if (isDoor)
         {
             tileT = TileType.Cell;
@@ -84,28 +91,41 @@ public class TileData
         }
     }
     #endregion
+
+
+
+
+    #region FOR GAME MANAGER
+    public bool haveLpickup;
+    public bool haveKey;
+    public bool enemySpawn;
+    #endregion
     public TileData()
     {
-        up = SideType.wall;
-        down = SideType.wall;
-        left = SideType.wall;
-        right = SideType.wall;
+        up = SideType.Wall;
+        down = SideType.Wall;
+        left = SideType.Wall;
+        right = SideType.Wall;
         decoT = DecorationType.none;
     }
     public TileData(alTData d)
     {
         if (d == null) return;
-        up = d.u ? SideType.path: SideType.wall;
-        down = d.d ? SideType.path : SideType.wall;
-        left = d.l ? SideType.path : SideType.wall;
-        right = d.r ? SideType.path : SideType.wall;
+        fullPos = d.fullPos;
+        up = d.u ? SideType.Path: SideType.Wall;
+        down = d.d ? SideType.Path : SideType.Wall;
+        left = d.l ? SideType.Path : SideType.Wall;
+        right = d.r ? SideType.Path : SideType.Wall;
         isSolutionPath = d.isSolution;
+        solutionIndex = d.solutionIndex;
         isBranching = d.isBranching;
         isInBranch = d.isInBranch;
         isDeadEnd = d.isDeadEnd;
         isStartTile = d.isStartT;
         isEndTile = d.isEndT;
         layer = 0;
+        inDir = d.indir;
+        outDir = d.outdir;
 
         if (isStartTile || isEndTile)
         {
@@ -113,11 +133,17 @@ public class TileData
             cellT = isStartTile ? CellType.startTile : CellType.endTile;
         }
     }
+    public void setHaveKey()
+    {
+        if (haveDecoration) decoT = DecorationType.wall;
+        haveTrap = false;
+        haveKey = true;
+    }
     public bool setDecorationTrue()
     {
         List<DecorationType> possible = new List<DecorationType>();
         possible.Add(DecorationType.wall);
-        if (!isStair) possible.Add(DecorationType.floor);
+        if (!isStair && !haveLpickup && !haveKey) possible.Add(DecorationType.floor);
 
         if (possible.Count > 0)
         {
@@ -133,9 +159,12 @@ public class TileData
         List<TrapMazeType> possible = new List<TrapMazeType>();
         if (!isStair && !isDoor && tileT == TileType.Side && decoT != DecorationType.floor)
         {
-            possible.Add(TrapMazeType.watertrap);
-            possible.Add(TrapMazeType.firetrap);
-            possible.Add(TrapMazeType.spikestrap);
+            if (!haveLpickup && !haveKey)
+            {
+                possible.Add(TrapMazeType.watertrap);
+                possible.Add(TrapMazeType.firetrap);
+                possible.Add(TrapMazeType.spikestrap);
+            }
 
             if (wallSides[0] && wallSides[2])
             {
@@ -191,10 +220,11 @@ public class TileData
             return ref left;
         }
     }
-    public NavMeshSurface loadInto(Transform p)
+    public List<NavMeshSurface> loadInto(Transform p)
     {
 
         Vector3 centered = new Vector3(p.transform.position.x, layer * 3.9f, p.transform.position.z);
+        this.position = centered;
         p.transform.position = centered;
         GameObject floor = null;
         GameObject rightside = null;
@@ -215,11 +245,11 @@ public class TileData
             {
                 if (isDoor)
                 {
-                    Transform door = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[SideType.door.ToString()], p).transform;
+                    Transform door = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[SideType.Door.ToString()], p).transform;
                     door.transform.position = centered;
                     for (int i = 0; i < 4; i++)
                     {
-                        if (sideSides[i] == SideType.door)
+                        if (sideSides[i] == SideType.Door)
                         {
                             door.transform.Rotate(Vector3.up, 90f * i);
                             break;
@@ -236,11 +266,11 @@ public class TileData
             #region WALLS
             if (haveTrap && trapT == TrapMazeType.logtrap)
             {
-                if (traprotateable == 0 && (right != SideType.wall || left != SideType.wall))
+                if (traprotateable == 0 && (right != SideType.Wall || left != SideType.Wall))
                 {
                     Debug.Log("WRONGGGGGG");
                 }
-                if (traprotateable == 1 && (up != SideType.wall || down != SideType.wall))
+                if (traprotateable == 1 && (up != SideType.Wall || down != SideType.Wall))
                 {
                     Debug.Log("WRONGGGGGG");
                 }
@@ -261,7 +291,7 @@ public class TileData
             #endregion
             if (!isStair)
             {
-                floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor"], p);
+                floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[layer > 0? "floor2": "Floor"], p);
                 floor.transform.position = centered;
             }
             if (DataToMaze.i.materialDebug)
@@ -311,7 +341,7 @@ public class TileData
             if (decoT == DecorationType.wall)
             {
                 deco = UnityEngine.Object.Instantiate(DataToMaze.i.wallDecoration[Random.Range(0, DataToMaze.i.wallDecoration.Count)], p).transform;
-               
+                deco.name = "decorationTW";
                 for (int i = 0; i < 4; i++)
                 {
                     float degree = 90 * i;
@@ -325,6 +355,7 @@ public class TileData
             else
             {
                 deco = UnityEngine.Object.Instantiate(DataToMaze.i.floorDecoration[Random.Range(0, DataToMaze.i.floorDecoration.Count)], p).transform;
+                deco.name = "decorationTF";
                 float degree = 90 * Random.Range(0, 4);
                 deco.transform.Rotate(Vector3.up, degree);
             }
@@ -336,6 +367,7 @@ public class TileData
         if (haveTrap)
         {
             Transform cell = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[trapT.ToString()], p).transform;
+            cell.gameObject.name = "Trap";
             cell.transform.position = centered;
             if (trapT == TrapMazeType.firetrap || trapT == TrapMazeType.watertrap || trapT == TrapMazeType.spikestrap)
             {
@@ -360,9 +392,6 @@ public class TileData
         #endregion
 
 
-        return p.GetComponentInChildren<NavMeshSurface>();
+        return p.gameObject.GetComponentsInChildren<NavMeshSurface>().ToList();
     }
 }
-
-
-

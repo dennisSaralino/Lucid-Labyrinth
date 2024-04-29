@@ -37,7 +37,7 @@ public class MazeGeneratev2 : MonoBehaviour
         mazeGrid[1, 1].isSolution = true;
         finalMazeData[1, 1] = new TileData(mazeGrid[1, 1].finalTile.tileData);
         finalMazeData[1, 1].isSolutionPath = mazeGrid[1, 1].isSolution;
-        finalMazeData[1, 1].right = SideType.door;
+        finalMazeData[1, 1].right = SideType.Door;
         int stepCount = 0;
         string previous = "";
         int cLayer = 0;
@@ -181,7 +181,7 @@ public class MazeGeneratev2 : MonoBehaviour
 
             }
         }
-        DataToMaze.i.dataToMaze(finalMazeData);
+        //DataToMaze.i.dataToMaze(finalMazeData);
     }
 }
 

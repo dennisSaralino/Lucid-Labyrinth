@@ -8,10 +8,24 @@ public class basicAI : MonoBehaviour
     Transform player;
     NavMeshAgent nav;
 
+    public GameObject head;
+    public float viewRange = 30f;
+    public bool debugging = false;
     private bool isDistracted = false;
+    private bool rightTurn = true;
+    private bool focused = false;
+    private bool hasDestination = false;
     private float seenTimer = 0f;
+    private float yTurn = 0f;
+    private float netTurn = 0f;
     Transform soundPos;
-    private int playerLayerMask = 1 << 7;
+    private int layerMask = 384;
+    private RaycastHit[] sawPlayer = new RaycastHit[10];
+    private RaycastHit playerCheck;
+    static private float turnSpeed = 15;
+    private List<Vector3> wanderPoints;
+    private int randIndex = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,45 +33,113 @@ public class basicAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         nav = GetComponent<NavMeshAgent>();
         nav.speed = 0.75f;
+        yTurn = transform.rotation.eulerAngles.y;
+        //wanderPoints = MazeController.i.mazeData.getEnemySpawnPoints();
     }
 
     // Update is called once per frame
     void Update()
     {
-        RaycastHit sawPlayer;
-        if (!isDistracted && seenTimer <= 0f) {
-            Debug.DrawRay(transform.position + new Vector3(0f, 1.0f, 1.0f), transform.forward, Color.blue, 1.0f);
-            Physics.SphereCast(transform.position + new Vector3(0f, 1.0f, 1.0f), 10f, transform.forward, out sawPlayer, 30f);
-            if (sawPlayer.collider != null)
+        if (!debugging)
+        {
+            if (!hasDestination)
             {
-                if (sawPlayer.collider.gameObject.tag == "Player")
-                {
-                    seenTimer = 6.0f;
-                    Debug.DrawRay(transform.position + new Vector3(0f, 1.0f, 1.0f), transform.forward, Color.red, 6.0f);
-                }
-                else if (sawPlayer.collider.gameObject.tag != "Player")
+                randIndex = Random.Range(0, wanderPoints.Count);
+                nav.SetDestination(wanderPoints[randIndex]);
+                hasDestination = true;
+            }
+            if (hasDestination && nav.destination == wanderPoints[randIndex])
+            {
+                if (transform.position == nav.destination)
                 {
                     nav.ResetPath();
-                    Debug.Log("Reset");
+                    hasDestination = false;
+                }
+            }
+        }
+        if (!focused)
+        {
+            
+            if (rightTurn)
+            {
+                yTurn += Time.deltaTime * turnSpeed;
+                netTurn += Time.deltaTime * turnSpeed;
+                if (netTurn >= 60f)
+                {
+                    rightTurn = false;
+                }
+                //yTurn = Mathf.Clamp(yTurn, -60f, 60f);
+                head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
+            }
+            else
+            {
+                yTurn -= Time.deltaTime * turnSpeed;
+                netTurn -= Time.deltaTime * turnSpeed;
+                if (netTurn <= -60f)
+                {
+                    rightTurn = true;
+                }
+                //yTurn = Mathf.Clamp(yTurn, -60f, 60f);
+                head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
+            }
+        }
+        if (!isDistracted && seenTimer <= 0f) {
+            Debug.DrawRay(head.transform.position , head.transform.forward * 60, Color.blue, 0.2f);
+            Physics.SphereCastNonAlloc(head.transform.position, 5f, head.transform.forward, sawPlayer, viewRange, layerMask);
+            foreach (RaycastHit x in sawPlayer)
+            {
+                if (x.collider != null)
+                {
+                    //Debug.Log("saw something");            
+                    if (x.collider.gameObject.CompareTag("Player"))
+                    {
+                        Physics.Linecast(head.transform.position, player.position, out playerCheck, layerMask);
+                        Debug.DrawRay(head.transform.position, -(head.transform.position - player.position) * 60, Color.green, 2.0f);
+                        if (!playerCheck.collider.gameObject.CompareTag("Player"))
+                        {
+                            nav.ResetPath();
+                            Debug.Log("Reset");
+                            sawPlayer = new RaycastHit[10];
+                            break;
+                        }
+                        else if (x.collider.gameObject.CompareTag("Player"))
+                        {
+                            seenTimer = 6.0f;
+                            hasDestination = true;
+                            focused = true;
+                            Debug.Log("Saw player");
+                            Debug.DrawRay(head.transform.position + new Vector3(0f, 0f, 2.0f), head.transform.forward * 60, Color.red, 6.0f);
+                            sawPlayer = new RaycastHit[10];
+                            break;
+                        }
+                    }
                 }
             }
         }
         else if (seenTimer > 0.0f)
         {
             seenTimer -= Time.deltaTime;
-            transform.LookAt(player.position);
+            //transform.LookAt(player.position);
+            head.transform.LookAt(player.position);
+            transform.rotation = Quaternion.Euler(0, head.transform.rotation.eulerAngles.y, 0);
             nav.SetDestination(player.position);
             if (seenTimer <= 0.0f)
             {
+                yTurn = transform.rotation.eulerAngles.y;
                 seenTimer = 0.0f;
+                nav.ResetPath();
+                focused = false;
+                hasDestination = false;
             }
         }
         else if (isDistracted)
         {
-            nav.destination = soundPos.position;
+            nav.SetDestination(soundPos.position);
+            hasDestination = true;
             if (transform.position == soundPos.position)
             {
                 isDistracted = false;
+                hasDestination = false;
             }
         }
         

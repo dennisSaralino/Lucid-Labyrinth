@@ -39,9 +39,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5576214946239916534}
     m_Modifications:
+    - target: {fileID: 130224, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 164026, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
       propertyPath: m_Name
       value: Wall_Segment_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 164026, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 168000, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 199676, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 470578, guid: 578c094675e0d4947a6cad5ebf3842e3, type: 3}
       propertyPath: m_RootOrder
