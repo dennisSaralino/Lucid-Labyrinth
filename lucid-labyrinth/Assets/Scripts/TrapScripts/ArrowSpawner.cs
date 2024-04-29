@@ -7,17 +7,26 @@ using UnityEngine.UIElements;
 
 public class ArrowSpawner : MonoBehaviour
 {
+    
     public GameObject arrowPrefab;
     public Transform arrowPos;
-    public AudioSource aSource;
-    public AudioClip arrowSoundClip;
-    // Works for wall with 0 and 90 rotation
 
+    private AudioSource audioSource;
+    public AudioClip arrowShootAudio;
+    public AudioClip pressurePlateAudio;
 
     public float arrowSpeed = 1f;
-    
+
+
+    // Works for wall with 0 and 90 rotation
+
+    void Start(){
+        audioSource = GetComponent<AudioSource>();
+    }
     void OnTriggerEnter(Collider col){
         if(col.gameObject.CompareTag("Player")){
+            if(audioSource != null)
+                audioSource.PlayOneShot(pressurePlateAudio);
             ShootArrow();
         }
     }
@@ -38,6 +47,8 @@ public class ArrowSpawner : MonoBehaviour
 
         //give movement
         Vector3 arrowVelocity;
+        if(audioSource !=null)
+            audioSource.PlayOneShot(arrowShootAudio);
         if(transform.rotation.y == 0f){
             arrowVelocity = new Vector3(arrowSpeed,0,0);
             newRigid.velocity= arrowVelocity;

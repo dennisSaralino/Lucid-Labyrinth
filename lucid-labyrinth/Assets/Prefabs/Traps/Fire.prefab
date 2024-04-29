@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9027138020339987633}
   - component: {fileID: 188556693345703534}
   - component: {fileID: 8859620452517462990}
+  - component: {fileID: 6506583076718880380}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Fire
@@ -28,9 +29,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110060}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.2786, y: 1.512, z: 1.973}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,8 +120,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.7
-      minScalar: 1.4
+      scalar: 2
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -798,8 +799,8 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
-      minScalar: 7
+      scalar: 20
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4679,8 +4680,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6587272, y: 0.6363155, z: 0.8631716}
-  m_Center: {x: -0.013363507, y: -0.06337471, z: 0.1121642}
+  m_Size: {x: 0.4091464, y: 0.41584826, z: 0.48782244}
+  m_Center: {x: 0.01142298, y: 0.046859242, z: 0.053439807}
 --- !u!108 &188556693345703534
 Light:
   m_ObjectHideFlags: 0
@@ -4692,9 +4693,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.8584906, g: 0.63292575, b: 0.376602, a: 1}
-  m_Intensity: 100
-  m_Range: 50
+  m_Color: {r: 0.8490566, g: 0.5525576, b: 0.22027414, a: 1}
+  m_Intensity: 15
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -4702,7 +4703,7 @@ Light:
     m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.035
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -4732,7 +4733,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -4763,3 +4764,19 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!114 &6506583076718880380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110060}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ad8e89772b75f41a377e00ca1ade53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  light: {fileID: 188556693345703534}
+  minIntensity: 25
+  maxIntensity: 30
+  smoothing: 16

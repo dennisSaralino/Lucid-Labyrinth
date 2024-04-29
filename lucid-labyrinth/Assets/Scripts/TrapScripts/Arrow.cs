@@ -6,16 +6,19 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    // Audio
+    private AudioSource audioSource;
+    public AudioClip arrowImpactAudio;
+    
+    // functionality
     Rigidbody rigidbody;
-    // Start is called before the first frame update
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         Destroy(gameObject, 10f);
         rigidbody = GetComponent<Rigidbody>();
     }
-
-    // Update is called once per frame
-    
     
     void OnTriggerEnter(Collider col)
     {
@@ -26,7 +29,8 @@ public class Arrow : MonoBehaviour
         }
         else if(col.gameObject.CompareTag("ArrowPlate"))
         {
-    
+            if(audioSource != null)
+                audioSource.PlayOneShot(arrowImpactAudio);
             rigidbody.velocity = Vector3.zero;
             rigidbody.angularVelocity = Vector3.zero;
         }
