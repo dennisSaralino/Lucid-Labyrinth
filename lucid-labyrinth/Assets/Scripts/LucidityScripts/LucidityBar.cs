@@ -49,7 +49,15 @@ public class LucidityBar : MonoBehaviour
 
         if (state.inLucid == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
         else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
-        else { slider.value -= Time.deltaTime * (1 + sprintModifier + monsterModifier); }
+        else { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
+
+        if (slider.value == 0)
+        {
+            player.input.Disable();
+            SceneManager.LoadScene(2);
+        }
+
+        /*
         if (!debugging) {
             if (slider.value == 0)
             {
@@ -58,13 +66,8 @@ public class LucidityBar : MonoBehaviour
                 if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
                 else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
                 else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
-
-                if (slider.value == 0)
-                {
-                    player.input.Disable();
-                    SceneManager.LoadScene(2);
-                }
             }
-        }
+        }*/
+
     }
 }
