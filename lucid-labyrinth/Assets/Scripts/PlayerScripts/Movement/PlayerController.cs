@@ -173,6 +173,7 @@ public class PlayerController : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.None;
                 pauseMenu.gameObject.SetActive(true);
+                pauseMenu.options.gameObject.SetActive(false);
                 pauseMenu.paused = true;
             }
             else

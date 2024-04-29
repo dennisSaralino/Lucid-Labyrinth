@@ -34,7 +34,10 @@ public class LucidityBar : MonoBehaviour
     private void Awake()
     {
         SetStartingLucidity(100);
+    }
 
+    private void FixedUpdate()
+    {
         // Option for player to hide bar UI in game
         if (PlayerPrefs.GetInt("showUI") == 0)
         {
@@ -46,10 +49,7 @@ public class LucidityBar : MonoBehaviour
             fillBar.gameObject.SetActive(true);
             fillBorder.gameObject.SetActive(true);
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (!pauseMenu.paused)
         {
             if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
