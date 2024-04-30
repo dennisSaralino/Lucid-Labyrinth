@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
-{
+{  
     public bool paused = false;
 
     private void Awake()
