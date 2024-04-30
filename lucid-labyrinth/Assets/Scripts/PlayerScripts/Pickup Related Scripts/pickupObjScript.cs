@@ -13,14 +13,11 @@ public class pickupObjScript : MonoBehaviour
     private GameObject player;
     public GameObject soundRadius;
     private GameObject[] monsters;
-    private BoxCollider objCollider;
-    public string throwableType;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerHoldPos = player.GetComponent<PlayerController>().holdPos;
-        objCollider = GetComponent<BoxCollider>();
         monsters = GameObject.FindGameObjectsWithTag("Monster");
     }
 
@@ -75,13 +72,11 @@ public class pickupObjScript : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")) {
-            if (isAirborne)
-            {
-                Instantiate(soundRadius, transform.position, Quaternion.identity);
-                hitGround = true;
-                isAirborne = false;
-            }
+        if (isAirborne)
+        {
+            Instantiate(soundRadius, transform.position, Quaternion.identity);
+            hitGround = true;
+            isAirborne = false;
         }
     }
 }

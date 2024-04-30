@@ -16,6 +16,7 @@ public class basicAI : MonoBehaviour
     private bool rightTurn = true;
     private bool focused = false;
     private bool hasDestination = false;
+    private bool atSound = false;
     private float seenTimer = 0f;
     private float distractedTimer = 0f;
     private float yTurn = 0f;
@@ -35,7 +36,7 @@ public class basicAI : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         nav = GetComponent<NavMeshAgent>();
-        nav.speed = 0.75f;
+        nav.speed = 1.5f;
         yTurn = transform.rotation.eulerAngles.y;
     }
 
@@ -140,12 +141,18 @@ public class basicAI : MonoBehaviour
             hasDestination = true;
             focused = true;
             head.transform.LookAt(soundPos);
-            if (distractedTimer == 0f)
+            if (distractedTimer <= 0f && atSound)
             {
                 Debug.Log("reached destination");
+                distractedTimer = 0f;
                 isDistracted = false;
                 hasDestination = false;
                 focused = false;
+                atSound = false;
+            }
+            else if (distractedTimer > 0f)
+            {
+                distractedTimer -= Time.deltaTime;
             }
         }
     }
@@ -158,9 +165,10 @@ public class basicAI : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("soundArea"))
+        if (other.gameObject.CompareTag("Sound"))
         {
-            distractedTimer = 1.5f;
+            atSound = true;
+            distractedTimer = 0.65f;
             Destroy(other.gameObject);
         }
     }

@@ -222,9 +222,8 @@ public class PlayerController : MonoBehaviour
             if (currentPickup != null)
             {
                 currentPickup.GetComponent<Rigidbody>().isKinematic = false;
-                Vector3 thVec = mainCam.transform.forward * 1000;
-                thVec.y += xRot;
-                Debug.Log(thVec);
+                Vector3 thVec = mainCam.transform.forward * 1200;
+                thVec.y += xRot * 10;
                 currentPickup.GetComponent<pickupObjScript>().ThrowObj(thVec);
                 currentPickup = null;
             }
