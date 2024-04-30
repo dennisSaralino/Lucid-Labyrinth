@@ -41,8 +41,6 @@ public class ArrowSpawner : MonoBehaviour
         Quaternion arrowRot = Quaternion.Euler(0f,yRotation, -90f);
         Vector3 newPos = new Vector3(arrowPos.position.x,arrowPos.position.y,arrowPos.position.z);
         GameObject newArrow = Instantiate(arrowPrefab, newPos, arrowRot);
-        aSource.clip = arrowSoundClip;
-        aSource.Play();
         Rigidbody newRigid = newArrow.GetComponent<Rigidbody>();
 
         //give movement
