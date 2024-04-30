@@ -629,6 +629,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1475202252}
     - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
+      propertyPath: debugging
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: fillBorder
       value: 
       objectReference: {fileID: 1255145960}

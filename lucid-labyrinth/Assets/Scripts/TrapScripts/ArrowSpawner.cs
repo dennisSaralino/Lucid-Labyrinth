@@ -8,44 +8,50 @@ using UnityEngine.UIElements;
 public class ArrowSpawner : MonoBehaviour
 {
     public GameObject arrowPrefab;
-    public Transform arrowPos;
+    public List<Transform> arrowPosL;
     public AudioSource aSource;
     public AudioClip arrowSoundClip;
     // Works for wall with 0 and 90 rotation
 
 
     public float arrowSpeed = 1f;
-    
-    void OnTriggerEnter(Collider col){
-        if(col.gameObject.CompareTag("Player")){
-            ShootArrow();
+    public void Awake()
+    {
+        StartCoroutine(shootAllArrow());
+    }
+    IEnumerator shootAllArrow()
+    {
+        while(true)
+        {
+            int current = 0;
+            int waitI = 9;
+            for (int i = 0; i < arrowPosL.Count; i++)
+            {
+                ShootArrow(i);
+                current++;
+                if (current == waitI)
+                {
+                    current = 0;
+                }
+            }
+
+            yield return new WaitForSeconds(2.5f);
         }
     }
-    
-    void ShootArrow(){
+    void ShootArrow(int index){
         Debug.Log("in ShootArrow");
-        
+        Transform arrowPos = arrowPosL[index];
         //get set rotation of arrow based on rotation of wall
-        float yRotation; yRotation = transform.rotation.y == 0f ? 0f : 90f;
-
+        Debug.Log(transform.parent.rotation.eulerAngles.y);
+        float yRotation = transform.parent.rotation.y == 0f ? -180f : 90f;
+       
         //spawn arrow
-        Quaternion arrowRot = Quaternion.Euler(0f,yRotation, -90f);
+        Quaternion arrowRot = Quaternion.Euler(0f,-1 * yRotation, -90f);
         Vector3 newPos = new Vector3(arrowPos.position.x,arrowPos.position.y,arrowPos.position.z);
         GameObject newArrow = Instantiate(arrowPrefab, newPos, arrowRot);
-        aSource.clip = arrowSoundClip;
-        aSource.Play();
-        Rigidbody newRigid = newArrow.GetComponent<Rigidbody>();
+        //aSource.clip = arrowSoundClip;
+        //aSource.Play();
 
-        //give movement
-        Vector3 arrowVelocity;
-        if(transform.rotation.y == 0f){
-            arrowVelocity = new Vector3(arrowSpeed,0,0);
-            newRigid.velocity= arrowVelocity;
-        }
-        else if(transform.rotation.y == 0.7071068f){ //<- quaternion value for 90 degrees
-            arrowVelocity = new Vector3(0,0,-arrowSpeed);
-            newRigid.velocity= arrowVelocity;
-        }
        
        
     }
