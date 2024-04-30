@@ -10,13 +10,15 @@ public class Fire : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //get random int between 1-4
-        int spawnChange = Random.Range(1,2);
+        
+        float spawnChange = Random.Range(1,2);
+        
 
-        // 1 in 3 chance to spawn fire
+        // 50% chance to spawn fire
         if(spawnChange == 1)
         {
-            Instantiate(fire, transform.position, Quaternion.identity, transform);
+            Instantiate(fire, transform.position, Quaternion.identity);
+            
         }
     }
 

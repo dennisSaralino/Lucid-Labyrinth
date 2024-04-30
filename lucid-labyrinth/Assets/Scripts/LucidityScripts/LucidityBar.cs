@@ -12,7 +12,8 @@ public class LucidityBar : MonoBehaviour
     public Slider slider;
     public PlayerController player;
     public EnvironmentController state;
-    public bool debugging = false;
+    public PauseMenu pauseMenu;
+    
     // public TMP_Text gameOver;
 
     public Image fillBar;
@@ -21,6 +22,9 @@ public class LucidityBar : MonoBehaviour
     private float sprintModifier;
     public float monsterModifier;
 
+    public bool debugging = false;
+
+    // Sets starting value at the halfway point
     public void SetStartingLucidity(int health)
     {
         slider.maxValue = health;
@@ -31,6 +35,7 @@ public class LucidityBar : MonoBehaviour
     {
         SetStartingLucidity(100);
 
+        // Option for player to hide bar UI in game
         if (PlayerPrefs.GetInt("showUI") == 0)
         {
             fillBar.gameObject.SetActive(false);
@@ -45,25 +50,19 @@ public class LucidityBar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
-
-        //if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier + monsterModifier); }
-        //else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier + monsterModifier); }
-        //else { slider.value -= Time.deltaTime /10 * (3 + sprintModifier + monsterModifier); }
+        if (!pauseMenu.paused)
+        {
+            if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
+            if (state.inLucid == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
+            else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
+            else { slider.value -= Time.deltaTime * (1 + sprintModifier + monsterModifier); }
+        }
+        
         if (!debugging) {
             if (slider.value == 0)
             {
-                if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
-
-                if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
-                else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
-                else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
-
-                if (slider.value == 0)
-                {
-                    player.input.Disable();
-                    SceneManager.LoadScene(3);
-                }
+                player.input.Disable();
+                SceneManager.LoadScene(2);
             }
         }
     }

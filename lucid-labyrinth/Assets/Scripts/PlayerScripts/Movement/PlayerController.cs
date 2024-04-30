@@ -19,14 +19,21 @@ public class PlayerController : MonoBehaviour
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
+
+    //private pickupHitboxScript pickupHitboxScript;
     public GameObject holdPos;
+
     public GameObject currentPickup { get; set; }
+    public PauseMenu pauseMenu;
 
     private float xRot;
     private float yRot;
 
     // global movement bools
     public bool isSprinting = false;
+    //private bool holdingObj = false
+    //public bool paused = false;
+
 
     // timer ints
     private float jumpTimer = 0.0f;
@@ -61,6 +68,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         yRot = mainCam.transform.rotation.y;
         xRot = mainCam.transform.rotation.x;
+        Application.targetFrameRate = 80;
     }
 
     // Private GameObject variables inititalized
@@ -73,6 +81,7 @@ public class PlayerController : MonoBehaviour
         env = environmentCont.GetComponent<EnvironmentController>();
         //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
         StartCoroutine(waitForMaze());
+        camEffect.enabled = false;
     }
     IEnumerator waitForMaze()
     {
@@ -129,105 +138,124 @@ public class PlayerController : MonoBehaviour
 
     private void Update() // Camera Controls are in Update for smoothness
     {
-        Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
-        if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
-        else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
-        else if (playerController.isGrounded) { playerMoveDelta.y = 0; }
+        if (!pauseMenu.paused)
+        {
+            Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
+            if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
+            else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
+            else if (playerController.isGrounded) { playerMoveDelta.y = 0; }
 
-        if (jumpTimer != 0.0f)
-        {
-            playerMoveDelta.y += 0.5f;
-            jumpTimer -= Time.deltaTime;
-            if (jumpTimer < 0.0f) { jumpTimer = 0.0f; }
-        }
+            if (jumpTimer != 0.0f)
+            {
+                playerMoveDelta.y += 0.5f;
+                jumpTimer -= Time.deltaTime;
+                if (jumpTimer < 0.0f) { jumpTimer = 0.0f; }
+            }
 
-        Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
-        playerController.Move(transform.TransformDirection(scaledVelocity));
+            Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
+            playerController.Move(transform.TransformDirection(scaledVelocity));
 
-        if (env.inNightmare)
-        {
-            camEffect.m_NoiseProfile = extremeShake;
+            if (env.inNightmare)
+            {
+                camEffect.m_NoiseProfile = extremeShake;
+            }
+            else if (env.inNeutral)
+            {
+                camEffect.m_NoiseProfile = strongShake;
+            }
+            else if (env.inLucid)
+            {
+                camEffect.m_NoiseProfile = weakShake;
+            }
         }
-        else if (env.inNeutral)
-        {
-            camEffect.m_NoiseProfile = strongShake;
-        }
-        else if (env.inLucid)
-        {
-            camEffect.m_NoiseProfile = weakShake;
+        
+        if (input.player.pause.WasPerformedThisFrame())
+        { 
+            if (pauseMenu.paused == false)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                pauseMenu.gameObject.SetActive(true);
+                pauseMenu.paused = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                pauseMenu.paused = false;
+                pauseMenu.gameObject.SetActive(false);
+            }
         }
     }
     public int solutionIndex;
     private void FixedUpdate()
     {
-        // add mouse deltas to current camera rotation
-        yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
-        xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
-        xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
-
-        // set the player/camera rotation equal to the the new x and y rotation values
-        Vector3 newRot = new Vector3(xRot, yRot, mainCam.transform.rotation.eulerAngles.z);
-        //mainCam.transform.rotation = Quaternion.Euler(Vector3.Lerp(mainCam.transform.rotation.eulerAngles, newRot, 0.05f));
-        mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
-        transform.rotation = Quaternion.Euler(0f, yRot, 0);
-
-
-        // Handels Sprinting
-        if (input.player.sprint.WasPerformedThisFrame())
+        if (!pauseMenu.paused)
         {
-            isSprinting = true;
-            speedScalar += 2.0f;
-            camEffect.m_FrequencyGain += 0.5f;
-        }
-        if (input.player.sprint.WasReleasedThisFrame())
-        {
-            isSprinting = false;
-            speedScalar -= 2.0f;
-            camEffect.m_FrequencyGain -= 0.5f;
-        }
+            // add mouse deltas to current camera rotation
+            yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
+            xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
+            xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
-        // Picking up an object
-        if (input.player.interact.WasPerformedThisFrame() && currentPickup == null)
-        {
-            RaycastHit pickupHit;
-            Physics.SphereCast(mainCam.transform.position, 1.0f, mainCam.transform.forward, out pickupHit, 5f, pickupLayerMask);
-            if (pickupHit.collider != null)
+            // set the player/camera rotation equal to the the new x and y rotation values
+            mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+            transform.rotation = Quaternion.Euler(0f, yRot, 0);
+
+            // Handels Sprinting
+            if (input.player.sprint.WasPerformedThisFrame())
             {
-                //if (pickupHit.collider.gameObject.CompareTag("ThrowableObj")) { currentPickup = pickupHit.collider.gameObject; }
-                //else if (pickupHit.collider.gameObject.CompareTag("Key")) { currentPickup = pickupHit.collider.gameObject.transform.parent.gameObject; }
-                currentPickup = pickupHit.collider.gameObject;
-                currentPickup.GetComponent<pickupObjScript>().Hold();
-                pickupCooldown = 0.5f;
+                isSprinting = true;
+                speedScalar += 2.0f;
+                camEffect.m_FrequencyGain += 0.5f;
+            }
+            if (input.player.sprint.WasReleasedThisFrame())
+            {
+                isSprinting = false;
+                speedScalar -= 2.0f;
+                camEffect.m_FrequencyGain -= 0.5f;
             }
 
-        }
-        // Dropping an object
-        else if (input.player.interact.WasPerformedThisFrame() && currentPickup != null)
-        {
-            if (pickupCooldown == 0.0f)
+            // Picking up an object
+            if (input.player.interact.WasPerformedThisFrame() && currentPickup == null)
             {
-                currentPickup.GetComponent<pickupObjScript>().Drop();
-                currentPickup = null;
-            }
-        }
-        else
-        {
-            if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
-            else { pickupCooldown = 0.0f; }
-        }
+                RaycastHit pickupHit;
+                Physics.SphereCast(mainCam.transform.position, 1.0f, mainCam.transform.forward, out pickupHit, 5f, pickupLayerMask);
+                if (pickupHit.collider != null)
+                {
+                    if (pickupHit.collider.gameObject.CompareTag("ThrowableObj")) { currentPickup = pickupHit.collider.gameObject; }
+                    else if (pickupHit.collider.gameObject.CompareTag("Key")) { currentPickup = pickupHit.collider.gameObject.transform.parent.gameObject; }
+                    currentPickup.GetComponent<pickupObjScript>().Hold();
+                    pickupCooldown = 0.5f;
+                }
 
-        // Throwing an object
-        if (input.player.throwObj.WasPerformedThisFrame())
-        {
-            if (currentPickup != null)
+            }
+            // Dropping an object
+            else if (input.player.interact.WasPerformedThisFrame() && currentPickup != null)
             {
-                currentPickup.GetComponent<Rigidbody>().isKinematic = false;
-                Vector3 thVec = mainCam.transform.forward * 1200;
-                thVec.y += xRot * 10;
-                currentPickup.GetComponent<pickupObjScript>().ThrowObj(thVec);
-                currentPickup = null;
+                if (pickupCooldown == 0.0f)
+                {
+                    currentPickup.GetComponent<pickupObjScript>().Drop();
+                    currentPickup = null;
+                }
+            }
+            else
+            {
+                if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
+                else { pickupCooldown = 0.0f; }
+            }
+
+            // Throwing an object
+            if (input.player.throwObj.WasPerformedThisFrame())
+            {
+                if (currentPickup != null)
+                {
+                    currentPickup.GetComponent<Rigidbody>().isKinematic = false;
+                    Vector3 thVec = mainCam.transform.forward * 1200;
+                    thVec.y += xRot * 10;
+                    currentPickup.GetComponent<pickupObjScript>().ThrowObj(thVec);
+                    currentPickup = null;
+                }
             }
         }
+        
     }
 
     public bool isJumping()

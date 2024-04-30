@@ -67,7 +67,6 @@ public class Door_Controller : MonoBehaviour {
 					}
 			}
 	}
-	
 	//Couroutine to move door up
 	IEnumerator closeInterpolation()
 	{
