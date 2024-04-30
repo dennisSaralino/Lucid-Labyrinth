@@ -300,6 +300,7 @@ public class TileData
             {
                 SideType t = isStairUp ? SideType.upStair : SideType.downStair;
                 floor = up == t ? upside : down == t ? downside : left == t ? leftside : rightside;
+                floor = floor.transform.GetChild(1).GetChild(0).gameObject;
 
             }
             #region TESTING MATERIAL
