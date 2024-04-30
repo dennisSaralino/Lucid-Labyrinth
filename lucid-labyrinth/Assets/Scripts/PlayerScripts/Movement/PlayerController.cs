@@ -276,7 +276,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Pickup"))
         {
             lucidityBar.value += 15;
-            Destroy(other);
+            Destroy(other.gameObject);
         }
         
         if (other.gameObject.CompareTag("Fire"))

@@ -47,27 +47,12 @@ public class LucidityBar : MonoBehaviour
     {
         if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
 
-        if (state.inLucid == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
-        else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
-        else { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
+        slider.value -= Time.deltaTime * (2f + sprintModifier + monsterModifier);
 
         if (slider.value == 0)
         {
             player.input.Disable();
             SceneManager.LoadScene(2);
         }
-
-        /*
-        if (!debugging) {
-            if (slider.value == 0)
-            {
-                if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
-
-                if (state.inLucid == true) { slider.value -= Time.deltaTime * (3.25f + sprintModifier); }
-                else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1.5f + sprintModifier); }
-                else { slider.value -= Time.deltaTime * (3 + sprintModifier); }
-            }
-        }*/
-
     }
 }
