@@ -10,6 +10,7 @@ public class pickupObjScript : MonoBehaviour
     private bool hitGround = false;
     private Vector3 throwAngle = Vector3.zero;
     private GameObject playerHoldPos;
+    private GameObject player;
     public GameObject soundRadius;
     private GameObject[] monsters;
     private BoxCollider objCollider;
@@ -17,7 +18,8 @@ public class pickupObjScript : MonoBehaviour
 
     private void Start()
     {
-        playerHoldPos = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().holdPos;
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerHoldPos = player.GetComponent<PlayerController>().holdPos;
         objCollider = GetComponent<BoxCollider>();
         monsters = GameObject.FindGameObjectsWithTag("Monster");
     }
@@ -35,9 +37,13 @@ public class pickupObjScript : MonoBehaviour
             }
             hitGround = false;
         }
-        if (gameObject.CompareTag("Key"))
+        if (isKey() && !isHeld)
         {
             transform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+        else if (isKey() && isHeld)
+        {
+            transform.rotation = Quaternion.Euler(0f, player.transform.rotation.eulerAngles.y + 90f, -75f);
         }
         
     }

@@ -166,6 +166,8 @@ public class PlayerController : MonoBehaviour
         xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
         // set the player/camera rotation equal to the the new x and y rotation values
+        Vector3 newRot = new Vector3(xRot, yRot, mainCam.transform.rotation.eulerAngles.z);
+        //mainCam.transform.rotation = Quaternion.Euler(Vector3.Lerp(mainCam.transform.rotation.eulerAngles, newRot, 0.05f));
         mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
         transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
@@ -191,8 +193,9 @@ public class PlayerController : MonoBehaviour
             Physics.SphereCast(mainCam.transform.position, 1.0f, mainCam.transform.forward, out pickupHit, 5f, pickupLayerMask);
             if (pickupHit.collider != null)
             {
-                if (pickupHit.collider.gameObject.CompareTag("ThrowableObj")) { currentPickup = pickupHit.collider.gameObject; }
-                else if (pickupHit.collider.gameObject.CompareTag("Key")) { currentPickup = pickupHit.collider.gameObject.transform.parent.gameObject; }
+                //if (pickupHit.collider.gameObject.CompareTag("ThrowableObj")) { currentPickup = pickupHit.collider.gameObject; }
+                //else if (pickupHit.collider.gameObject.CompareTag("Key")) { currentPickup = pickupHit.collider.gameObject.transform.parent.gameObject; }
+                currentPickup = pickupHit.collider.gameObject;
                 currentPickup.GetComponent<pickupObjScript>().Hold();
                 pickupCooldown = 0.5f;
             }
@@ -268,5 +271,5 @@ public class PlayerController : MonoBehaviour
     public bool MovedThisFrame()
     {
         return input.player.move.WasPerformedThisFrame();
-    }  
+    }
 }
