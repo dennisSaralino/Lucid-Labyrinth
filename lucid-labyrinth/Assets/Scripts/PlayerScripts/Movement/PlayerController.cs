@@ -220,8 +220,7 @@ public class PlayerController : MonoBehaviour
                 Physics.SphereCast(mainCam.transform.position, 1.0f, mainCam.transform.forward, out pickupHit, 5f, pickupLayerMask);
                 if (pickupHit.collider != null)
                 {
-                    if (pickupHit.collider.gameObject.CompareTag("ThrowableObj")) { currentPickup = pickupHit.collider.gameObject; }
-                    else if (pickupHit.collider.gameObject.CompareTag("Key")) { currentPickup = pickupHit.collider.gameObject.transform.parent.gameObject; }
+                    currentPickup = pickupHit.collider.gameObject;
                     currentPickup.GetComponent<pickupObjScript>().Hold();
                     pickupCooldown = 0.5f;
                 }

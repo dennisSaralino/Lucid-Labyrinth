@@ -24,11 +24,14 @@ public class EnvironmentController : MonoBehaviour
     public bool lucidLevel2 = false;
     public bool lucidLevel3 = false;
 
+    private bool monsterInPlay = false;
+
     public Color nightmareColor;
     public Color lucidColor;
 
     public PlayerController player;
     public ParticleSystem fogEffects;
+    public GameObject monsterPrefab;
 
     private void TrackState()
     {
@@ -72,6 +75,12 @@ public class EnvironmentController : MonoBehaviour
             inNightmare = true;
             inLucid = false;
             inNeutral = false;
+
+            if (!monsterInPlay)
+            {
+                Instantiate(monsterPrefab, MazeController.i.mazeData.getEnemySpawnPoints()[0] + new Vector3(0, 1.51f, 0), Quaternion.identity);
+                monsterInPlay = true;
+            }
             // Nightmare Level 3
             if (lucidityBar.value <= 5)
             {

@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   surface: {fileID: 0}
-  active: 0
+  active: 1
 --- !u!114 &1912298408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1802,6 +1802,10 @@ PrefabInstance:
       propertyPath: lucidityBar
       value: 
       objectReference: {fileID: 358213266}
+    - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: monsterPrefab
+      value: 
+      objectReference: {fileID: 5369596559823339717, guid: 5d007188bf8d8014ab71394e9119e152, type: 3}
     - target: {fileID: 196036812873170733, guid: 964764dde12610440877ed383a547c95, type: 3}
       propertyPath: m_Name
       value: EnvironmentController

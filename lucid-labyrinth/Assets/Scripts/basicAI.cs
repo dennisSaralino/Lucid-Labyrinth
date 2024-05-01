@@ -37,7 +37,7 @@ public class basicAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         nav = GetComponent<NavMeshAgent>();
         nav.speed = 1.5f;
-        yTurn = transform.rotation.eulerAngles.y;
+        yTurn = head.transform.rotation.eulerAngles.y;
     }
 
     // Update is called once per frame
@@ -87,8 +87,8 @@ public class basicAI : MonoBehaviour
             }
         }
         if (!isDistracted && seenTimer <= 0f) {
-            Debug.DrawRay(head.transform.position , head.transform.forward * 60, Color.blue, 0.2f);
-            Physics.SphereCastNonAlloc(head.transform.position, 5f, head.transform.forward, sawPlayer, viewRange, layerMask);
+            Debug.DrawRay(head.transform.position , head.transform.right * 60, Color.blue, 0.2f);
+            Physics.SphereCastNonAlloc(head.transform.position, 5f, head.transform.right, sawPlayer, viewRange, layerMask);
             foreach (RaycastHit x in sawPlayer)
             {
                 if (x.collider != null)
@@ -122,12 +122,14 @@ public class basicAI : MonoBehaviour
         else if (seenTimer > 0.0f)
         {
             seenTimer -= Time.deltaTime;
-            head.transform.LookAt(player.position);
-            transform.rotation = Quaternion.Euler(0, head.transform.rotation.eulerAngles.y, 0);
+            //head.transform.LookAt(player.position);
+            transform.LookAt(player.position);
+            head.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90f, 0);
             nav.SetDestination(player.position);
             if (seenTimer <= 0.0f)
             {
-                yTurn = transform.rotation.eulerAngles.y;
+                yTurn = head.transform.rotation.eulerAngles.y;
+                netTurn = 0f;
                 seenTimer = 0.0f;
                 nav.ResetPath();
                 focused = false;
@@ -159,8 +161,13 @@ public class basicAI : MonoBehaviour
 
     public void alert(Vector3 position)
     {
-        soundPos = position;
-        isDistracted = true;
+        Physics.Linecast(head.transform.position, player.position, out playerCheck, layerMask);
+        if (!playerCheck.collider.gameObject.CompareTag("Player"))
+        {
+            seenTimer = 0f;
+            soundPos = position;
+            isDistracted = true;
+        }
     }
 
     public void OnTriggerEnter(Collider other)
