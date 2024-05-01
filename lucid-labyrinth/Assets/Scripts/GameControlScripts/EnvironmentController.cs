@@ -35,64 +35,56 @@ public class EnvironmentController : MonoBehaviour
         lucidLevel1 = lucidLevel2 = lucidLevel3 = false;
         nightmareLevel1 = nightmareLevel2 = nightmareLevel3 = false;
 
+        var main = fogEffects.main;
+
         //In Lucid State
         if (lucidityBar.value >= 55)
         {
-            Debug.Log("In Lucid");
             inLucid = true;
             inNightmare = false;
             inNeutral = false;
+
             // Lucid Level 3
-            if (lucidityBar.value >= 95)
+            if (lucidityBar.value >= 85)
             {
-                Debug.Log("In Lucid 3");
                 lucidLevel3 = true;
-                player.speedScalar = 6.5f;
             }
             // Lucid Level 2
             else if (lucidityBar.value >= 70)
             {
-                Debug.Log("In Lucid 2");
                 lucidLevel2 = true;
-                player.speedScalar = 6f;
-                fogEffects.startColor = lucidColor;
+                main.startColor = lucidColor;
             }
             // Lucid Level 1
             else
             {
-                Debug.Log("In Lucid 1");
                 lucidLevel1 = true;
-                player.speedScalar = 5.5f;
+                main.startColor = Color.white;
             }
         }
         //In Nightmare State
         if (lucidityBar.value <= 45)
         {
-            Debug.Log("In Nightmare");
             inNightmare = true;
             inLucid = false;
             inNeutral = false;
+
             // Nightmare Level 3
-            if (lucidityBar.value <= 5)
+            if (lucidityBar.value <= 15)
             {
-                Debug.Log("In Nightmare 3");
                 nightmareLevel3 = true;
-                player.speedScalar = 0f;
             }
             // Nightmare Level 2
-            else if (lucidityBar.value <= 20)
+            else if (lucidityBar.value <= 30)
             {
-                Debug.Log("In Nightmare 2");
                 nightmareLevel2 = true;
-                player.speedScalar = 2.5f;
-                fogEffects.startColor = nightmareColor;
+                main.startColor = nightmareColor;
             }
             // Nightmare Level 1
             else
             {
-                Debug.Log("In Nightmare 1");
                 nightmareLevel1 = true;
-                player.speedScalar = 3.75f;
+                main.startColor = Color.white;
             }
         }
         //In Neutral State
@@ -101,16 +93,16 @@ public class EnvironmentController : MonoBehaviour
             inNeutral = true;
             inLucid = false;
             inNightmare = false;
-            player.speedScalar = 5f;
         }
     }
 
     //Levels of Lucidity:
-    //Lucid Level 3 (95-100), Lucid Level 2 (70-95), Lucid Level 1 (55-70)
-    //Neutral/Dreaming (45-55)
-    //Nightmare Level 1 (20-45), Nightmare Level 2 (5-20), Nightmare Level 3 (0-5)
+    //Lucid Level 1 (55 - 70), Lucid Level 2 (70 - 85), Lucid Level 3 (85 - 100)
+    //Neutral (45-55)
+    //Nightmare Level 1 (45 - 30), Nightmare Level 2 (30 - 15), Nightmare Level 3 (15 - 0)
     private void FixedUpdate()
     {
         TrackState();
+        player.speedScalar = 5f + Mathf.Floor(Mathf.Abs(lucidityBar.value - 50f)/10f);
     }
 }
