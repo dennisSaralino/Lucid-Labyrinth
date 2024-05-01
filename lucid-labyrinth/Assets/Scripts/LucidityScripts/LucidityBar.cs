@@ -19,6 +19,7 @@ public class LucidityBar : MonoBehaviour
     public Image fillBar;
     public Image fillBorder;
 
+    public float baseLucidDrain = 0.5f;
     private float sprintModifier;
     public float monsterModifier;
 
@@ -54,7 +55,7 @@ public class LucidityBar : MonoBehaviour
         {
             if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
             
-            slider.value -= Time.deltaTime * (2f + sprintModifier + monsterModifier);
+            slider.value -= Time.deltaTime * (baseLucidDrain + sprintModifier + monsterModifier);
         }
 
 
