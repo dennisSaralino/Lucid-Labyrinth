@@ -12,6 +12,7 @@ public class basicAI : MonoBehaviour
     public GameObject head;
     public float viewRange = 30f;
     public bool debugging = false;
+    public Vector3 debugDestination = Vector3.zero;
     private bool isDistracted = false;
     private bool rightTurn = true;
     private bool focused = false;
@@ -86,8 +87,9 @@ public class basicAI : MonoBehaviour
                 head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
             }
         }
-        if (!isDistracted && seenTimer <= 0f) {
-            Debug.DrawRay(head.transform.position , head.transform.right * 60, Color.blue, 0.2f);
+        if (!isDistracted && seenTimer <= 0f)
+        {
+            Debug.DrawRay(head.transform.position, head.transform.right * 60, Color.blue, 0.2f);
             Physics.SphereCastNonAlloc(head.transform.position, 5f, head.transform.right, sawPlayer, viewRange, layerMask);
             foreach (RaycastHit x in sawPlayer)
             {
@@ -156,6 +158,15 @@ public class basicAI : MonoBehaviour
             {
                 distractedTimer -= Time.deltaTime;
             }
+        }
+        if (Input.GetKeyDown("m"))
+        {
+            nav.ResetPath();
+            isDistracted = false;
+            focused = false;
+            atSound = false;
+            nav.SetDestination(debugDestination);
+            hasDestination = true;
         }
     }
 
