@@ -314,8 +314,8 @@ public class TileData
                 }
                 else if (isStair)
                 {
-                    Material solutionmaterial = Resources.Load<Material>("Material/isStair");
-                    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                    //Material solutionmaterial = Resources.Load<Material>("Material/isStair");
+                    //if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
                 }
                 else if (isDoor)
                 {

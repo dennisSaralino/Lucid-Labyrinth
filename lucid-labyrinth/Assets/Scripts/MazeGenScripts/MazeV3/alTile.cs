@@ -590,7 +590,6 @@ public class alTData
         this.d = dirFace[1];
         this.l = dirFace[2];
         this.r = dirFace[3];
-        isDeadEnd = dirFace.Count(f => !f) == 3 && !isInOuterEdges();
 
         
     }
@@ -602,11 +601,18 @@ public class alTData
             u = false;
         if (!((fullPos.y != 0) && GetLogNeighbor(new Vector2Int(0, -1)).u))
             d = false;
-
         if (!((fullPos.x != 0) && GetLogNeighbor(new Vector2Int(-1, 0)).r))
             l = false;
         if (!((fullPos.x != w - 1) && GetLogNeighbor(new Vector2Int(1, 0)).l))
             r = false;
+
+        int count = 0;
+        count += !u ? 1 : 0;
+        count += !d ? 1 : 0;
+        count += !l ? 1 : 0;
+        count += !r ? 1 : 0;
+        isDeadEnd = count == 3 && !isInOuterEdges();
+        
     }
 
 }
