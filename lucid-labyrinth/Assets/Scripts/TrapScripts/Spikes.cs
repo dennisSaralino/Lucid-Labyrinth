@@ -35,6 +35,7 @@ public class Spikes : MonoBehaviour
         startingHeight = transform.position.y;
         //bottomHeight is a reference to resting pos
         bottomHeight = transform.position.y;
+        maxHeight = startingHeight + 1f;
     }
 
     void OnTriggerEnter(Collider other){
