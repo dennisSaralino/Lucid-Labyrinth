@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
     public Slider lucidityBar;
+    public float pickupGain = 25f;
 
     // Scalable values for speed and look sensitivity.
     [Range(1.0f, 20.0f)]
@@ -280,7 +281,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            lucidityBar.value += 15;
+            lucidityBar.value += pickupGain;
+            Destroy(other.gameObject);
         }
         
         if (other.gameObject.CompareTag("Fire"))

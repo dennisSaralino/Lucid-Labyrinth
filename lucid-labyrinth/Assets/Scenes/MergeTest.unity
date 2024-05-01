@@ -131,8 +131,32 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: SubModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: ColorModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
       propertyPath: InitialModule.size3D
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
       propertyPath: InitialModule.rotation3D
@@ -142,8 +166,28 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.scalar
       value: 14
       objectReference: {fileID: 0}
-    - target: {fileID: 6383560602399838964, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
-      propertyPath: m_ApplyActiveColorSpace
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].emitter
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].properties
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6383560602413666252, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
@@ -1803,9 +1847,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 358213266}
     - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
-      propertyPath: monsterPrefab
-      value: 
-      objectReference: {fileID: 5369596559823339717, guid: 5d007188bf8d8014ab71394e9119e152, type: 3}
+      propertyPath: lucidColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: nightmareColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: nightmareColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: nightmareColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: nightmareColor.r
+      value: 0.745283
+      objectReference: {fileID: 0}
     - target: {fileID: 196036812873170733, guid: 964764dde12610440877ed383a547c95, type: 3}
       propertyPath: m_Name
       value: EnvironmentController
