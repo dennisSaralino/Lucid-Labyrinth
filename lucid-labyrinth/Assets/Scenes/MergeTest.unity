@@ -1851,6 +1851,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: monsterPrefab
+      value: 
+      objectReference: {fileID: 5369596559823339717, guid: 5d007188bf8d8014ab71394e9119e152, type: 3}
+    - target: {fileID: 196036812873170732, guid: 964764dde12610440877ed383a547c95, type: 3}
       propertyPath: nightmareColor.a
       value: 1
       objectReference: {fileID: 0}
