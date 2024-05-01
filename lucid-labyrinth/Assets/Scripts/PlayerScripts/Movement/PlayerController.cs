@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
+    private AudioSource SFX;
+    private GameObject[] monsters;
 
     //private pickupHitboxScript pickupHitboxScript;
     public GameObject holdPos;
@@ -70,6 +72,7 @@ public class PlayerController : MonoBehaviour
         yRot = mainCam.transform.rotation.y;
         xRot = mainCam.transform.rotation.x;
         Application.targetFrameRate = 80;
+        monsters = GameObject.FindGameObjectsWithTag("Monster");
     }
 
     // Private GameObject variables inititalized
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
+        SFX = GetComponent<AudioSource>();
         //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
         StartCoroutine(waitForMaze());
         camEffect.enabled = false;
@@ -159,6 +163,7 @@ public class PlayerController : MonoBehaviour
             if (env.inNightmare)
             {
                 camEffect.m_NoiseProfile = extremeShake;
+                monsters = GameObject.FindGameObjectsWithTag("Monster");
             }
             else if (env.inNeutral)
             {
@@ -293,7 +298,25 @@ public class PlayerController : MonoBehaviour
         {
             lucidityBar.value -= damageProjectile;
         }
+
+        if (other.gameObject.CompareTag("Water"))
+        {
+            SFX.enabled = true;
+            foreach (GameObject x in monsters)
+            {
+                Debug.Log(transform.position);
+                x.GetComponent<basicAI>().alert(transform.position);
+            }
+        }
        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Water"))
+        {
+            SFX.enabled = false;
+        }
     }
 
     public bool MovedThisFrame()

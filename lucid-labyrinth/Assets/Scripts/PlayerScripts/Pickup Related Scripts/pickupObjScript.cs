@@ -24,6 +24,7 @@ public class pickupObjScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        monsters = GameObject.FindGameObjectsWithTag("Monster");
         if (isHeld) { transform.position = playerHoldPos.transform.position; }
         if (hitGround)
         {
