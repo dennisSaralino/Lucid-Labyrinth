@@ -14,11 +14,16 @@ public class pickupObjScript : MonoBehaviour
     public GameObject soundRadius;
     private GameObject[] monsters;
 
+    private AudioSource audioSource;
+    public AudioClip keyPickupSound;
+    public AudioClip keyThrowSound;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerHoldPos = player.GetComponent<PlayerController>().holdPos;
         monsters = GameObject.FindGameObjectsWithTag("Monster");
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -78,6 +83,16 @@ public class pickupObjScript : MonoBehaviour
             Instantiate(soundRadius, transform.position, Quaternion.identity);
             hitGround = true;
             isAirborne = false;
+            
+            if(isKey()){                
+                if(keyThrowSound != null)
+                    audioSource.PlayOneShot(keyThrowSound);                      
+            }
         }
+    }
+
+    public void PlayJingle(){
+        if(isKey()&& keyPickupSound != null)
+            audioSource.PlayOneShot(keyPickupSound);
     }
 }

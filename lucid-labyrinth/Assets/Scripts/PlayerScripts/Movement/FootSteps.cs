@@ -15,6 +15,9 @@ public class FootSteps : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip rock;
     public AudioClip water;
+    public AudioClip jumpStart;
+    public AudioClip jumpEnd;
+    public AudioClip takeDamage;
 
     //used to detect movement
     private Vector3 previousPosition;
@@ -47,15 +50,17 @@ public class FootSteps : MonoBehaviour
         // swaps frequency of sound plays
         delay = playerController.isSprinting ? sprintDelay : walkDelay;
         
-        //if theres a difference in position, then player is walking
-        if(transform.position != previousPosition && currentDelay >= delay)
+        //if theres a difference in x || z position, then player is walking
+        if((transform.position.x != previousPosition.x ||
+           transform.position.z != previousPosition.z) &&
+           currentDelay >= delay)
         {
             StartWalk();
             currentDelay = 0f;
         }
 
         // always plays sound at beginning of walk
-        if(transform.position == previousPosition)
+        if(transform.position == previousPosition && !playerController.isJumping)
             currentDelay = walkDelay;
         
 
@@ -71,19 +76,47 @@ public class FootSteps : MonoBehaviour
         {
             //hit holds collision info
             if(hit.collider.CompareTag("Rock"))
+                audioSource.volume = 0.03f;
+                Debug.Log("Walking");
                 PlaySound(rock);
             if(hit.collider.CompareTag("Water")){
-                audioSource.volume = 0.08f;
+                audioSource.volume = 0.1f;
                 PlaySound(water);
                 audioSource.volume = 0.03f;
             }
         }
     }
-
+    // used for walking/running
     void PlaySound(AudioClip audio)
     {
         //add variation
-        audioSource.pitch = Random.Range(0.7f, 1.2f);
-        audioSource.PlayOneShot(audio);
+        if(audio != null){
+            audioSource.pitch = Random.Range(0.7f, 1.2f);
+            audioSource.PlayOneShot(audio);
+        }
+    }
+
+
+    // methods below invoked by PlayerController script
+
+    //plays sound for jumping (rising))
+    public void PlayJumpStart(){
+        if(jumpStart != null)
+            audioSource.PlayOneShot(jumpStart);
+    }
+
+    //plays sound for jumping (landing)
+    public void PlayJumpEnd(){
+        if(jumpEnd != null)
+            audioSource.PlayOneShot(jumpEnd);
+    }
+
+    // plays sound when taking damage (for traps)
+    public void PlayDamage(){
+        if(takeDamage != null){
+            audioSource.volume = 0.6f;
+            audioSource.PlayOneShot(takeDamage);
+            audioSource.volume = 0.1f;
+        }
     }
 }

@@ -28,11 +28,14 @@ public class PlayerController : MonoBehaviour
     public GameObject currentPickup { get; set; }
     public PauseMenu pauseMenu;
 
+    public FootSteps footSteps;
+
     private float xRot;
     private float yRot;
 
     // global movement bools
     public bool isSprinting = false;
+    public bool isJumping = false;
     //private bool holdingObj = false
     //public bool paused = false;
 
@@ -62,6 +65,8 @@ public class PlayerController : MonoBehaviour
     // values for decrementing after taking damage
     private float damagePool = 10f;
     private float damageProjectile = 12f;
+    private float logDamage = 5f;
+    private float spikeDamage = 10f;
 
     // For walking audio
 
@@ -87,6 +92,8 @@ public class PlayerController : MonoBehaviour
         //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
         StartCoroutine(waitForMaze());
         camEffect.enabled = false;
+        footSteps = GetComponentInChildren<FootSteps>();
+
     }
     IEnumerator waitForMaze()
     {
@@ -146,7 +153,11 @@ public class PlayerController : MonoBehaviour
         if (!pauseMenu.paused)
         {
             Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
-            if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
+            if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()){
+                jumpTimer = 0.4f;
+                footSteps.PlayJumpStart();
+                isJumping = true;
+            }
             else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
             else if (playerController.isGrounded) { playerMoveDelta.y = 0; }
 
@@ -154,7 +165,7 @@ public class PlayerController : MonoBehaviour
             {
                 playerMoveDelta.y += 0.5f;
                 jumpTimer -= Time.deltaTime;
-                if (jumpTimer < 0.0f) { jumpTimer = 0.0f; }
+                if (jumpTimer < 0.0f) { jumpTimer = 0.0f; footSteps.PlayJumpEnd(); isJumping = false;};
             }
 
             Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
@@ -229,6 +240,7 @@ public class PlayerController : MonoBehaviour
                 {
                     currentPickup = pickupHit.collider.gameObject;
                     currentPickup.GetComponent<pickupObjScript>().Hold();
+                    currentPickup.GetComponent<pickupObjScript>().PlayJingle();
                     pickupCooldown = 0.5f;
                 }
 
@@ -264,10 +276,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public bool isJumping()
-    {
-        return jumpTimer == 0.0f;
-    }
+    
 
     // A little recursive function that reduces a value to be between -1 and 1.
     // Exists to turn mouse deltas into values closer resembling values from stick inputs
@@ -294,10 +303,23 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Fire"))
         {
             lucidityBar.value -= damagePool;
+            footSteps.PlayDamage();
+
         }
         if (other.gameObject.CompareTag("Arrow"))
         {
             lucidityBar.value -= damageProjectile;
+            footSteps.PlayDamage();
+        }
+        if(other.gameObject.CompareTag("Log"))
+        {
+            lucidityBar.value -= logDamage;
+            footSteps.PlayDamage();
+        }
+        if(other.gameObject.CompareTag("Spikes"))
+        {
+            lucidityBar.value -= spikeDamage;
+            footSteps.PlayDamage();
         }
 
         if (other.gameObject.CompareTag("Water"))
