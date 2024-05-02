@@ -203,7 +203,7 @@ public class alDataConverter
         checkForDecoration(tileD);
         checkForTrap(tileD);
 
-        if (!tileD.isStartTile && !tileD.isDoor)
+        if (!tileD.isStartTile && !tileD.isDoor && !ct.isInOuterEdges())
         {
             tileBeforeDoor.Add(tileD);
             if(debugging)
@@ -212,6 +212,7 @@ public class alDataConverter
         solutionD.Add(tileD);
         resultTileGrid[x, y] = tileD;
         editorA[x, y] = new TileDataEditorData(tileD, ct);
+        
     }
 
     public static void handleBranch(TileData solutionT,alTData ct, ref int layer, int branchIndex)
@@ -240,7 +241,8 @@ public class alDataConverter
         checkForDecoration(tileD);
         checkForTrap(tileD);
 
-        tileBeforeDoor.Add(tileD);
+        if(!ct.isInOuterEdges())
+            tileBeforeDoor.Add(tileD);
         if(debugging) Debug.Log("ADDED BEFORE DOOR: " + tileD.fullPos);
         resultTileGrid[x, y] = tileD;
         editorA[x, y] = new TileDataEditorData(tileD, ct);
