@@ -67,6 +67,10 @@ public class DataToMaze : MonoBehaviour
                 if (currentData == null) continue;
                 tileFullGrid.Add(currentData);
                 Transform p = Instantiate(prefab, transform);
+#if UNITY_EDITOR
+                TileDataEditor edi = p.gameObject.AddComponent<TileDataEditor>();
+                edi.data = griddata.eData[i, j];
+#endif
                 p.name = "[" + i.ToString() + " , " + j.ToString() + "]";
                 p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
                 //Debug.Log(currentData == null);
@@ -106,7 +110,7 @@ public class DataToMaze : MonoBehaviour
             }
             yield return null;
         }
-        navigationBaker.baker.bakeMap(surfaces);
+        yield return StartCoroutine(navigationBaker.baker.bakeMap(surfaces));
         MazeController.i.mazeData.isReady = true;
     }
 }

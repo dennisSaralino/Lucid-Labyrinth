@@ -28,17 +28,8 @@ public class MazeController : MonoBehaviour
     {
         while (mazeData == null) yield return null;
         while (!mazeData.isReady) yield return null;
-        Vector3 offset = new Vector3(0, 1, 0);
-        foreach (Vector3 i in mazeData.lucidityPickupPos)
-        {
-            GameObject g = Instantiate(lucidityPickup, pickUpHolder);
-            g.transform.position = i + offset;
-        }
-        foreach (Vector3 i in mazeData.keyPickupPos)
-        {
-            GameObject g = Instantiate(key, pickUpHolder);
-            g.transform.position = i + offset;
-        }
+       
+        spawnPickup();
         isReady = true;
         while (true)
         {
@@ -52,9 +43,20 @@ public class MazeController : MonoBehaviour
         }
 
     }
+
     public void spawnPickup()
     {
-        
+        Vector3 offset = new Vector3(0, 1, 0);
+        //foreach (Vector3 i in mazeData.lucidityPickupPos)
+        //{
+        //    GameObject g = Instantiate(lucidityPickup, pickUpHolder);
+        //    g.transform.position = i + offset;
+        //}
+        foreach (Vector3 i in mazeData.keyPickupPos)
+        {
+            GameObject g = Instantiate(key, pickUpHolder);
+            g.transform.position = i + offset;
+        }
     }
     public void Update()
     {

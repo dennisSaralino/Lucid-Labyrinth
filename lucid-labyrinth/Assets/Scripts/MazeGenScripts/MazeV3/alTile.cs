@@ -597,6 +597,9 @@ public class alTData
     {
         float h = GridDataGen.fullGrid.GetLength(1);
         float w = GridDataGen.fullGrid.GetLength(0);
+
+        //fullPos.y == h- 1 || upneighbor.d == wall
+
         if (!((fullPos.y != h - 1) && GetLogNeighbor(new Vector2Int(0, 1)).d))
             u = false;
         if (!((fullPos.y != 0) && GetLogNeighbor(new Vector2Int(0, -1)).u))
@@ -605,7 +608,6 @@ public class alTData
             l = false;
         if (!((fullPos.x != w - 1) && GetLogNeighbor(new Vector2Int(1, 0)).l))
             r = false;
-
         int count = 0;
         count += !u ? 1 : 0;
         count += !d ? 1 : 0;
