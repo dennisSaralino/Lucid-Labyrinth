@@ -47,11 +47,11 @@ public class MazeController : MonoBehaviour
     public void spawnPickup()
     {
         Vector3 offset = new Vector3(0, 1, 0);
-        //foreach (Vector3 i in mazeData.lucidityPickupPos)
-        //{
-        //    GameObject g = Instantiate(lucidityPickup, pickUpHolder);
-        //    g.transform.position = i + offset;
-        //}
+        foreach (Vector3 i in mazeData.lucidityPickupPos)
+        {
+            GameObject g = Instantiate(lucidityPickup, pickUpHolder);
+            g.transform.position = i + offset;
+        }
         foreach (Vector3 i in mazeData.keyPickupPos)
         {
             GameObject g = Instantiate(key, pickUpHolder);

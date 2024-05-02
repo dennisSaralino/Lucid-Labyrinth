@@ -39,6 +39,7 @@ public class alDataConverter
     static List<TileData> solutionD;
     static List<Vector2Int> keyList;
     static TileDataEditorData[,] editorA;
+    public static bool debugging = false;
     public static tileGridData convertToTiledata(GridData gridd)
     {
 
@@ -167,13 +168,16 @@ public class alDataConverter
         {
             tileBeforeDoor = tileBeforeDoor.FindAll(x=>!x.haveLpickup);
 
-            Debug.Log("ADDED DOOR ALL POS: ");
             TileData keyTile = tileBeforeDoor[Random.Range(0, tileBeforeDoor.Count)];
             Vector2Int v = new Vector2Int(keyTile.fullPos.x, keyTile.fullPos.y);
             keyList.Add(v);
             tileBeforeDoor = new List<TileData>();
-            Debug.Log("ADDED KEY CHOSEN : " + keyTile.fullPos);
-            Debug.Log("ADDED CLEAR SECTION+========================");
+            if (debugging)
+            {
+                Debug.Log("ADDED DOOR ALL POS: ");
+                Debug.Log("ADDED KEY CHOSEN : " + keyTile.fullPos);
+                Debug.Log("ADDED CLEAR SECTION+========================");
+            }
             keyTile.setHaveKey();
             doorCount++;
             tileD.getSide(ct.indir - ct.fullPos) = SideType.Door;
@@ -202,7 +206,8 @@ public class alDataConverter
         if (!tileD.isStartTile && !tileD.isDoor)
         {
             tileBeforeDoor.Add(tileD);
-            Debug.Log("ADDED BEFORE DOOR: " + tileD.fullPos);
+            if(debugging)
+                Debug.Log("ADDED BEFORE DOOR: " + tileD.fullPos);
         }
         solutionD.Add(tileD);
         resultTileGrid[x, y] = tileD;
@@ -236,7 +241,7 @@ public class alDataConverter
         checkForTrap(tileD);
 
         tileBeforeDoor.Add(tileD);
-        Debug.Log("ADDED BEFORE DOOR: " + tileD.fullPos);
+        if(debugging) Debug.Log("ADDED BEFORE DOOR: " + tileD.fullPos);
         resultTileGrid[x, y] = tileD;
         editorA[x, y] = new TileDataEditorData(tileD, ct);
         if (ct.isDeadEnd)
