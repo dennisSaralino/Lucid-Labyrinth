@@ -393,6 +393,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 160918, guid: d53e2770e460a8f4498051bc40fce00e, type: 3}
+      propertyPath: m_TagString
+      value: Rock
+      objectReference: {fileID: 0}
     - target: {fileID: 468040, guid: d53e2770e460a8f4498051bc40fce00e, type: 3}
       propertyPath: m_RootOrder
       value: 0
