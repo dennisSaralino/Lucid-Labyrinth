@@ -32,6 +32,7 @@ public class EnvironmentController : MonoBehaviour
     public PlayerController player;
     public ParticleSystem fogEffects;
     public GameObject monsterPrefab;
+    public BreadcrumbSpawner breadcrumbs;
 
     private void TrackState()
     {
@@ -63,6 +64,7 @@ public class EnvironmentController : MonoBehaviour
             {
                 lucidLevel1 = true;
                 main.startColor = Color.white;
+                breadcrumbs.maxCrumbs = 20;
             }
         }
         //In Nightmare State
@@ -93,6 +95,7 @@ public class EnvironmentController : MonoBehaviour
             {
                 nightmareLevel1 = true;
                 main.startColor = Color.white;
+                breadcrumbs.maxCrumbs = 5;
             }
         }
         //In Neutral State

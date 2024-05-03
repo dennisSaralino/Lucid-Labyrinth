@@ -46,7 +46,9 @@ public class BreadcrumbSpawner : MonoBehaviour
                         Destroy(gameObject.transform.GetChild(0).gameObject);
                         numOfCrumbs--;
                     }
-                    Vector3 playerHorizontals = new Vector3(playerTransform.transform.position.x, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z);
+                    Vector3 playerHorizontals;
+                    if (spawnLeft) { playerHorizontals = new Vector3(playerTransform.transform.position.x + 1f, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z); }
+                    else { playerHorizontals = new Vector3(playerTransform.transform.position.x - 1f, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z); }
                     GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, playerTransform.rotation);
                     if (spawnLeft == true)
                     {
@@ -63,6 +65,11 @@ public class BreadcrumbSpawner : MonoBehaviour
                         spawnLeft = !spawnLeft;
                     }
                     newBreadcrumb.transform.SetParent(gameObject.transform);
+                    if (numOfCrumbs > maxCrumbs)
+                    {
+                        Destroy(gameObject.transform.GetChild(0).gameObject);
+                        numOfCrumbs--;
+                    }
                     timer = resetTimer;
                 }
             }
