@@ -285,6 +285,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5226644978858378631, guid: 36d612a703546d54e88ee46af666760f, type: 3}
   m_PrefabInstance: {fileID: 675096775}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &355484386 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1540572859801714925, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+  m_PrefabInstance: {fileID: 693335604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &417621720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -477,6 +482,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1302936339404228590, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302936339404228590, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3580728267636996811, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -548,6 +561,18 @@ PrefabInstance:
     - target: {fileID: 5273604561870234235, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6512007801207204846, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6512007801207204846, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6512007801207204846, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9029846348236020587, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -926,6 +951,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
+--- !u!223 &1163477608 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2966089968167016437, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+  m_PrefabInstance: {fileID: 693335604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1170125344 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 196036812873170733, guid: 964764dde12610440877ed383a547c95, type: 3}
@@ -1068,6 +1098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e5426b432644344a44aea1115af755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pause: {fileID: 355484386}
+  options: {fileID: 1163477608}
   paused: 0
 --- !u!1 &1344743735
 GameObject:
