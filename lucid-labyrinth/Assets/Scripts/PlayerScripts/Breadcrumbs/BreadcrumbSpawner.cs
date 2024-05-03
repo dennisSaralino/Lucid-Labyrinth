@@ -47,9 +47,14 @@ public class BreadcrumbSpawner : MonoBehaviour
                         numOfCrumbs--;
                     }
                     Vector3 playerHorizontals;
-                    if (spawnLeft) { playerHorizontals = new Vector3(playerTransform.transform.position.x + 1f, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z); }
-                    else { playerHorizontals = new Vector3(playerTransform.transform.position.x - 1f, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z); }
-                    GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, playerTransform.rotation);
+                    Vector3 playerActual = new Vector3(playerTransform.transform.position.x, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z);
+                    
+                    if (spawnLeft) { playerHorizontals = new Vector3(playerTransform.transform.position.x - 0.5f, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z); }
+                    else { playerHorizontals = new Vector3(playerTransform.transform.position.x + 0.5f, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z); }
+                    
+                    GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, Quaternion.identity);
+                    newBreadcrumb.transform.RotateAround(playerActual, new Vector3(0, 1, 0), playerTransform.rotation.eulerAngles.y);
+                    
                     if (spawnLeft == true)
                     {
                         //left foot

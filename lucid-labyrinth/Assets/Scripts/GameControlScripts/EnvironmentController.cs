@@ -114,6 +114,6 @@ public class EnvironmentController : MonoBehaviour
     private void FixedUpdate()
     {
         TrackState();
-        player.speedScalar = 5f + Mathf.Floor(Mathf.Abs(lucidityBar.value - 50f)/10f);
+        player.speedScalar = 5f + Mathf.Floor(Mathf.Abs(lucidityBar.value - 50f)/20f);
     }
 }

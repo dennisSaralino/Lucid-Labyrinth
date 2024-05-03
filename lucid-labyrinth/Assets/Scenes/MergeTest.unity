@@ -1466,7 +1466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
       propertyPath: timer
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
       propertyPath: maxCrumbs
