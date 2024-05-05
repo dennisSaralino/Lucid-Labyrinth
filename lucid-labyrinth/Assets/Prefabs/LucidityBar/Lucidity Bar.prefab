@@ -104,6 +104,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 755364381983683418}
+  player: {fileID: 0}
+  state: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  fillBar: {fileID: 0}
+  fillBorder: {fileID: 0}
+  baseLucidDrain: 0.5
+  monsterModifier: 0
+  debugging: 0
 --- !u!1 &755364382340722136
 GameObject:
   m_ObjectHideFlags: 0
