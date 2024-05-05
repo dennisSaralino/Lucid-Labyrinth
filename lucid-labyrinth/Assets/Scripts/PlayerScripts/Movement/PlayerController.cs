@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
     {
         while (MazeController.i == null) yield return null;
         while (!MazeController.i.isReady) yield return null;
-        float i = 10;
+        float i = 2;
         while (i > 0)
         {
             i -= Time.deltaTime;
