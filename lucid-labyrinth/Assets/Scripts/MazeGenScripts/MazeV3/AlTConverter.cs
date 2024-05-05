@@ -264,7 +264,7 @@ public class AlTConverter : MonoBehaviour
     public static bool canPlaceDoor(int solutionIndex)
     {
         int comparer = Mathf.FloorToInt((solutionLength - 2) / MaxDoorNum) - 1;
-        comparer = Mathf.Clamp(comparer, 1, 200);
+        comparer = Mathf.Clamp(comparer, 5, 200);
         for (int i = 1; i < MaxDoorNum + 1; i++)
         {
             if (solutionIndex % comparer == 0 && solutionIndex / comparer == i)

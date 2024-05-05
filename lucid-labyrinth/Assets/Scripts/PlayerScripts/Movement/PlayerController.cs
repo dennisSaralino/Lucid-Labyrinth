@@ -223,7 +223,8 @@ public class PlayerController : MonoBehaviour
             xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
             // set the player/camera rotation equal to the the new x and y rotation values
-            mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+            //mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+            mainCam.transform.localEulerAngles = new Vector3(xRot, 0, 0);  // smoother turns
             transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
             // Handles Sprinting
