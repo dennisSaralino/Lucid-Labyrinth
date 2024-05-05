@@ -13,6 +13,8 @@ public class Door_Controller : MonoBehaviour {
 	private Transform[] allTransform; //Array for Transform components of this object and it's children	
 	private Transform[] childrenTransform; //for children's Transform components only
 
+	private AudioSource audioSource;
+	public AudioClip	audioClip;
 	
 // Use this for initialization
 	void Start ()
@@ -29,29 +31,44 @@ public class Door_Controller : MonoBehaviour {
 					childrenTransform[i-1]=allTransform[i];		
 				}
 		
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	void OnTriggerEnter(Collider other)
 	{
-			if (stayOpen == false)
+		if (stayOpen == false)
+		{
+			if (other.gameObject.CompareTag("Key"))
 			{
-				if (other.gameObject.CompareTag("Key"))
+				if(audioClip != null)
+					audioSource.PlayOneShot(audioClip);
+				stayOpen = true;
+				Destroy(other.gameObject);
+				Open();
+			}
+			if (other.gameObject.CompareTag("Player"))
+			{
+				PlayerController p = other.gameObject.GetComponent<PlayerController>();
+				if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
 				{
-					stayOpen = true;
-					Destroy(other.gameObject);
-					Open();
-				}
-				if (other.gameObject.CompareTag("Player"))
-				{
-					PlayerController p = other.gameObject.GetComponent<PlayerController>();
-					if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+					if (other.gameObject.CompareTag("Key"))
 					{
-						locked = false;
+						stayOpen = true;
+						Destroy(other.gameObject);
 						Open();
 					}
+					if (other.gameObject.CompareTag("Player"))
+					{
+						PlayerController p = other.gameObject.GetComponent<PlayerController>();
+						if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+						{
+							locked = false;
+							Open();
+						}
+					}
 				}
+			//Open();
 			}
-		//Open();
 	}
 	
 	void OnTriggerExit(Collider other)
@@ -60,11 +77,13 @@ public class Door_Controller : MonoBehaviour {
 			{
 				Close();
 			}
+			
 	}
 
 	//Couroutine to move door down
 	IEnumerator openInterpolation()
 	{	
+		
 
 		while (childrenTransform[0].localPosition.y > (-2.6f))
 			{				

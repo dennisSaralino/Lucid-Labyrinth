@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1465964072331025703}
   - component: {fileID: 1465964072331770521}
   - component: {fileID: 1465964072327534807}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: floor2 (1)
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 91
@@ -109,9 +109,9 @@ GameObject:
   - component: {fileID: 1465964072404124831}
   - component: {fileID: 1465964072405394209}
   - component: {fileID: 1465964072409612655}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: floor2
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 91
@@ -206,9 +206,9 @@ GameObject:
   - component: {fileID: 1465964072677925879}
   - component: {fileID: 1465964072676918345}
   - component: {fileID: 1465964072672699911}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: floor2 (3)
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 91
@@ -303,9 +303,9 @@ GameObject:
   - component: {fileID: 1465964073890963209}
   - component: {fileID: 1465964073892329655}
   - component: {fileID: 1465964073888160505}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: floor2 (2)
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 91
