@@ -13,7 +13,8 @@ public enum TrapMazeType
     watertrap,
     spikestrap,
     logtrap,
-    arrowtrap
+    arrowtrap,
+    pendulumtrap
 }
 
 
@@ -175,10 +176,11 @@ public class TileData
             {
                 traprotateable = 1;
             }
-            if(traprotateable != -1)
+            if (traprotateable != -1)
             {
                 possible.Add(TrapMazeType.arrowtrap);
                 possible.Add(TrapMazeType.logtrap);
+                possible.Add(TrapMazeType.pendulumtrap);
             }
         }
         
@@ -219,6 +221,19 @@ public class TileData
         {
             Debug.Log("WTF are you doing here");
             return ref left;
+        }
+    }
+    public int getSideRotation(Vector2Int side)
+    {
+        Debug.Log(side);
+        if (side.x == -1) return -90;
+        else if (side.x == 1) return 90;
+        else if (side.y == 1) return 0;
+        else if (side.y == -1) return 180;
+        else
+        {
+            Debug.Log("WTF are you doing here");
+            return 0;
         }
     }
     public List<NavMeshSurface> loadInto(Transform p)
@@ -385,7 +400,7 @@ public class TileData
                 GameObject.DestroyImmediate(floor.gameObject);
                 floor = cell.gameObject;
             }
-            else if (trapT == TrapMazeType.logtrap || trapT == TrapMazeType.arrowtrap)
+            else if (trapT == TrapMazeType.logtrap || trapT == TrapMazeType.arrowtrap || trapT == TrapMazeType.pendulumtrap)
             {
                 if (traprotateable == 0)
                 {

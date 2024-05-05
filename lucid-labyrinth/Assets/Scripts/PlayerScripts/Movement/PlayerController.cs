@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public PauseMenu pauseMenu;
 
     public FootSteps footSteps;
-
+    public Transform footPos;
     private float xRot;
     private float yRot;
 
@@ -99,12 +99,13 @@ public class PlayerController : MonoBehaviour
     {
         while (MazeController.i == null) yield return null;
         while (!MazeController.i.isReady) yield return null;
-        float i = 2;
+        float i = 10;
         while (i > 0)
         {
             i -= Time.deltaTime;
 
-            transform.position = MazeController.i.mazeData.startPos + new Vector3(0, 4, 0);
+            transform.position = MazeController.i.mazeData.startPos - footPos.localPosition;
+            transform.eulerAngles = new Vector3(0, MazeController.i.mazeData.startRotation, 0);
             yield return null;
         }
     }

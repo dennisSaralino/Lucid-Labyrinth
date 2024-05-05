@@ -19,7 +19,7 @@ public class Door_Controller : MonoBehaviour {
 	{		
 		//Getting transform components of this object and all it's children
 		allTransform = GetComponentsInChildren<Transform>();
-		
+		stayOpen = false;
 		//Create new Array for children's Transforms only
 		childrenTransform = new Transform[allTransform.Length - 1];
 		
@@ -33,20 +33,24 @@ public class Door_Controller : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.CompareTag("Key"))
-        {
-			Destroy(other.gameObject);
-			Open();
-        }
-		if (other.gameObject.CompareTag("Player"))
-		{
-			PlayerController p = other.gameObject.GetComponent<PlayerController>();
-			if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+			if (stayOpen == false)
 			{
-				locked = false;				
-				Open();
+				if (other.gameObject.CompareTag("Key"))
+				{
+					stayOpen = true;
+					Destroy(other.gameObject);
+					Open();
+				}
+				if (other.gameObject.CompareTag("Player"))
+				{
+					PlayerController p = other.gameObject.GetComponent<PlayerController>();
+					if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+					{
+						locked = false;
+						Open();
+					}
+				}
 			}
-		}
 		//Open();
 	}
 	

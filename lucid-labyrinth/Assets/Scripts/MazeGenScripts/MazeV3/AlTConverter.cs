@@ -5,9 +5,9 @@ using System.Linq;
 
 public class AlTConverter : MonoBehaviour
 {
+    public static int MaxDoorNum = 10;
+    public static int MaxStairNum = 10;
     #region SETTING
-    public static int MaxDoorNum = 5;
-    public static int MaxStairNum = 5;
     public static int trapFrequency = 10;//20; //1 Trap for every {trapFrequency} tiles.
     public static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
     public static int lucidityPickupFrequency = 5; //10; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
@@ -168,21 +168,24 @@ public class AlTConverter : MonoBehaviour
         if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && !ct.isStartT)
         {
             tileBeforeDoor = tileBeforeDoor.FindAll(x=>!x.haveLpickup);
-
-            TileData keyTile = tileBeforeDoor[Random.Range(0, tileBeforeDoor.Count)];
-            Vector2Int v = new Vector2Int(keyTile.fullPos.x, keyTile.fullPos.y);
-            keyList.Add(v);
-            tileBeforeDoor = new List<TileData>();
-            if (debugging)
+            if (tileBeforeDoor.Count != 0)
             {
-                Debug.Log("ADDED DOOR ALL POS: ");
-                Debug.Log("ADDED KEY CHOSEN : " + keyTile.fullPos);
-                Debug.Log("ADDED CLEAR SECTION+========================");
+                TileData keyTile = tileBeforeDoor[Random.Range(0, tileBeforeDoor.Count)];
+                Vector2Int v = new Vector2Int(keyTile.fullPos.x, keyTile.fullPos.y);
+                keyList.Add(v);
+                tileBeforeDoor = new List<TileData>();
+                if (debugging)
+                {
+                    Debug.Log("ADDED DOOR ALL POS: ");
+                    Debug.Log("ADDED KEY CHOSEN : " + keyTile.fullPos);
+                    Debug.Log("ADDED CLEAR SECTION+========================");
+                }
+                keyTile.setHaveKey();
+                doorCount++;
+                tileD.getSide(ct.indir - ct.fullPos) = SideType.Door;
+                doorNum--;
             }
-            keyTile.setHaveKey();
-            doorCount++;
-            tileD.getSide(ct.indir - ct.fullPos) = SideType.Door;
-            doorNum--;
+            
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
         {
@@ -261,6 +264,7 @@ public class AlTConverter : MonoBehaviour
     public static bool canPlaceDoor(int solutionIndex)
     {
         int comparer = Mathf.FloorToInt((solutionLength - 2) / MaxDoorNum) - 1;
+        comparer = Mathf.Clamp(comparer, 1, 200);
         for (int i = 1; i < MaxDoorNum + 1; i++)
         {
             if (solutionIndex % comparer == 0 && solutionIndex / comparer == i)
