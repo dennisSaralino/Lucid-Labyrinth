@@ -63,9 +63,15 @@ public class PlayerController : MonoBehaviour
     public float yLookSensitivity = 3.0f;
 
     // values for decrementing after taking damage
-    private float damagePool = 10f;
-    private float damageProjectile = 12f;
+    [SerializeField]
+    private float fireEnter = 10f;
+    [SerializeField]
+    private float fireStay = 0.5f;
+    [SerializeField]
+    private float arrowDamage = 12f;
+    [SerializeField]
     private float logDamage = 5f;
+    [SerializeField]
     private float spikeDamage = 10f;
 
     // For walking audio
@@ -300,18 +306,19 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Pickup"))
         {
             lucidityBar.value += pickupGain;
+            footSteps.PlayLucidityPickup();
             Destroy(other.gameObject);
         }
         
         if (other.gameObject.CompareTag("Fire"))
         {
-            lucidityBar.value -= damagePool;
+            lucidityBar.value -= fireEnter;
             footSteps.PlayDamage();
 
         }
         if (other.gameObject.CompareTag("Arrow"))
         {
-            lucidityBar.value -= damageProjectile;
+            lucidityBar.value -= arrowDamage;
             footSteps.PlayDamage();
         }
         if(other.gameObject.CompareTag("Log"))
@@ -335,6 +342,11 @@ public class PlayerController : MonoBehaviour
             }
         }
        
+    }
+
+    private void OnTriggerStay(Collider other){
+        if(other.gameObject.CompareTag("Fire"))
+            lucidityBar.value -= fireStay;
     }
 
     private void OnTriggerExit(Collider other)

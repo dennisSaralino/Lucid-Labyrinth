@@ -18,6 +18,7 @@ public class FootSteps : MonoBehaviour
     public AudioClip jumpStart;
     public AudioClip jumpEnd;
     public AudioClip takeDamage;
+    public AudioClip lucidityPickup;
 
     //used to detect movement
     private Vector3 previousPosition;
@@ -116,5 +117,11 @@ public class FootSteps : MonoBehaviour
             audioSource.PlayOneShot(takeDamage);
             audioSource.volume = 0.1f;
         }
+    }
+
+    //play sound when picking up lucidity object
+    public void PlayLucidityPickup(){
+        if(lucidityPickup!= null)
+        audioSource.PlayOneShot(lucidityPickup,0.3f);
     }
 }
