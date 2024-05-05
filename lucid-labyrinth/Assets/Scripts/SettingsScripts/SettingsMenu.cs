@@ -44,15 +44,18 @@ public class SettingsMenu : MonoBehaviour
         if (diff == 0)
         {
             PlayerPrefs.SetInt("mazeSize", 6);
+            PlayerPrefs.SetFloat("pickupGain", 25f);
             currentDifficulty.text = "Easy";
         }
         else if (diff == 1)
         {
             PlayerPrefs.SetInt("mazeSize", 9);
+            PlayerPrefs.SetFloat("pickupGain", 15f);
             currentDifficulty.text = "Normal";
         } else if (diff == 2)
         {
             PlayerPrefs.SetInt("mazeSize", 12);
+            PlayerPrefs.SetFloat("pickupGain", 20f);
             currentDifficulty.text = "Hard";
         }
     }
