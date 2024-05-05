@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject currentPickup { get; set; }
     public PauseMenu pauseMenu;
+    public Canvas pickupControl;
 
     public FootSteps footSteps;
 
@@ -92,7 +93,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(waitForMaze());
         camEffect.enabled = false;
         footSteps = GetComponentInChildren<FootSteps>();
-
+        pickupControl.gameObject.SetActive(false);
+        currentPickup = null;
     }
     IEnumerator waitForMaze()
     {
@@ -244,6 +246,7 @@ public class PlayerController : MonoBehaviour
                     currentPickup.GetComponent<pickupObjScript>().PlayJingle();
                     pickupCooldown = 0.5f;
                 }
+                pickupControl.gameObject.SetActive(false);
 
             }
             // Dropping an object
@@ -332,7 +335,11 @@ public class PlayerController : MonoBehaviour
                 x.GetComponent<basicAI>().alert(transform.position);
             }
         }
-       
+        
+        if (other.gameObject.CompareTag("Key") && currentPickup == null)
+        {
+            pickupControl.gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -340,6 +347,11 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Water"))
         {
             SFX.enabled = false;
+        }
+
+        if (other.gameObject.CompareTag("Key"))
+        {
+            pickupControl.gameObject.SetActive(false);
         }
     }
 

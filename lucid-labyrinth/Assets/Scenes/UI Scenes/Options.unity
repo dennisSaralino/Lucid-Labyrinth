@@ -1112,7 +1112,6 @@ GameObject:
   m_Component:
   - component: {fileID: 503002139}
   - component: {fileID: 503002140}
-  - component: {fileID: 503002141}
   m_Layer: 5
   m_Name: Volume Slider
   m_TagString: Untagged
@@ -1190,7 +1189,7 @@ MonoBehaviour:
   m_MinValue: -30
   m_MaxValue: 20
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: -5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1206,18 +1205,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &503002141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503002138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d19fe17c12e2894f8865577bf8cc3b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &528325142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,6 +1253,7 @@ GameObject:
   - component: {fileID: 581983423}
   - component: {fileID: 581983425}
   - component: {fileID: 581983424}
+  - component: {fileID: 581983426}
   m_Layer: 5
   m_Name: Volume
   m_TagString: Untagged
@@ -1391,6 +1379,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581983422}
   m_CullTransparentMesh: 1
+--- !u!114 &581983426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581983422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d19fe17c12e2894f8865577bf8cc3b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 503002140}
 --- !u!1 &746760168
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,7 +2184,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: feb6ea26244f3cd4b88908896c86636d, type: 2}
-  currentDifficulty: {fileID: 772148076}
 --- !u!1 &1213913844
 GameObject:
   m_ObjectHideFlags: 0
@@ -3680,6 +3680,7 @@ GameObject:
   - component: {fileID: 2119397745}
   - component: {fileID: 2119397747}
   - component: {fileID: 2119397746}
+  - component: {fileID: 2119397748}
   m_Layer: 5
   m_Name: Difficulty
   m_TagString: Untagged
@@ -3805,3 +3806,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119397744}
   m_CullTransparentMesh: 1
+--- !u!114 &2119397748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119397744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e2cdf07a87aed4a80db8ca77793480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current: {fileID: 772148076}

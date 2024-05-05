@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class LoadScreen : MonoBehaviour
 {
     public Slider loadBar;
-    public Canvas lucidityUI;
+    public GameObject lucidityUI;
     public Camera mainCam;
     public BreadcrumbSpawner bspawner;
     public MazeController maze;
