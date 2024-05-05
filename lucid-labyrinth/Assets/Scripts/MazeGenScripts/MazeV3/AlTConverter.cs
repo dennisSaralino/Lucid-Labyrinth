@@ -41,32 +41,6 @@ public class AlTConverter : MonoBehaviour
     static TileDataEditorData[,] editorA;
     public static bool debugging = false;
 
-    private void Awake()
-    {
-        switch (PlayerPrefs.GetInt("mazeSize"))
-        {
-            case 6:
-                MaxDoorNum = 5;
-                MaxStairNum = 5;
-                break;
-
-            case 9:
-                MaxDoorNum = 10;
-                MaxStairNum = 10;
-                break;
-
-            case 12:
-                MaxDoorNum = 15;
-                MaxStairNum = 15;
-                break;
-
-            default:
-                MaxDoorNum = 5;
-                MaxStairNum = 5;
-                break;
-        }
-    }
-
     public static tileGridData convertToTiledata(GridData gridd)
     {
 
