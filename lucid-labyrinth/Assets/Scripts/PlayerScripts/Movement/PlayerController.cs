@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour
                 if (jumpTimer < 0.0f) { jumpTimer = 0.0f; footSteps.PlayJumpEnd(); isJumping = false;};
             }
 
-            Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
+            Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
             playerController.Move(transform.TransformDirection(scaledVelocity));
 
             if (env.inNightmare)

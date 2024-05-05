@@ -46,6 +46,7 @@ public class BreadcrumbSpawner : MonoBehaviour
                         Destroy(gameObject.transform.GetChild(0).gameObject);
                         numOfCrumbs--;
                     }
+
                     Vector3 playerHorizontals;
                     Vector3 playerActual = new Vector3(playerTransform.transform.position.x, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z);
                     
@@ -54,6 +55,10 @@ public class BreadcrumbSpawner : MonoBehaviour
                     
                     GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, Quaternion.identity);
                     newBreadcrumb.transform.RotateAround(playerActual, new Vector3(0, 1, 0), playerTransform.rotation.eulerAngles.y);
+
+                    if (lucidityState.lucidLevel3) { newBreadcrumb.transform.GetChild(0).GameObject().SetActive(true); }
+
+                    if (lucidityState.inNightmare) { newBreadcrumb.GetComponent<MovingBreadcrumbs>().enabled = true; }
                     
                     if (spawnLeft == true)
                     {
@@ -70,11 +75,13 @@ public class BreadcrumbSpawner : MonoBehaviour
                         spawnLeft = !spawnLeft;
                     }
                     newBreadcrumb.transform.SetParent(gameObject.transform);
+
                     if (numOfCrumbs > maxCrumbs)
                     {
                         Destroy(gameObject.transform.GetChild(0).gameObject);
                         numOfCrumbs--;
                     }
+
                     timer = resetTimer;
                 }
             }
