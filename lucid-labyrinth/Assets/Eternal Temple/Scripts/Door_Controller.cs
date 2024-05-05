@@ -33,14 +33,14 @@ public class Door_Controller : MonoBehaviour {
 		
 		audioSource = GetComponent<AudioSource>();
 	}
-	
+
 	void OnTriggerEnter(Collider other)
 	{
 		if (stayOpen == false)
 		{
 			if (other.gameObject.CompareTag("Key"))
 			{
-				if(audioClip != null)
+				if (audioClip != null)
 					audioSource.PlayOneShot(audioClip);
 				stayOpen = true;
 				Destroy(other.gameObject);
@@ -59,7 +59,7 @@ public class Door_Controller : MonoBehaviour {
 					}
 					if (other.gameObject.CompareTag("Player"))
 					{
-						PlayerController p = other.gameObject.GetComponent<PlayerController>();
+						
 						if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
 						{
 							locked = false;
@@ -67,10 +67,11 @@ public class Door_Controller : MonoBehaviour {
 						}
 					}
 				}
-			//Open();
+				//Open();
+
 			}
+		}
 	}
-	
 	void OnTriggerExit(Collider other)
 	{
 		if (stayOpen == false)
