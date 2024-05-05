@@ -190,6 +190,7 @@ public class PlayerController : MonoBehaviour
         { 
             if (pauseMenu.paused == false)
             {
+                Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
                 pauseMenu.gameObject.SetActive(true);
                 pauseMenu.options.gameObject.SetActive(false);
@@ -197,6 +198,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
                 pauseMenu.paused = false;
                 pauseMenu.gameObject.SetActive(false);
@@ -217,7 +219,7 @@ public class PlayerController : MonoBehaviour
             mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
             transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
-            // Handels Sprinting
+            // Handles Sprinting
             if (input.player.sprint.WasPerformedThisFrame())
             {
                 isSprinting = true;

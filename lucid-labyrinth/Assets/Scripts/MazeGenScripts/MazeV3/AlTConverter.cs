@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class alDataConverter
+public class AlTConverter : MonoBehaviour
 {
     #region SETTING
     public static int MaxDoorNum = 5;
@@ -40,6 +40,7 @@ public class alDataConverter
     static List<Vector2Int> keyList;
     static TileDataEditorData[,] editorA;
     public static bool debugging = false;
+
     public static tileGridData convertToTiledata(GridData gridd)
     {
 
