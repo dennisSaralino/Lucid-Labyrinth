@@ -48,8 +48,8 @@ public class GridDataGen : MonoBehaviour
     {
         if (thisGrid != null) { Destroy(gameObject); return; }
         thisGrid = this;
-        //if (PlayerPrefs.HasKey("mazeSize"))
-        //    xMaxSize = yMaxSize = PlayerPrefs.GetInt("mazeSize");
+        if (PlayerPrefs.HasKey("mazeSize"))
+            xMaxSize = yMaxSize = PlayerPrefs.GetInt("mazeSize");
         StartCoroutine(GenGridData());
     }
 
