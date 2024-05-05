@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject currentPickup { get; set; }
     public PauseMenu pauseMenu;
+    public Canvas pickupControl;
 
     public FootSteps footSteps;
     public Transform footPos;
@@ -52,7 +53,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
     public Slider lucidityBar;
-    public float pickupGain = 25f;
 
     // Scalable values for speed and look sensitivity.
     [Range(1.0f, 20.0f)]
@@ -99,7 +99,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(waitForMaze());
         camEffect.enabled = false;
         footSteps = GetComponentInChildren<FootSteps>();
-
+        pickupControl.gameObject.SetActive(false);
+        currentPickup = null;
     }
     IEnumerator waitForMaze()
     {
@@ -253,6 +254,7 @@ public class PlayerController : MonoBehaviour
                     currentPickup.GetComponent<pickupObjScript>().PlayJingle();
                     pickupCooldown = 0.5f;
                 }
+                pickupControl.gameObject.SetActive(false);
 
             }
             // Dropping an object
@@ -306,8 +308,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            lucidityBar.value += pickupGain;
             footSteps.PlayLucidityPickup();
+            lucidityBar.value += PlayerPrefs.GetFloat("pickupGain");
             Destroy(other.gameObject);
         }
         
@@ -342,7 +344,11 @@ public class PlayerController : MonoBehaviour
                 x.GetComponent<basicAI>().alert(transform.position);
             }
         }
-       
+        
+        if (other.gameObject.CompareTag("Key") && currentPickup == null)
+        {
+            pickupControl.gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerStay(Collider other){
@@ -355,6 +361,11 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Water"))
         {
             SFX.enabled = false;
+        }
+
+        if (other.gameObject.CompareTag("Key"))
+        {
+            pickupControl.gameObject.SetActive(false);
         }
     }
 
