@@ -32,18 +32,24 @@ public class alDataConverter
     static int decorationTimer;
     static int lucidityPickupTimer;
     static int trapTimer;
-
+    public static int minLayer = 10000;
+    public static int maxLayer = -10000;
     static List<TileData> tileBeforeDoor;
     static Dictionary<Vector2Int, int> deadEndDict;
     static List<TileData> solutionD;
-
+    static List<Vector2Int> keyList;
+    static TileDataEditorData[,] editorA;
+    public static bool debugging = false;
     public static tileGridData convertToTiledata(GridData gridd)
     {
+
+        keyList = new List<Vector2Int>();
         deadEndDict = new Dictionary<Vector2Int, int>();
         solutionD = new List<TileData>();
         tileBeforeDoor = new List<TileData>();
         grid = gridd.data;
         solutionLength = gridd.solution.Count;
+        editorA = new TileDataEditorData[grid.GetLength(0), grid.GetLength(1)];
         resultTileGrid = new TileData[grid.GetLength(0), grid.GetLength(1)];
         mWidth = GridDataGen.fullGrid.GetLength(0);
         mHeight = GridDataGen.fullGrid.GetLength(1);
@@ -65,7 +71,14 @@ public class alDataConverter
 
         printReport();
 
-        tileGridData d = new tileGridData(resultTileGrid, deadEndDict, solutionD);
+        tileGridData d = new tileGridData(resultTileGrid, editorA, deadEndDict, solutionD, minLayer, maxLayer);
+        foreach (Vector2Int i in keyList)
+        {
+            if (!resultTileGrid[i.x, i.y].haveKey)
+            {
+                resultTileGrid[i.x, i.y].setHaveKey();
+            }
+        }
         return d;
     }
     public static void printReport()
@@ -154,11 +167,20 @@ public class alDataConverter
         if (doorNum > 0 && canPlaceDoor(ct.solutionIndex) && !ct.isEndT && !ct.isStartT)
         {
             tileBeforeDoor = tileBeforeDoor.FindAll(x=>!x.haveLpickup);
+
             TileData keyTile = tileBeforeDoor[Random.Range(0, tileBeforeDoor.Count)];
-            tileBeforeDoor.Clear();
+            Vector2Int v = new Vector2Int(keyTile.fullPos.x, keyTile.fullPos.y);
+            keyList.Add(v);
+            tileBeforeDoor = new List<TileData>();
+            if (debugging)
+            {
+                Debug.Log("ADDED DOOR ALL POS: ");
+                Debug.Log("ADDED KEY CHOSEN : " + keyTile.fullPos);
+                Debug.Log("ADDED CLEAR SECTION+========================");
+            }
             keyTile.setHaveKey();
             doorCount++;
-            tileD.getSide(ct.outdir - ct.fullPos) = SideType.Door;
+            tileD.getSide(ct.indir - ct.fullPos) = SideType.Door;
             doorNum--;
         }
         else if (stairNum > 0 && !ct.isBranching && canPlaceStair(ct))
@@ -181,10 +203,16 @@ public class alDataConverter
         checkForDecoration(tileD);
         checkForTrap(tileD);
 
-        if (!tileD.isStartTile && !tileD.isDoor) 
+        if (!tileD.isStartTile && !tileD.isDoor && !ct.isInOuterEdges())
+        {
             tileBeforeDoor.Add(tileD);
+            if(debugging)
+                Debug.Log("ADDED BEFORE DOOR: " + tileD.fullPos);
+        }
         solutionD.Add(tileD);
         resultTileGrid[x, y] = tileD;
+        editorA[x, y] = new TileDataEditorData(tileD, ct);
+        
     }
 
     public static void handleBranch(TileData solutionT,alTData ct, ref int layer, int branchIndex)
@@ -213,8 +241,11 @@ public class alDataConverter
         checkForDecoration(tileD);
         checkForTrap(tileD);
 
-        tileBeforeDoor.Add(tileD);
+        if(!ct.isInOuterEdges())
+            tileBeforeDoor.Add(tileD);
+        if(debugging) Debug.Log("ADDED BEFORE DOOR: " + tileD.fullPos);
         resultTileGrid[x, y] = tileD;
+        editorA[x, y] = new TileDataEditorData(tileD, ct);
         if (ct.isDeadEnd)
         {
             deadEndDict[ct.fullPos] = solutionT.solutionIndex;
@@ -258,6 +289,8 @@ public class alDataConverter
         bool isUp = Random.Range(0, 2) == 0;
         tileD.getSide(ct.outdir - ct.fullPos) =  isUp? SideType.upStair : SideType.downStair;
         layer += isUp ? 1 : -1;
+        if (layer > maxLayer) maxLayer = layer;
+        else if (layer < minLayer) minLayer = layer;
         stairCount++;
         stairNum--;
         previousStair.Add(ct.fullPos);
@@ -296,12 +329,19 @@ public class alDataConverter
 public class tileGridData
 {
     public TileData[,] data;
+    public TileDataEditorData[,] eData;
     public Dictionary<Vector2Int, int> deadEndDict;
     public List<TileData> solution;
-    public tileGridData(TileData[,] d, Dictionary<Vector2Int, int> deade, List<TileData> so)
+    public int minLayer;
+    public int maxLayer;
+
+    public tileGridData(TileData[,] d, TileDataEditorData[,] e, Dictionary<Vector2Int, int> deade, List<TileData> so, int minl, int maxl)
     {
         data = d;
+        eData = e;
         deadEndDict = deade;
         solution = so;
+        minLayer = minl;
+        maxLayer = maxl;
     }
 }

@@ -24,6 +24,7 @@ TagManager:
   - Monster
   - Maze
   - Ground
+  - Sound
   layers:
   - Default
   - TransparentFX

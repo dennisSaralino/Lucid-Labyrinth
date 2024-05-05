@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
+    private AudioSource SFX;
+    private GameObject[] monsters;
 
     //private pickupHitboxScript pickupHitboxScript;
     public GameObject holdPos;
@@ -26,11 +28,14 @@ public class PlayerController : MonoBehaviour
     public GameObject currentPickup { get; set; }
     public PauseMenu pauseMenu;
 
+    public FootSteps footSteps;
+
     private float xRot;
     private float yRot;
 
     // global movement bools
     public bool isSprinting = false;
+    public bool isJumping = false;
     //private bool holdingObj = false
     //public bool paused = false;
 
@@ -47,6 +52,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
     public Slider lucidityBar;
+    public float pickupGain = 25f;
 
     // Scalable values for speed and look sensitivity.
     [Range(1.0f, 20.0f)]
@@ -59,6 +65,8 @@ public class PlayerController : MonoBehaviour
     // values for decrementing after taking damage
     private float damagePool = 10f;
     private float damageProjectile = 12f;
+    private float logDamage = 5f;
+    private float spikeDamage = 10f;
 
     // For walking audio
 
@@ -68,6 +76,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         yRot = mainCam.transform.rotation.y;
         xRot = mainCam.transform.rotation.x;
+        Application.targetFrameRate = 80;
+        monsters = GameObject.FindGameObjectsWithTag("Monster");
     }
 
     // Private GameObject variables inititalized
@@ -78,8 +88,12 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
+        SFX = GetComponent<AudioSource>();
         //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
         StartCoroutine(waitForMaze());
+        camEffect.enabled = false;
+        footSteps = GetComponentInChildren<FootSteps>();
+
     }
     IEnumerator waitForMaze()
     {
@@ -139,7 +153,11 @@ public class PlayerController : MonoBehaviour
         if (!pauseMenu.paused)
         {
             Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
-            if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()) { jumpTimer = 0.4f; }
+            if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()){
+                jumpTimer = 0.4f;
+                footSteps.PlayJumpStart();
+                isJumping = true;
+            }
             else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
             else if (playerController.isGrounded) { playerMoveDelta.y = 0; }
 
@@ -147,7 +165,7 @@ public class PlayerController : MonoBehaviour
             {
                 playerMoveDelta.y += 0.5f;
                 jumpTimer -= Time.deltaTime;
-                if (jumpTimer < 0.0f) { jumpTimer = 0.0f; }
+                if (jumpTimer < 0.0f) { jumpTimer = 0.0f; footSteps.PlayJumpEnd(); isJumping = false;};
             }
 
             Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
@@ -156,6 +174,7 @@ public class PlayerController : MonoBehaviour
             if (env.inNightmare)
             {
                 camEffect.m_NoiseProfile = extremeShake;
+                monsters = GameObject.FindGameObjectsWithTag("Monster");
             }
             else if (env.inNeutral)
             {
@@ -221,9 +240,9 @@ public class PlayerController : MonoBehaviour
                 Physics.SphereCast(mainCam.transform.position, 1.0f, mainCam.transform.forward, out pickupHit, 5f, pickupLayerMask);
                 if (pickupHit.collider != null)
                 {
-                    if (pickupHit.collider.gameObject.CompareTag("ThrowableObj")) { currentPickup = pickupHit.collider.gameObject; }
-                    else if (pickupHit.collider.gameObject.CompareTag("Key")) { currentPickup = pickupHit.collider.gameObject.transform.parent.gameObject; }
+                    currentPickup = pickupHit.collider.gameObject;
                     currentPickup.GetComponent<pickupObjScript>().Hold();
+                    currentPickup.GetComponent<pickupObjScript>().PlayJingle();
                     pickupCooldown = 0.5f;
                 }
 
@@ -249,11 +268,9 @@ public class PlayerController : MonoBehaviour
                 if (currentPickup != null)
                 {
                     currentPickup.GetComponent<Rigidbody>().isKinematic = false;
-                    Vector3 thVec = mainCam.transform.forward * 1000;
-                    thVec.y += xRot;
-                    Debug.Log(thVec);
-                    currentPickup.GetComponent<pickupObjScript>().Drop();
-                    currentPickup.GetComponent<Rigidbody>().AddForce(thVec);
+                    Vector3 thVec = mainCam.transform.forward * 1200;
+                    thVec.y += xRot * 10;
+                    currentPickup.GetComponent<pickupObjScript>().ThrowObj(thVec);
                     currentPickup = null;
                 }
             }
@@ -261,10 +278,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public bool isJumping()
-    {
-        return jumpTimer == 0.0f;
-    }
+    
 
     // A little recursive function that reduces a value to be between -1 and 1.
     // Exists to turn mouse deltas into values closer resembling values from stick inputs
@@ -284,19 +298,54 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            lucidityBar.value += 15;
+            lucidityBar.value += pickupGain;
+            Destroy(other.gameObject);
         }
         
         if (other.gameObject.CompareTag("Fire"))
         {
             lucidityBar.value -= damagePool;
+            footSteps.PlayDamage();
+
         }
         if (other.gameObject.CompareTag("Arrow"))
         {
             lucidityBar.value -= damageProjectile;
+            footSteps.PlayDamage();
+        }
+        if(other.gameObject.CompareTag("Log"))
+        {
+            lucidityBar.value -= logDamage;
+            footSteps.PlayDamage();
+        }
+        if(other.gameObject.CompareTag("Spikes"))
+        {
+            lucidityBar.value -= spikeDamage;
+            footSteps.PlayDamage();
+        }
+
+        if (other.gameObject.CompareTag("Water"))
+        {
+            SFX.enabled = true;
+            foreach (GameObject x in monsters)
+            {
+                Debug.Log(transform.position);
+                x.GetComponent<basicAI>().alert(transform.position);
+            }
         }
        
     }
 
-    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Water"))
+        {
+            SFX.enabled = false;
+        }
+    }
+
+    public bool MovedThisFrame()
+    {
+        return input.player.move.WasPerformedThisFrame();
+    }
 }

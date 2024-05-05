@@ -59,7 +59,7 @@ public class TileData
     public bool isBranching;
     public bool isInBranch;
     public bool isDeadEnd;
-    public float layer = 0;
+    public int layer = 0;
     public bool visited;
     public bool isStartTile;
     public bool isEndTile;
@@ -84,6 +84,7 @@ public class TileData
         isDoor = (right == SideType.Door || left == SideType.Door || up == SideType.Door || down == SideType.Door);
         isStairUp = right == SideType.upStair || left == SideType.upStair || up == SideType.upStair || down == SideType.upStair || right == SideType.upStair;
         isStair = isStairUp || (right == SideType.downStair ||  left == SideType.downStair || up == SideType.downStair || down == SideType.downStair);
+
         if (isDoor)
         {
             tileT = TileType.Cell;
@@ -257,6 +258,7 @@ public class TileData
                     }
                 }
             }
+            floor = p.GetComponentInChildren<NavMeshSurface>().gameObject;
 
             #endregion
         }
@@ -291,12 +293,20 @@ public class TileData
             #endregion
             if (!isStair)
             {
-                floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[layer > 0? "floor2": "Floor"], p);
+                floor = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["Floor"], p);
                 floor.transform.position = centered;
             }
+            else
+            {
+                SideType t = isStairUp ? SideType.upStair : SideType.downStair;
+                floor = up == t ? upside : down == t ? downside : left == t ? leftside : rightside;
+                floor = floor.transform.GetChild(1).GetChild(0).gameObject;
+
+            }
+            #region TESTING MATERIAL
             if (DataToMaze.i.materialDebug)
             {
-                #region TESTING MATERIAL
+               
                 if (isDeadEnd)
                 {
                     Material solutionmaterial = Resources.Load<Material>("Material/isDeadEnd");
@@ -304,8 +314,8 @@ public class TileData
                 }
                 else if (isStair)
                 {
-                    Material solutionmaterial = Resources.Load<Material>("Material/isStair");
-                    if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
+                    //Material solutionmaterial = Resources.Load<Material>("Material/isStair");
+                    //if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
                 }
                 else if (isDoor)
                 {
@@ -327,8 +337,9 @@ public class TileData
                     Material solutionmaterial = Resources.Load<Material>("Material/SolutionPath");
                     if (floor != null) floor.transform.GetChild(0).GetComponent<MeshRenderer>().material = solutionmaterial;
                 }
-                #endregion
+             
             }
+            #endregion
             #endregion
         }
 
@@ -390,6 +401,18 @@ public class TileData
             }
         }
         #endregion
+        int layerOffset = layer - alDataConverter.minLayer;
+        if (layerOffset > 0)
+        {
+            for (int i = 0; i < layerOffset; i++)
+            {
+                GameObject subW = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict["floor2"], floor.transform);
+                subW.transform.localPosition = new Vector3(0, -1 * i * 4, 0);
+            }
+        }
+
+
+
 
 
         return p.gameObject.GetComponentsInChildren<NavMeshSurface>().ToList();

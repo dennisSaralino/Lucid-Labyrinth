@@ -19,6 +19,7 @@ public class LucidityBar : MonoBehaviour
     public Image fillBar;
     public Image fillBorder;
 
+    public float baseLucidDrain = 0.5f;
     private float sprintModifier;
     public float monsterModifier;
 
@@ -53,17 +54,15 @@ public class LucidityBar : MonoBehaviour
         if (!pauseMenu.paused)
         {
             if (player.isSprinting) { sprintModifier = 2.0f; } else { sprintModifier = 0; }
-            if (state.inLucid == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
-            else if (state.inNightmare == true) { slider.value -= Time.deltaTime * (1f + sprintModifier + monsterModifier); }
-            else { slider.value -= Time.deltaTime * (1 + sprintModifier + monsterModifier); }
+            
+            slider.value -= Time.deltaTime * (baseLucidDrain + sprintModifier + monsterModifier);
         }
-        
-        if (!debugging) {
-            if (slider.value == 0)
-            {
-                player.input.Disable();
-                SceneManager.LoadScene(2);
-            }
+
+
+        if (slider.value == 0)
+        {
+            player.input.Disable();
+            SceneManager.LoadScene(2);
         }
     }
 }
