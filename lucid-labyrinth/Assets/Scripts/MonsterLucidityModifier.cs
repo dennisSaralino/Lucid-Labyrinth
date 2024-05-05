@@ -7,6 +7,11 @@ public class MonsterLucidityModifier : MonoBehaviour
     public LucidityBar lucidity;
     public float modifier = 2;
 
+    private void Start()
+    {
+        lucidity = GameObject.FindGameObjectWithTag("LucidityPickup").GetComponent<LucidityBar>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

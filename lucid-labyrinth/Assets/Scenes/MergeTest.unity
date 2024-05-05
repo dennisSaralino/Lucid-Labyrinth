@@ -871,6 +871,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lucidity Bar
       objectReference: {fileID: 0}
+    - target: {fileID: 755364381983683420, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
+      propertyPath: m_TagString
+      value: LucidityBar
+      objectReference: {fileID: 0}
     - target: {fileID: 755364382340722134, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: m_Color.b
       value: 0.5686275
@@ -2163,6 +2167,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 196036812873170733, guid: 964764dde12610440877ed383a547c95, type: 3}
       propertyPath: m_Name
+      value: EnvironmentController
+      objectReference: {fileID: 0}
+    - target: {fileID: 196036812873170733, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: m_TagString
       value: EnvironmentController
       objectReference: {fileID: 0}
     - target: {fileID: 196036812873170739, guid: 964764dde12610440877ed383a547c95, type: 3}

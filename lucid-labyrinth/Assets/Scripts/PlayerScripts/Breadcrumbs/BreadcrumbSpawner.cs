@@ -55,6 +55,10 @@ public class BreadcrumbSpawner : MonoBehaviour
                     
                     GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, Quaternion.identity);
                     newBreadcrumb.transform.RotateAround(playerActual, new Vector3(0, 1, 0), playerTransform.rotation.eulerAngles.y);
+
+                    if (lucidityState.lucidLevel3) { newBreadcrumb.transform.GetChild(0).GameObject().SetActive(true); }
+
+                    if (lucidityState.inNightmare) { newBreadcrumb.GetComponent<MovingBreadcrumbs>().enabled = true; }
                     
                     if (spawnLeft == true)
                     {
