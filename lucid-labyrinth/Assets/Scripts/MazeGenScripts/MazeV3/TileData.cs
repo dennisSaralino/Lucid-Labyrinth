@@ -401,7 +401,7 @@ public class TileData
             }
         }
         #endregion
-        int layerOffset = layer - alDataConverter.minLayer;
+        int layerOffset = layer - AlTConverter.minLayer;
         if (layerOffset > 0)
         {
             for (int i = 0; i < layerOffset; i++)

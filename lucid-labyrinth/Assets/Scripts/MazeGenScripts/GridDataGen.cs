@@ -938,7 +938,7 @@ public class GridDataGen : MonoBehaviour
         yield return StartCoroutine(CreateBranches(pathTiles));  // incomplete
         FullCleanUp();
         StopAllCoroutines();
-        DataToMaze.i.dataToMaze(alDataConverter.convertToTiledata(new GridData(fullGrid, pathTiles)));
+        DataToMaze.i.dataToMaze(AlTConverter.convertToTiledata(new GridData(fullGrid, pathTiles)));
         //Debug.Log("Compiled Debugs from GenPath and BuildBranches: \n" + compLog +
         //     "=========== End of Log ========================");
     }

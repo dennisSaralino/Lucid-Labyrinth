@@ -629,6 +629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 613472980}
   - component: {fileID: 613472979}
+  - component: {fileID: 613472981}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -732,6 +733,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &613472981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613472978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 139062340f52a3d488e8ad61d8fa97a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &719532324 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
@@ -1133,6 +1146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: feb6ea26244f3cd4b88908896c86636d, type: 2}
+  currentDifficulty: {fileID: 0}
 --- !u!224 &1104170538 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6985059274223170570, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}

@@ -67,7 +67,7 @@ public class DataToMaze : MonoBehaviour
                 if (currentData == null) continue;
                 tileFullGrid.Add(currentData);
                 Transform p = Instantiate(prefab, transform);
-                if (alDataConverter.debugging)
+                if (AlTConverter.debugging)
                 {
                     TileDataEditor edi = p.gameObject.AddComponent<TileDataEditor>();
                     edi.data = griddata.eData[i, j];
