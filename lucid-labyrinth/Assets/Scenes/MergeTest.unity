@@ -906,6 +906,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1298233867044386221, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+      propertyPath: m_Name
+      value: ControlsCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 1302936339404228590, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1127,6 +1131,11 @@ PrefabInstance:
     - {fileID: 2482447120474098925, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
     - {fileID: 4672319590788502223, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+--- !u!223 &1104170536 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8145572604488925745, guid: 82b69ffc98bd1e148bc14967845eda66, type: 3}
+  m_PrefabInstance: {fileID: 1104170535}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1241157400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2034,7 +2043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pause: {fileID: 1440553691}
   options: {fileID: 488887472}
-  controls: {fileID: 0}
+  controls: {fileID: 1104170536}
   paused: 0
 --- !u!114 &2134559274
 MonoBehaviour:
