@@ -17,7 +17,9 @@ public class BreadcrumbSpawner : MonoBehaviour
     private bool spawnRight = false;
     public float timer;
     private float resetTimer;
+
     private RaycastHit hit;
+    private int layerMask;
 
     private void Awake()
     {
@@ -27,9 +29,12 @@ public class BreadcrumbSpawner : MonoBehaviour
 
     private void Update()
     {
+        layerMask = 1 << 3;
+        layerMask = ~layerMask;
+
         if (beginSpawning == true)
         {
-            if (Physics.Raycast(playerTransform.transform.position, new Vector3(0, -1, 0), out hit, 1.1f))
+            if (Physics.Raycast(playerTransform.transform.position, new Vector3(0, -1, 0), out hit, 1.1f, layerMask))
             {
                 isGrounded = true;
             }
