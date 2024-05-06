@@ -17,7 +17,9 @@ public class BreadcrumbSpawner : MonoBehaviour
     private bool spawnRight = false;
     public float timer;
     private float resetTimer;
+
     private RaycastHit hit;
+    private int layerMask;
 
     private void Awake()
     {
@@ -27,9 +29,12 @@ public class BreadcrumbSpawner : MonoBehaviour
 
     private void Update()
     {
+        layerMask = 1 << 3;
+        layerMask = ~layerMask;
+
         if (beginSpawning == true)
         {
-            if (Physics.Raycast(playerTransform.transform.position, new Vector3(0, -1, 0), out hit, 1.1f))
+            if (Physics.Raycast(playerTransform.transform.position, new Vector3(0, -1, 0), out hit, 1.1f, layerMask))
             {
                 isGrounded = true;
             }
@@ -46,6 +51,7 @@ public class BreadcrumbSpawner : MonoBehaviour
                         Destroy(gameObject.transform.GetChild(0).gameObject);
                         numOfCrumbs--;
                     }
+
                     Vector3 playerHorizontals;
                     Vector3 playerActual = new Vector3(playerTransform.transform.position.x, playerTransform.transform.position.y - 1f, playerTransform.transform.position.z);
                     
@@ -54,6 +60,10 @@ public class BreadcrumbSpawner : MonoBehaviour
                     
                     GameObject newBreadcrumb = Instantiate(breadcrumb, playerHorizontals, Quaternion.identity);
                     newBreadcrumb.transform.RotateAround(playerActual, new Vector3(0, 1, 0), playerTransform.rotation.eulerAngles.y);
+
+                    if (lucidityState.lucidLevel3) { newBreadcrumb.transform.GetChild(0).GameObject().SetActive(true); }
+
+                    if (lucidityState.inNightmare) { newBreadcrumb.GetComponent<MovingBreadcrumbs>().enabled = true; }
                     
                     if (spawnLeft == true)
                     {
@@ -70,11 +80,13 @@ public class BreadcrumbSpawner : MonoBehaviour
                         spawnLeft = !spawnLeft;
                     }
                     newBreadcrumb.transform.SetParent(gameObject.transform);
+
                     if (numOfCrumbs > maxCrumbs)
                     {
                         Destroy(gameObject.transform.GetChild(0).gameObject);
                         numOfCrumbs--;
                     }
+
                     timer = resetTimer;
                 }
             }

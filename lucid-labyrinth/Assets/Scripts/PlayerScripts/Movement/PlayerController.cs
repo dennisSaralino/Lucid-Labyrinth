@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject currentPickup { get; set; }
     public PauseMenu pauseMenu;
+    public Canvas pickupControl;
 
     public FootSteps footSteps;
     public Transform footPos;
@@ -52,7 +53,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveVector = Vector3.zero;
     private Vector2 cameraVector = Vector2.zero;
     public Slider lucidityBar;
-    public float pickupGain = 25f;
 
     // Scalable values for speed and look sensitivity.
     [Range(1.0f, 20.0f)]
@@ -99,7 +99,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(waitForMaze());
         camEffect.enabled = false;
         footSteps = GetComponentInChildren<FootSteps>();
-
+        pickupControl.gameObject.SetActive(false);
+        currentPickup = null;
     }
     IEnumerator waitForMaze()
     {
@@ -175,7 +176,7 @@ public class PlayerController : MonoBehaviour
                 if (jumpTimer < 0.0f) { jumpTimer = 0.0f; footSteps.PlayJumpEnd(); isJumping = false;};
             }
 
-            Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * speedScalar;
+            Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
             playerController.Move(transform.TransformDirection(scaledVelocity));
 
             if (env.inNightmare)
@@ -223,20 +224,21 @@ public class PlayerController : MonoBehaviour
             xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
             // set the player/camera rotation equal to the the new x and y rotation values
-            mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+            //mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
+            mainCam.transform.localEulerAngles = new Vector3(xRot, 0, 0);  // smoother turns
             transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
             // Handles Sprinting
             if (input.player.sprint.WasPerformedThisFrame())
             {
                 isSprinting = true;
-                speedScalar += 2.0f;
+                //speedScalar += 2.0f;
                 camEffect.m_FrequencyGain += 0.5f;
             }
             if (input.player.sprint.WasReleasedThisFrame())
             {
                 isSprinting = false;
-                speedScalar -= 2.0f;
+                //speedScalar -= 2.0f;
                 camEffect.m_FrequencyGain -= 0.5f;
             }
 
@@ -252,6 +254,7 @@ public class PlayerController : MonoBehaviour
                     currentPickup.GetComponent<pickupObjScript>().PlayJingle();
                     pickupCooldown = 0.5f;
                 }
+                pickupControl.gameObject.SetActive(false);
 
             }
             // Dropping an object
@@ -305,8 +308,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            lucidityBar.value += pickupGain;
             footSteps.PlayLucidityPickup();
+            lucidityBar.value += PlayerPrefs.GetFloat("pickupGain");
             Destroy(other.gameObject);
         }
         
@@ -341,7 +344,11 @@ public class PlayerController : MonoBehaviour
                 x.GetComponent<basicAI>().alert(transform.position);
             }
         }
-       
+        
+        if (other.gameObject.CompareTag("Key") && currentPickup == null)
+        {
+            pickupControl.gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerStay(Collider other){
@@ -354,6 +361,11 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Water"))
         {
             SFX.enabled = false;
+        }
+
+        if (other.gameObject.CompareTag("Key"))
+        {
+            pickupControl.gameObject.SetActive(false);
         }
     }
 

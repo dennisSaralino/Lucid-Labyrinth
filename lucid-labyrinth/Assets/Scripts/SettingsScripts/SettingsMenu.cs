@@ -7,7 +7,6 @@ using UnityEngine.Audio;
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
-    public TextMeshProUGUI currentDifficulty;
     // public enum Difficulty { easy, normal, hard };
 
     private void Awake()
@@ -43,17 +42,20 @@ public class SettingsMenu : MonoBehaviour
     {
         if (diff == 0)
         {
+            PlayerPrefs.SetString("difficulty", "easy");
             PlayerPrefs.SetInt("mazeSize", 6);
-            currentDifficulty.text = "Easy";
+            PlayerPrefs.SetFloat("pickupGain", 25f);
         }
         else if (diff == 1)
         {
+            PlayerPrefs.SetString("difficulty", "normal");
             PlayerPrefs.SetInt("mazeSize", 9);
-            currentDifficulty.text = "Normal";
+            PlayerPrefs.SetFloat("pickupGain", 15f);
         } else if (diff == 2)
         {
+            PlayerPrefs.SetString("difficulty", "hard");
             PlayerPrefs.SetInt("mazeSize", 12);
-            currentDifficulty.text = "Hard";
+            PlayerPrefs.SetFloat("pickupGain", 20f);
         }
     }
 }

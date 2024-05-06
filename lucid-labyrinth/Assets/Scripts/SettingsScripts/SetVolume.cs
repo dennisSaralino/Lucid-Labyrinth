@@ -5,13 +5,9 @@ using UnityEngine.UI;
 
 public class SetVolume : MonoBehaviour
 {
-    private Slider slider;
+    public Slider slider;
     private void Awake()
     {
-        slider = GetComponent<Slider>();
-        if (PlayerPrefs.HasKey("volume"))
-            slider.value = PlayerPrefs.GetFloat("volume");
-        else
-            slider.value = 0;
+        slider.value = PlayerPrefs.GetFloat("volume");
     }
 }
