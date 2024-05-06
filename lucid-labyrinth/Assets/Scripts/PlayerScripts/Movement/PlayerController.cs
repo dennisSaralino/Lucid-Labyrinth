@@ -232,13 +232,13 @@ public class PlayerController : MonoBehaviour
             if (input.player.sprint.WasPerformedThisFrame())
             {
                 isSprinting = true;
-                speedScalar += 2.0f;
+                //speedScalar += 2.0f;
                 camEffect.m_FrequencyGain += 0.5f;
             }
             if (input.player.sprint.WasReleasedThisFrame())
             {
                 isSprinting = false;
-                speedScalar -= 2.0f;
+                //speedScalar -= 2.0f;
                 camEffect.m_FrequencyGain -= 0.5f;
             }
 
