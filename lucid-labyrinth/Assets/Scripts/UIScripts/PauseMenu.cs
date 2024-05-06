@@ -34,13 +34,14 @@ public class PauseMenu : MonoBehaviour
 
     public void Controls()
     {
-        options.gameObject.SetActive(false);
+        pause.gameObject.SetActive(false);
         controls.gameObject.SetActive(true);
     }
 
     public void Return()
     {
         options.gameObject.SetActive(false);
+        controls.gameObject.SetActive(false);
         pause.gameObject.SetActive(true);
     }
 }
