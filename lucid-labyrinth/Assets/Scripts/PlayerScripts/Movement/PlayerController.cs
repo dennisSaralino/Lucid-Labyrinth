@@ -176,7 +176,14 @@ public class PlayerController : MonoBehaviour
                 if (jumpTimer < 0.0f) { jumpTimer = 0.0f; footSteps.PlayJumpEnd(); isJumping = false;};
             }
 
-            Vector3 scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
+            Vector3 scaledVelocity;
+            if(isSprinting) {                 
+                scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + 2f + env.luciditySpeedModifier);
+            } else
+                scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
+
+
+
             playerController.Move(transform.TransformDirection(scaledVelocity));
 
             if (env.inNightmare)
@@ -229,17 +236,17 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
             // Handles Sprinting
-            if (input.player.sprint.WasPerformedThisFrame())
+            if (input.player.sprint.WasPerformedThisFrame()) //WasPressedThisFrame())
             {
                 isSprinting = true;
                 //speedScalar += 2.0f;
-                camEffect.m_FrequencyGain += 0.5f;
+                //camEffect.m_FrequencyGain += 0.5f;
             }
             if (input.player.sprint.WasReleasedThisFrame())
             {
                 isSprinting = false;
                 //speedScalar -= 2.0f;
-                camEffect.m_FrequencyGain -= 0.5f;
+                //camEffect.m_FrequencyGain -= 0.5f;
             }
 
             // Picking up an object
