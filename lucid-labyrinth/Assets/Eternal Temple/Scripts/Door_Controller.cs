@@ -40,8 +40,8 @@ public class Door_Controller : MonoBehaviour {
 		{
 			if (other.gameObject.CompareTag("Key"))
 			{
-				if (audioClip != null)
-					audioSource.PlayOneShot(audioClip);
+				//if (audioClip != null)
+				//	audioSource.PlayOneShot(audioClip);
 				stayOpen = true;
 				Destroy(other.gameObject);
 				Open();
@@ -51,21 +51,24 @@ public class Door_Controller : MonoBehaviour {
 				PlayerController p = other.gameObject.GetComponent<PlayerController>();
 				if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
 				{
-					if (other.gameObject.CompareTag("Key"))
-					{
-						stayOpen = true;
-						Destroy(other.gameObject);
-						Open();
-					}
-					if (other.gameObject.CompareTag("Player"))
-					{
+					locked = false;
+					Open();
+						// below duplicated during a merge conflict
+					//if (other.gameObject.CompareTag("Key"))
+					//{
+					//	stayOpen = true;
+					//	Destroy(other.gameObject);
+					//	Open();
+					//}
+					//if (other.gameObject.CompareTag("Player"))
+					//{
 						
-						if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
-						{
-							locked = false;
-							Open();
-						}
-					}
+					//	if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+					//	{
+					//		locked = false;
+					//		Open();
+					//	}
+					//}
 				}
 				//Open();
 
@@ -90,7 +93,9 @@ public class Door_Controller : MonoBehaviour {
 			{				
 				foreach (Transform childTransform in childrenTransform)
 					{
-						childTransform.Translate(Vector3.down * openingSpeed * Time.deltaTime);
+                    if (audioClip != null)
+                        audioSource.PlayOneShot(audioClip);
+                    childTransform.Translate(Vector3.down * openingSpeed * Time.deltaTime);
 						yield return null;						
 					}
 			}			

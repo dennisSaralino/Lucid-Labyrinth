@@ -173,7 +173,7 @@ public class EditorHelper : MonoBehaviour
     [MenuItem("EditorHelper/MazeModify/modifyMaterial")]
     public static void changeMaterial()
     {
-        string scenePath = "Assets/Scenes/CC_TestScene.unity";
+        string scenePath = "Assets/Scenes/MergeTest.unity"; //CC_TestScene.unity";
         var currentScene = EditorSceneManager.OpenScene(scenePath);
         Material m = StaticTool.loadAllAsset<Material>("Eternal Temple/Source_FBX/Materials").ToList().Find(x=>x.name == "Atlas_Architecture_01");
         Transform parent = GameObject.Find("StaticMap").transform;

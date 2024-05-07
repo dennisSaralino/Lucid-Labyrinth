@@ -241,18 +241,19 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
             // Handles Sprinting
-            if (input.player.sprint.WasPerformedThisFrame()) //WasPressedThisFrame())
-            {
-                isSprinting = true;
-                //speedScalar += 2.0f;
-                //camEffect.m_FrequencyGain += 0.5f;
-            }
-            if (input.player.sprint.WasReleasedThisFrame())
-            {
-                isSprinting = false;
-                //speedScalar -= 2.0f;
-                //camEffect.m_FrequencyGain -= 0.5f;
-            }
+            //if (input.player.sprint.WasPerformedThisFrame()) //WasPressedThisFrame())
+            //{
+            //    isSprinting = true;
+            //    //speedScalar += 2.0f;
+            //    //camEffect.m_FrequencyGain += 0.5f;
+            //}
+            //if (input.player.sprint.WasReleasedThisFrame())
+            //{
+            //    isSprinting = false;
+            //    //speedScalar -= 2.0f;
+            //    //camEffect.m_FrequencyGain -= 0.5f;
+            //}
+            isSprinting = input.player.sprint.IsPressed();
 
             // Picking up an object
             if (input.player.interact.WasPerformedThisFrame() && currentPickup == null)
