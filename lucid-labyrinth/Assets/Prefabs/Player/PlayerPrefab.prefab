@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1280355557571516684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 1.25}
+  m_LocalPosition: {x: 0.96, y: 0, z: 1.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -113,6 +113,7 @@ MonoBehaviour:
   jumpStart: {fileID: 8300000, guid: 8e3e1180d48bf9e46b879467db2ce1d7, type: 3}
   jumpEnd: {fileID: 8300000, guid: cf7540ee24d7db04c8376f4eda87e529, type: 3}
   takeDamage: {fileID: 8300000, guid: 71a6fa1a9b268524aa31ef63d1f4793c, type: 3}
+  lucidityPickup: {fileID: 0}
   rayStart: {fileID: 3740345771935320261}
   rayRange: 1.5
   layerMask:
@@ -373,15 +374,20 @@ MonoBehaviour:
   environmentCont: {fileID: 0}
   holdPos: {fileID: 1280355557571516684}
   pauseMenu: {fileID: 0}
+  pickupControl: {fileID: 0}
   footSteps: {fileID: 0}
   footPos: {fileID: 2468580925248543012}
   isSprinting: 0
   isJumping: 0
   lucidityBar: {fileID: 0}
-  pickupGain: 25
   speedScalar: 5
   xLookSensitivity: 4
   yLookSensitivity: 3.5
+  fireEnter: 10
+  fireStay: 0.5
+  arrowDamage: 12
+  logDamage: 5
+  spikeDamage: 10
   solutionIndex: 0
 --- !u!143 &5226644978972912644
 CharacterController:

@@ -13,7 +13,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Awake()
     {
-        this.gameObject.SetActive(false);
+        pause.gameObject.SetActive(false);
         options.gameObject.SetActive(false);
         controls.gameObject.SetActive(false);
     }
