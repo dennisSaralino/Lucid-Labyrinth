@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17980456, g: 0.22513339, b: 0.30660743, a: 1}
+  m_IndirectSpecularColor: {r: 0.17980507, g: 0.22513434, b: 0.3066084, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -744,7 +744,7 @@ PrefabInstance:
       objectReference: {fileID: 1255145960}
     - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: baseLucidDrain
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 755364381983683419, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: m_Pivot.x
@@ -1714,11 +1714,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!1 &1828764928 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1280355557571516684, guid: 36d612a703546d54e88ee46af666760f, type: 3}
-  m_PrefabInstance: {fileID: 1241157400}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1834892304 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 755364381983683420, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
