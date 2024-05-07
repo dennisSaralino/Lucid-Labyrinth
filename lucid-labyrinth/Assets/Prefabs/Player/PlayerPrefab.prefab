@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 5226644978972912642}
   - component: {fileID: 5226644978972912644}
   - component: {fileID: 8999521730699193305}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5226644978972912643}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
