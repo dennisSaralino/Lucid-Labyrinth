@@ -17,9 +17,9 @@ public class navigationBaker : MonoBehaviour
     {
         surface.BuildNavMesh();
     }
-    public void bakeMap(List<NavMeshSurface> l)
+    public IEnumerator bakeMap(List<NavMeshSurface> l)
     {
-        StartCoroutine(bakeMapSlowly(l));
+        yield return StartCoroutine(bakeMapSlowly(l));
     }
     IEnumerator bakeMapSlowly(List<NavMeshSurface> l)
     {

@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
 {
     public Canvas pause;
     public Canvas options;
+    public Canvas controls;
 
     public bool paused = false;
 
@@ -14,10 +15,12 @@ public class PauseMenu : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         options.gameObject.SetActive(false);
+        controls.gameObject.SetActive(false);
     }
 
     public void Resume()
     {
+        Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         paused = false;
         this.gameObject.SetActive(false);
@@ -29,9 +32,16 @@ public class PauseMenu : MonoBehaviour
         options.gameObject.SetActive(true);
     }
 
+    public void Controls()
+    {
+        pause.gameObject.SetActive(false);
+        controls.gameObject.SetActive(true);
+    }
+
     public void Return()
     {
         options.gameObject.SetActive(false);
+        controls.gameObject.SetActive(false);
         pause.gameObject.SetActive(true);
     }
 }

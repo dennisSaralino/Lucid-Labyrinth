@@ -15,6 +15,10 @@ public class FootSteps : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip rock;
     public AudioClip water;
+    public AudioClip jumpStart;
+    public AudioClip jumpEnd;
+    public AudioClip takeDamage;
+    public AudioClip lucidityPickup;
 
     //used to detect movement
     private Vector3 previousPosition;
@@ -39,30 +43,29 @@ public class FootSteps : MonoBehaviour
      audioSource = GetComponent<AudioSource>();   
      previousPosition = transform.position;
      currentDelay = walkDelay;
-     
+     float delay = playerController.isSprinting ? sprintDelay : walkDelay;
     }
 
     void FixedUpdate()
     {
-        // swaps frequency of sound plays
-        delay = playerController.isSprinting ? sprintDelay : walkDelay;
-        
-        //if theres a difference in position, then player is walking
-        if(transform.position != previousPosition && currentDelay >= delay)
+
+        // Check if the player is moving
+        bool isMoving = Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0;
+
+        // Reduce the delay based on the current time
+        delay -= Time.deltaTime;
+
+        // If the player is moving and the delay has elapsed, play footstep sounds
+        if (isMoving && delay <= 0f)
         {
             StartWalk();
-            currentDelay = 0f;
+            delay = playerController.isSprinting ? sprintDelay : walkDelay;
         }
 
-        // always plays sound at beginning of walk
-        if(transform.position == previousPosition)
-            currentDelay = walkDelay;
-        
 
-        //continuously updates
-        previousPosition = transform.position;
-        currentDelay += Time.deltaTime;
     }
+
+    
 
     void StartWalk()
     {
@@ -71,19 +74,54 @@ public class FootSteps : MonoBehaviour
         {
             //hit holds collision info
             if(hit.collider.CompareTag("Rock"))
+                audioSource.volume = 0.03f;
                 PlaySound(rock);
             if(hit.collider.CompareTag("Water")){
-                audioSource.volume = 0.08f;
+                audioSource.volume = 0.1f;
                 PlaySound(water);
                 audioSource.volume = 0.03f;
             }
         }
     }
-
+    // used for walking/running
     void PlaySound(AudioClip audio)
     {
         //add variation
-        audioSource.pitch = Random.Range(0.7f, 1.2f);
-        audioSource.PlayOneShot(audio);
+        if(audio != null){
+            audioSource.pitch = Random.Range(0.7f, 1.2f);
+            audioSource.PlayOneShot(audio);
+        }
+    }
+
+
+    // methods below invoked by PlayerController script
+    //
+    ///////
+
+    //plays sound for jumping (rising))
+    public void PlayJumpStart(){
+        if(jumpStart != null)
+            audioSource.PlayOneShot(jumpStart);
+    }
+
+    //plays sound for jumping (landing)
+    public void PlayJumpEnd(){
+        if(jumpEnd != null)
+            audioSource.PlayOneShot(jumpEnd);
+    }
+
+    // plays sound when taking damage (for traps)
+    public void PlayDamage(){
+        if(takeDamage != null){
+            audioSource.volume = 0.6f;
+            audioSource.PlayOneShot(takeDamage);
+            audioSource.volume = 0.1f;
+        }
+    }
+
+    //play sound when picking up lucidity object
+    public void PlayLucidityPickup(){
+        if(lucidityPickup!= null)
+        audioSource.PlayOneShot(lucidityPickup,0.3f);
     }
 }

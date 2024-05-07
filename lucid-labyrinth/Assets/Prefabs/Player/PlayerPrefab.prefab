@@ -108,8 +108,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 4268431549701780643}
-  rock: {fileID: 8300000, guid: 8e3e1180d48bf9e46b879467db2ce1d7, type: 3}
-  water: {fileID: 8300000, guid: 0391d588e00cc6d45abd4471950d8639, type: 3}
+  rock: {fileID: 8300000, guid: 9c07cfcf3419970409dcfdd2748dbf92, type: 3}
+  water: {fileID: 8300000, guid: f89ad0fedb52a974ea921f25cf6d10f5, type: 3}
+  jumpStart: {fileID: 8300000, guid: 8e3e1180d48bf9e46b879467db2ce1d7, type: 3}
+  jumpEnd: {fileID: 8300000, guid: cf7540ee24d7db04c8376f4eda87e529, type: 3}
+  takeDamage: {fileID: 8300000, guid: 71a6fa1a9b268524aa31ef63d1f4793c, type: 3}
   rayStart: {fileID: 3740345771935320261}
   rayRange: 1.5
   layerMask:
@@ -370,7 +373,10 @@ MonoBehaviour:
   environmentCont: {fileID: 0}
   holdPos: {fileID: 1280355557571516684}
   pauseMenu: {fileID: 0}
+  footSteps: {fileID: 0}
+  footPos: {fileID: 2468580925248543012}
   isSprinting: 0
+  isJumping: 0
   lucidityBar: {fileID: 0}
   pickupGain: 25
   speedScalar: 5
@@ -391,7 +397,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.65
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -405,11 +411,11 @@ AudioSource:
   m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0391d588e00cc6d45abd4471950d8639, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

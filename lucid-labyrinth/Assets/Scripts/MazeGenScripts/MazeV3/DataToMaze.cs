@@ -67,6 +67,11 @@ public class DataToMaze : MonoBehaviour
                 if (currentData == null) continue;
                 tileFullGrid.Add(currentData);
                 Transform p = Instantiate(prefab, transform);
+                if (AlTConverter.debugging)
+                {
+                    TileDataEditor edi = p.gameObject.AddComponent<TileDataEditor>();
+                    edi.data = griddata.eData[i, j];
+                }
                 p.name = "[" + i.ToString() + " , " + j.ToString() + "]";
                 p.localPosition = new Vector3(tileSize.x * i, 0, tileSize.z * j);
                 //Debug.Log(currentData == null);
@@ -87,7 +92,7 @@ public class DataToMaze : MonoBehaviour
                     {
                         //Debug.Log("START TILE INDEX: " + currentData.solutionIndex + "  " + currentData.position);
                         
-                        MazeController.i.mazeData.setStartPos(currentPos);
+                        MazeController.i.mazeData.setStartPos(currentPos, currentData.getSideRotation(currentData.outDir - currentData.fullPos));
                     }
                     else if (currentData.solutionIndex == griddata.solution.Count - 1)
                     {
@@ -106,7 +111,7 @@ public class DataToMaze : MonoBehaviour
             }
             yield return null;
         }
-        navigationBaker.baker.bakeMap(surfaces);
+        yield return StartCoroutine(navigationBaker.baker.bakeMap(surfaces));
         MazeController.i.mazeData.isReady = true;
     }
 }
@@ -125,6 +130,7 @@ public class mazeData
 {
     public bool isReady;
     public Vector3 startPos;
+    public int startRotation;
     public Vector3 endPos;
     public solutionPart[] part;
     public List<Vector3> lucidityPickupPos;
@@ -138,9 +144,11 @@ public class mazeData
         keyPickupPos = new List<Vector3>();
     }
     #region FOR ASSET GENERATION
-    public void setStartPos(Vector3 v)
+    public void setStartPos(Vector3 v, int startRotation)
     {
         startPos = v;
+        this.startRotation = startRotation;
+        Debug.Log("rotation " + this.startRotation);
     }
     public void setEndPos(Vector3 v)
     {

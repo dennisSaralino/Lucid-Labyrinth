@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 namespace commanastationwww.eternaltemple
 {
@@ -11,13 +12,16 @@ public class Door_Controller : MonoBehaviour {
 	
 	private Transform[] allTransform; //Array for Transform components of this object and it's children	
 	private Transform[] childrenTransform; //for children's Transform components only
+
+	private AudioSource audioSource;
+	public AudioClip	audioClip;
 	
 // Use this for initialization
 	void Start ()
 	{		
 		//Getting transform components of this object and all it's children
 		allTransform = GetComponentsInChildren<Transform>();
-		
+		stayOpen = false;
 		//Create new Array for children's Transforms only
 		childrenTransform = new Transform[allTransform.Length - 1];
 		
@@ -26,46 +30,70 @@ public class Door_Controller : MonoBehaviour {
 				{
 					childrenTransform[i-1]=allTransform[i];		
 				}
+		
+		audioSource = GetComponent<AudioSource>();
 	}
-	
+
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.CompareTag("Key"))
-        {
-			Destroy(other.gameObject);
-			Open();
-        }
-		if (other.gameObject.CompareTag("Player"))
+		if (stayOpen == false)
 		{
-			PlayerController p = other.gameObject.GetComponent<PlayerController>();
-			if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+			if (other.gameObject.CompareTag("Key"))
 			{
-				locked = false;
+				if (audioClip != null)
+					audioSource.PlayOneShot(audioClip);
+				stayOpen = true;
+				Destroy(other.gameObject);
 				Open();
 			}
+			if (other.gameObject.CompareTag("Player"))
+			{
+				PlayerController p = other.gameObject.GetComponent<PlayerController>();
+				if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+				{
+					if (other.gameObject.CompareTag("Key"))
+					{
+						stayOpen = true;
+						Destroy(other.gameObject);
+						Open();
+					}
+					if (other.gameObject.CompareTag("Player"))
+					{
+						
+						if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
+						{
+							locked = false;
+							Open();
+						}
+					}
+				}
+				//Open();
+
+			}
 		}
-		//Open();
 	}
-	
 	void OnTriggerExit(Collider other)
 	{
 		if (stayOpen == false)
 			{
 				Close();
 			}
+			
 	}
 
 	//Couroutine to move door down
 	IEnumerator openInterpolation()
-	{		
+	{	
+		
+
 		while (childrenTransform[0].localPosition.y > (-2.6f))
 			{				
 				foreach (Transform childTransform in childrenTransform)
 					{
 						childTransform.Translate(Vector3.down * openingSpeed * Time.deltaTime);
-						yield return null;
+						yield return null;						
 					}
-			}
+			}			
 	}
 	//Couroutine to move door up
 	IEnumerator closeInterpolation()

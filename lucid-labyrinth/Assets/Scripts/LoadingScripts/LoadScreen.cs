@@ -5,10 +5,11 @@ using UnityEngine.UI;
 public class LoadScreen : MonoBehaviour
 {
     public Slider loadBar;
-    public Canvas lucidityUI;
+    public GameObject lucidityUI;
     public Camera mainCam;
     public BreadcrumbSpawner bspawner;
     public MazeController maze;
+    public AudioListener backupAudio;   // not important, just a workaround
     private float time = 0.0f;
 
     private void Awake()
@@ -37,9 +38,11 @@ public class LoadScreen : MonoBehaviour
 
     private void OnDisable()
     {
-        lucidityUI.gameObject.SetActive(true);
+        if (lucidityUI != null)
+            lucidityUI.gameObject.SetActive(true);
         mainCam.gameObject.SetActive(true);
         bspawner.gameObject.SetActive(true);
+        backupAudio.gameObject.SetActive(false);
     }
 
 

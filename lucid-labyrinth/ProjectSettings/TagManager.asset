@@ -25,7 +25,8 @@ TagManager:
   - Maze
   - Ground
   - Sound
-  - Test
+  - LucidityBar
+  - EnvironmentController
   layers:
   - Default
   - TransparentFX

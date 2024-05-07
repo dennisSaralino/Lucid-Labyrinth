@@ -25,13 +25,14 @@ public class EnvironmentController : MonoBehaviour
     public bool lucidLevel3 = false;
 
     private bool monsterInPlay = false;
+    public float luciditySpeedModifier;
 
     public Color nightmareColor;
     public Color lucidColor;
 
-    public PlayerController player;
     public ParticleSystem fogEffects;
     public GameObject monsterPrefab;
+    public BreadcrumbSpawner breadcrumbs;
 
     private void TrackState()
     {
@@ -63,6 +64,7 @@ public class EnvironmentController : MonoBehaviour
             {
                 lucidLevel1 = true;
                 main.startColor = Color.white;
+                breadcrumbs.maxCrumbs = 20;
             }
         }
         //In Nightmare State
@@ -77,6 +79,7 @@ public class EnvironmentController : MonoBehaviour
                 Instantiate(monsterPrefab, MazeController.i.mazeData.getEnemySpawnPoints()[0] + new Vector3(0, 1.51f, 0), Quaternion.identity);
                 monsterInPlay = true;
             }
+
             // Nightmare Level 3
             if (lucidityBar.value <= 15)
             {
@@ -93,6 +96,7 @@ public class EnvironmentController : MonoBehaviour
             {
                 nightmareLevel1 = true;
                 main.startColor = Color.white;
+                breadcrumbs.maxCrumbs = 5;
             }
         }
         //In Neutral State
@@ -111,6 +115,6 @@ public class EnvironmentController : MonoBehaviour
     private void FixedUpdate()
     {
         TrackState();
-        player.speedScalar = 5f + Mathf.Floor(Mathf.Abs(lucidityBar.value - 50f)/10f);
+        luciditySpeedModifier = (Mathf.Floor(Mathf.Abs(lucidityBar.value - 50f)/10f))/2f;
     }
 }
