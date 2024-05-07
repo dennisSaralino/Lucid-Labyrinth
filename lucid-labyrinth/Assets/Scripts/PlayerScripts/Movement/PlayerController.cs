@@ -393,7 +393,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 groundPos()
     {
         Physics.Raycast(transform.position, Vector3.down, out groundPosCheck, Mathf.Infinity, 1 << 6);
-        Debug.Log(groundPosCheck.point);
+        //Debug.Log(groundPosCheck.point);
         return groundPosCheck.point;
     }
 }
