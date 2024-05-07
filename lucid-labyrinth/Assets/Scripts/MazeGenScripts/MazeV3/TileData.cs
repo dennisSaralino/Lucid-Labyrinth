@@ -262,6 +262,8 @@ public class TileData
                 if (isDoor)
                 {
                     Transform door = UnityEngine.Object.Instantiate(DataToMaze.i.tileDict[SideType.Door.ToString()], p).transform;
+                    door.gameObject.SetActive(false);
+                    navigationBaker.activeAfterBakedOb.Add(door.gameObject);
                     door.transform.position = centered;
                     for (int i = 0; i < 4; i++)
                     {
@@ -412,6 +414,10 @@ public class TileData
                     GameObject.Destroy(upside);
                     GameObject.Destroy(downside);
                     cell.transform.Rotate(Vector3.up, 90);
+                }
+                if (trapT == TrapMazeType.pendulumtrap)
+                {
+                    cell.gameObject.GetComponentInChildren<Pendulum>().setOrientation(traprotateable == 0 ? 90 : 0);
                 }
             }
         }

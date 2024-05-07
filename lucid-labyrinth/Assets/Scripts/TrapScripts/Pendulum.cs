@@ -24,12 +24,16 @@ public class Pendulum : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
       
     }
-
+    public float orient = 0;
+    public void setOrientation(float f)
+    {
+        orient = f;
+    }
     
     void FixedUpdate(){
         //provides swinging for pendulum
         float angle = limit * Mathf.Sin(Time.time * swingSpeed);
-        transform.rotation = Quaternion.Euler(angle, 90, 0);
+        transform.rotation = Quaternion.Euler(angle, orient, 0);
     
 
         //play sound each swing

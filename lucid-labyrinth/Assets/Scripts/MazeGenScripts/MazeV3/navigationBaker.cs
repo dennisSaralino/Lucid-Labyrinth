@@ -8,6 +8,7 @@ public class navigationBaker : MonoBehaviour
     public NavMeshSurface surface;
     public bool active;
     public static navigationBaker baker;
+    public static List<GameObject> activeAfterBakedOb;
     public void Awake()
     {
         if (baker == null) baker = this;
@@ -35,5 +36,10 @@ public class navigationBaker : MonoBehaviour
             i.BuildNavMesh();
             j--;   
         }
+
+        yield return null;
+        if (activeAfterBakedOb != null && activeAfterBakedOb.Count != 0)
+            activeAfterBakedOb.ForEach(x => x.SetActive(true));
+
     }
 }

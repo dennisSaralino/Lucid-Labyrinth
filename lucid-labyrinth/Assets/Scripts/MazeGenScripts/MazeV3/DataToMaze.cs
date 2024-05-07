@@ -43,7 +43,7 @@ public class DataToMaze : MonoBehaviour
     IEnumerator dataToMazeI(tileGridData griddata)
     {
         TileData[,] data = griddata.data;
-
+        navigationBaker.activeAfterBakedOb = new List<GameObject>();
         MazeController.i.mazeData = new mazeData(griddata.solution.Count);
         StaticTool.destroyChildOb(transform);
         yield return null;
