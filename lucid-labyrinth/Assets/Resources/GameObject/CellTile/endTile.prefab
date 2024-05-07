@@ -729,6 +729,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Circle_01
       objectReference: {fileID: 0}
+    - target: {fileID: 125368, guid: bdacb50c985ead94e8b0acfc7e2f0fcb, type: 3}
+      propertyPath: m_TagString
+      value: Finish
+      objectReference: {fileID: 0}
     - target: {fileID: 428954, guid: bdacb50c985ead94e8b0acfc7e2f0fcb, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -795,6 +799,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &117503559408073407
 MonoBehaviour:
+--- !u!135 &1811362261714710727
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -807,6 +813,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winText: {fileID: 0}
   player: {fileID: 0}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.8485308
+  m_Center: {x: 0.011480331, y: 0.30083764, z: -0.00044882298}
 --- !u!1001 &5461417080865722298
 PrefabInstance:
   m_ObjectHideFlags: 0

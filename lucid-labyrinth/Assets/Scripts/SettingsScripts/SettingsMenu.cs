@@ -50,12 +50,12 @@ public class SettingsMenu : MonoBehaviour
         {
             PlayerPrefs.SetString("difficulty", "normal");
             PlayerPrefs.SetInt("mazeSize", 9);
-            PlayerPrefs.SetFloat("pickupGain", 15f);
+            PlayerPrefs.SetFloat("pickupGain", 20f);
         } else if (diff == 2)
         {
             PlayerPrefs.SetString("difficulty", "hard");
             PlayerPrefs.SetInt("mazeSize", 12);
-            PlayerPrefs.SetFloat("pickupGain", 20f);
+            PlayerPrefs.SetFloat("pickupGain", 15f);
         }
     }
 }

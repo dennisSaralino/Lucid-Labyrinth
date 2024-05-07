@@ -351,7 +351,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421008123}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 178.29999, y: -174.29999, z: 0}
+  m_LocalPosition: {x: 169.64694, y: -210.331, z: 0}
   m_LocalScale: {x: 17.270086, y: 10.366792, z: 3.7542396}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -607,7 +607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 177.8, y: -173.99998}
+  m_AnchoredPosition: {x: 169.14696, y: -210.03099}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.49999997, y: 0.5}
 --- !u!114 &937640170
@@ -739,7 +739,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: -129}
+  m_AnchoredPosition: {x: 75, y: 149}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1054040546
@@ -762,7 +762,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: your mind remains trapped in the labyrinth...
+  m_text: You have escaped from the nightmare
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7eadfe672448736469d92f8901d87303, type: 2}
   m_sharedMaterial: {fileID: 4138474520173933890, guid: 7eadfe672448736469d92f8901d87303, type: 2}
@@ -874,8 +874,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 14, y: -77}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -6.000002, y: 191}
+  m_SizeDelta: {x: 774.081, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1118823118
 MonoBehaviour:
@@ -897,7 +897,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GAME OVER
+  m_text: The lantern guided you from the labyrinth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7eadfe672448736469d92f8901d87303, type: 2}
   m_sharedMaterial: {fileID: 4138474520173933890, guid: 7eadfe672448736469d92f8901d87303, type: 2}
@@ -1032,14 +1032,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f8d2a6519f035bd41b3cfed0bcdde2da, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd303e37ebeceb146861ffb5fdb1497b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1499162012
@@ -1087,7 +1087,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -144.34697, y: -172.969}
+  m_AnchoredPosition: {x: -153, y: -209}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.49999997, y: 0.5}
 --- !u!114 &1529235080
@@ -1209,7 +1209,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566500401}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -144.3, y: -173.5, z: 0}
+  m_LocalPosition: {x: -152.95305, y: -209.531, z: 0}
   m_LocalScale: {x: 17.270086, y: 10.366792, z: 3.7542396}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1400,7 +1400,7 @@ GameObject:
   - component: {fileID: 1757444193}
   - component: {fileID: 1757444197}
   m_Layer: 5
-  m_Name: GameOver
+  m_Name: WinGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

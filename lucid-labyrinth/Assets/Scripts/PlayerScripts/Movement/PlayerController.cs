@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 //using UnityEditor.UIElements;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -355,6 +356,11 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Key") && currentPickup == null)
         {
             pickupControl.gameObject.SetActive(true);
+        }
+
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            SceneManager.LoadSceneAsync(5);
         }
     }
 
