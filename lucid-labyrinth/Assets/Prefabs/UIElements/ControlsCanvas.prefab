@@ -622,9 +622,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- Make your way out of the nightmare\n\n- your lucidity will drain over
-    time, \n  gain more from pickups and avoid traps\n\n- Find keys to open locked
-    doors\n\n- Don't let the monster find you..."
+  m_text: "- Find the lantern to exit the nightmare\n\n- your lucidity will drain
+    over time, \n  gain more from pickups and avoid traps\n\n- Find keys to open
+    locked doors\n\n- Don't let the monster find you..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7eadfe672448736469d92f8901d87303, type: 2}
   m_sharedMaterial: {fileID: 4138474520173933890, guid: 7eadfe672448736469d92f8901d87303, type: 2}
