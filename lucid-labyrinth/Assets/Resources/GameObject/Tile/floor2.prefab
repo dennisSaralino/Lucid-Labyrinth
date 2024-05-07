@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 1465964072331025703}
   - component: {fileID: 1465964072331770521}
   - component: {fileID: 1465964072327534807}
+  - component: {fileID: 6341667690569447578}
   m_Layer: 0
   m_Name: floor2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 91
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1465964072333921933
 Transform:
@@ -97,6 +98,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 4, z: 6}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &6341667690569447578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465964072334209579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &1465964072403184531
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,12 +140,13 @@ GameObject:
   - component: {fileID: 1465964072404124831}
   - component: {fileID: 1465964072405394209}
   - component: {fileID: 1465964072409612655}
+  - component: {fileID: 2009324270610326751}
   m_Layer: 0
   m_Name: floor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 91
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1465964072403359541
 Transform:
@@ -194,6 +226,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 4, z: 6}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &2009324270610326751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465964072403184531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &1465964072674675963
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,12 +268,13 @@ GameObject:
   - component: {fileID: 1465964072677925879}
   - component: {fileID: 1465964072676918345}
   - component: {fileID: 1465964072672699911}
+  - component: {fileID: 2595411940557233946}
   m_Layer: 0
   m_Name: floor2 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 91
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1465964072675029085
 Transform:
@@ -291,6 +354,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 4, z: 6}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &2595411940557233946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465964072674675963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &1465964073894080517
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,12 +396,13 @@ GameObject:
   - component: {fileID: 1465964073890963209}
   - component: {fileID: 1465964073892329655}
   - component: {fileID: 1465964073888160505}
+  - component: {fileID: 3816104242058798731}
   m_Layer: 0
   m_Name: floor2 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 91
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1465964073894349987
 Transform:
@@ -388,6 +482,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 4, z: 6}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &3816104242058798731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465964073894080517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &3354788759116531690
 GameObject:
   m_ObjectHideFlags: 0

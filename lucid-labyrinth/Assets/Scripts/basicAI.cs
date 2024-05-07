@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class basicAI : MonoBehaviour
 {
-    Transform player;
+    PlayerController player;
     NavMeshAgent nav;
 
     public GameObject head;
@@ -18,8 +18,13 @@ public class basicAI : MonoBehaviour
     private bool focused = false;
     private bool hasDestination = false;
     private bool atSound = false;
+    public bool test = true;
     private float seenTimer = 0f;
     private float distractedTimer = 0f;
+    private float idleTimer = 10f;
+
+    private float testTimer = 0f;
+
     private float yTurn = 0f;
     private float netTurn = 0f;
     private Vector3 soundPos;
@@ -29,41 +34,35 @@ public class basicAI : MonoBehaviour
     static private float turnSpeed = 15;
     private List<Vector3> wanderPoints;
     private Vector3 currentWanderDestination;
-    private int randIndex = 0;
+    private int wanderIndex = 1;
+    private Vector3 currPos = Vector3.zero;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         nav = GetComponent<NavMeshAgent>();
         nav.speed = 1.5f;
-        yTurn = head.transform.rotation.eulerAngles.y;
+        yTurn = head.transform.rotation.eulerAngles.y + 90;
+        currPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!debugging)
+        idleTimer -= Time.deltaTime;
+        if (idleTimer <= 0f)
         {
-            if (!hasDestination)
+            if (currPos == transform.position)
             {
-                wanderPoints = MazeController.i.mazeData.getEnemySpawnPoints();
-                randIndex = Random.Range(0, wanderPoints.Count);
-                currentWanderDestination = wanderPoints[randIndex];
-                nav.SetDestination(currentWanderDestination);
-                hasDestination = true;
+                nav.ResetPath();
+                hasDestination = false;
             }
-            if (hasDestination && nav.destination.x == currentWanderDestination.x && nav.destination.z == currentWanderDestination.z)
-            {
-                if (transform.position == nav.destination)
-                {
-                    nav.ResetPath();
-                    hasDestination = false;
-                }
-            }
+            idleTimer = 10f;
+            currPos = transform.position;
         }
-        if (!focused)
+        if (!focused && !debugging)
         {
             if (rightTurn)
             {
@@ -73,8 +72,7 @@ public class basicAI : MonoBehaviour
                 {
                     rightTurn = false;
                 }
-                //yTurn = Mathf.Clamp(yTurn, -60f, 60f);
-                head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
+                head.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90 + yTurn, 0);
             }
             else
             {
@@ -84,31 +82,50 @@ public class basicAI : MonoBehaviour
                 {
                     rightTurn = true;
                 }
-                head.transform.rotation = Quaternion.Euler(0, yTurn, 0);
+                head.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90 + yTurn, 0);
             }
         }
+        else if (debugging) { head.transform.rotation = transform.rotation; }
+
+        if (!hasDestination)
+        {
+            wanderPoints = MazeController.i.mazeData.getEnemySpawnPoints();
+            currentWanderDestination = wanderPoints[wanderIndex];
+            nav.SetDestination(currentWanderDestination);
+            hasDestination = true;
+        }
+        else if (hasDestination && !focused && !isDistracted)
+        {
+            if (transform.position.x == nav.destination.x && transform.position.z == nav.destination.z)
+            {
+                nav.ResetPath();
+                hasDestination = false;
+                if (wanderIndex == 1) { --wanderIndex; }
+                else if (wanderIndex == 0) { ++wanderIndex; }
+            }
+        }
+
         if (!isDistracted && seenTimer <= 0f)
         {
             Debug.DrawRay(head.transform.position, head.transform.right * 60, Color.blue, 0.2f);
-            Physics.SphereCastNonAlloc(head.transform.position, 5f, head.transform.right, sawPlayer, viewRange, layerMask);
+            Physics.BoxCastNonAlloc(head.transform.position, new Vector3(5f, 5f, 0.01f), head.transform.forward, sawPlayer, Quaternion.identity, viewRange, layerMask);
             foreach (RaycastHit x in sawPlayer)
             {
                 if (x.collider != null)
                 {
-                    //Debug.Log("saw something");            
                     if (x.collider.gameObject.CompareTag("Player"))
                     {
-                        Physics.Linecast(head.transform.position, player.position, out playerCheck, layerMask);
-                        Debug.DrawRay(head.transform.position, -(head.transform.position - player.position) * 60, Color.green, 2.0f);
+                        Physics.Linecast(head.transform.position, player.gameObject.transform.position, out playerCheck, layerMask);
+                        Debug.DrawRay(head.transform.position, -(head.transform.position - player.gameObject.transform.position) * 60, Color.green, 2.0f);
                         if (!playerCheck.collider.gameObject.CompareTag("Player"))
                         {
                             nav.ResetPath();
-                            //Debug.Log("Reset");
                             sawPlayer = new RaycastHit[10];
                             break;
                         }
                         else if (x.collider.gameObject.CompareTag("Player"))
                         {
+                            nav.ResetPath();
                             seenTimer = 6.0f;
                             hasDestination = true;
                             focused = true;
@@ -121,16 +138,17 @@ public class basicAI : MonoBehaviour
                 }
             }
         }
-        else if (seenTimer > 0.0f)
+        if (seenTimer > 0.0f)
         {
             seenTimer -= Time.deltaTime;
-            //head.transform.LookAt(player.position);
-            transform.LookAt(player.position);
-            head.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90f, 0);
-            nav.SetDestination(player.position);
+            //head.transform.LookAt(player.gameObject.transform.position);
+            //head.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90f, 0);
+            //nav.SetDestination(GameObject.FindGameObjectWithTag("Test").transform.position);
+            nav.ResetPath();
+            nav.SetDestination(player.groundPos());
             if (seenTimer <= 0.0f)
             {
-                yTurn = head.transform.rotation.eulerAngles.y;
+                Debug.Log("seenTimer over");
                 netTurn = 0f;
                 seenTimer = 0.0f;
                 nav.ResetPath();
@@ -140,11 +158,7 @@ public class basicAI : MonoBehaviour
         }
         else if (isDistracted)
         {
-            nav.ResetPath();
-            nav.SetDestination(soundPos);
-            hasDestination = true;
-            focused = true;
-            head.transform.LookAt(soundPos);
+            Debug.Log("Distracted");
             if (distractedTimer <= 0f && atSound)
             {
                 Debug.Log("reached destination");
@@ -161,23 +175,22 @@ public class basicAI : MonoBehaviour
         }
         if (Input.GetKeyDown("m"))
         {
-            nav.ResetPath();
-            isDistracted = false;
-            focused = false;
-            atSound = false;
-            nav.SetDestination(debugDestination);
-            hasDestination = true;
+            test = !test;
         }
     }
 
     public void alert(Vector3 position)
     {
-        Physics.Linecast(head.transform.position, player.position, out playerCheck, layerMask);
-        if (!playerCheck.collider.gameObject.CompareTag("Player"))
+        if (seenTimer <= 0f)
         {
             seenTimer = 0f;
             soundPos = position;
             isDistracted = true;
+            nav.ResetPath();
+            hasDestination = true;
+            focused = true;
+            nav.SetDestination(soundPos);
+            head.transform.LookAt(soundPos);
         }
     }
 

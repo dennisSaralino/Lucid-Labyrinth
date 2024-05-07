@@ -43,6 +43,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bricks_01
       objectReference: {fileID: 0}
+    - target: {fileID: 139522, guid: db3d019277af3094a8d8ff037e97253b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 482318, guid: db3d019277af3094a8d8ff037e97253b, type: 3}
       propertyPath: m_RootOrder
       value: 0

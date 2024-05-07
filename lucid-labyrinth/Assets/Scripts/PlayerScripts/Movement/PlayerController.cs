@@ -15,12 +15,14 @@ public class PlayerController : MonoBehaviour
     public NoiseSettings extremeShake;
     public CinemachineVirtualCamera mainCam;
     public GameObject environmentCont;
+    public GameObject soundRadius;
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
     public PlayerControls input = null;
     private CharacterController playerController;
     private AudioSource SFX;
     private GameObject[] monsters;
+    private RaycastHit groundPosCheck;
 
     //private pickupHitboxScript pickupHitboxScript;
     public GameObject holdPos;
@@ -307,6 +309,7 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log(transform.position);
                 x.GetComponent<basicAI>().alert(transform.position);
+                Instantiate(soundRadius, groundPos(), Quaternion.identity);
             }
         }
        
@@ -323,5 +326,12 @@ public class PlayerController : MonoBehaviour
     public bool MovedThisFrame()
     {
         return input.player.move.WasPerformedThisFrame();
+    }
+
+    public Vector3 groundPos()
+    {
+        Physics.Raycast(transform.position, Vector3.down, out groundPosCheck, Mathf.Infinity, 1 << 6);
+        Debug.Log(groundPosCheck.point);
+        return groundPosCheck.point;
     }
 }

@@ -234,7 +234,7 @@ GameObject:
   m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 89
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &9064522940171601909
 Transform:
@@ -358,6 +358,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boards_04
       objectReference: {fileID: 0}
+    - target: {fileID: 121508, guid: 89a8969c22d0b444a9bea66ab11bd459, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 480390, guid: 89a8969c22d0b444a9bea66ab11bd459, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -421,6 +425,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mud_Decal_01
       objectReference: {fileID: 0}
+    - target: {fileID: 157792, guid: ddcd62a3f1a5224479b7df6ced072913, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 430392, guid: ddcd62a3f1a5224479b7df6ced072913, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -482,6 +490,10 @@ PrefabInstance:
     - target: {fileID: 110060, guid: 0d92c1d3cb675a14cb2717b0d6cbfd95, type: 3}
       propertyPath: m_Name
       value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 110060, guid: 0d92c1d3cb675a14cb2717b0d6cbfd95, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 447256, guid: 0d92c1d3cb675a14cb2717b0d6cbfd95, type: 3}
       propertyPath: m_RootOrder

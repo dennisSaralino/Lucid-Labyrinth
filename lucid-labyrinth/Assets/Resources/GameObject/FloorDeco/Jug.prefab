@@ -43,6 +43,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Jugs_02
       objectReference: {fileID: 0}
+    - target: {fileID: 128284, guid: 4a2a6cf2b6ff94943bf7512910b6fb3c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 463346, guid: 4a2a6cf2b6ff94943bf7512910b6fb3c, type: 3}
       propertyPath: m_RootOrder
       value: 0

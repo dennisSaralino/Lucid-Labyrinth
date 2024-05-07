@@ -35036,6 +35036,8 @@ MonoBehaviour:
   head: {fileID: 3669842851928301749}
   viewRange: 30
   debugging: 0
+  debugDestination: {x: 0, y: 0, z: 0}
+  test: 1
 --- !u!54 &1700880123
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -35050,7 +35052,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!195 &1700880122
 NavMeshAgent:
@@ -35070,7 +35072,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 60
+  m_Height: 45
   m_BaseOffset: 30
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

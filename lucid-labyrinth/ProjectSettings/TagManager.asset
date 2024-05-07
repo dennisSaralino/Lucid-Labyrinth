@@ -25,6 +25,7 @@ TagManager:
   - Maze
   - Ground
   - Sound
+  - Test
   layers:
   - Default
   - TransparentFX

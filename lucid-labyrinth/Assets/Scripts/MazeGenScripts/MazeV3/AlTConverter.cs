@@ -6,8 +6,8 @@ using System.Linq;
 public class alDataConverter
 {
     #region SETTING
-    public static int MaxDoorNum = 5;
-    public static int MaxStairNum = 5;
+    public static int MaxDoorNum = 1;
+    public static int MaxStairNum = 1;
     public static int trapFrequency = 10;//20; //1 Trap for every {trapFrequency} tiles.
     public static int decoFrequency = 2; //1 Decoration object for every {decoFrequency} tiles
     public static int lucidityPickupFrequency = 5; //10; //1 Lucidity pickup every {lucidityPickupFrequency} tiles
