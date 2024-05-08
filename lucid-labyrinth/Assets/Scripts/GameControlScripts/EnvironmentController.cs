@@ -29,10 +29,14 @@ public class EnvironmentController : MonoBehaviour
 
     public Color nightmareColor;
     public Color lucidColor;
+    public Color nightmareTint;
+    public Color nightmareTintRed;
 
     public ParticleSystem fogEffects;
     public GameObject monsterPrefab;
     public BreadcrumbSpawner breadcrumbs;
+
+    public Image playerBlindfold;
 
     private void TrackState()
     {
@@ -83,17 +87,20 @@ public class EnvironmentController : MonoBehaviour
             // Nightmare Level 3
             if (lucidityBar.value <= 15)
             {
+                playerBlindfold.color = Color.Lerp(playerBlindfold.color, nightmareTintRed, 0 + Time.deltaTime / 5f);
                 nightmareLevel3 = true;
             }
             // Nightmare Level 2
             else if (lucidityBar.value <= 30)
             {
+                playerBlindfold.color = Color.Lerp(playerBlindfold.color, nightmareTint, 0 + Time.deltaTime / 5f);
                 nightmareLevel2 = true;
                 main.startColor = nightmareColor;
             }
             // Nightmare Level 1
             else
             {
+                playerBlindfold.color = Color.Lerp(playerBlindfold.color, Color.clear, 0 + Time.deltaTime / 5f);
                 nightmareLevel1 = true;
                 main.startColor = Color.white;
                 breadcrumbs.maxCrumbs = 5;

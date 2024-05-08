@@ -47,5 +47,5 @@ MonoBehaviour:
   playerTransform: {fileID: 5226644978972912646, guid: 36d612a703546d54e88ee46af666760f, type: 3}
   breadcrumb: {fileID: 8122617739220538881, guid: c791b7e5985b20646a5d7d69eab70128, type: 3}
   lucidityState: {fileID: 0}
-  maxCrumbs: 0
+  maxCrumbs: 20
   timer: 0
