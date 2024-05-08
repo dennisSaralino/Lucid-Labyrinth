@@ -9,7 +9,7 @@ public class MonsterLucidityModifier : MonoBehaviour
 
     private void Start()
     {
-        lucidity = GameObject.FindGameObjectWithTag("LucidityPickup").GetComponent<LucidityBar>();
+        lucidity = GameObject.FindGameObjectWithTag("LucidityBar").GetComponent<LucidityBar>();
     }
 
     private void OnTriggerEnter(Collider other)

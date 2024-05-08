@@ -66260,6 +66260,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 860835105631443600, guid: 40f5afd587f5a9d43a5063b91407aa14, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 860835105631443600, guid: 40f5afd587f5a9d43a5063b91407aa14, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 860835105631443600, guid: 40f5afd587f5a9d43a5063b91407aa14, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 860835105631443600, guid: 40f5afd587f5a9d43a5063b91407aa14, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -66299,6 +66311,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 860835105631443603, guid: 40f5afd587f5a9d43a5063b91407aa14, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 860835105631443607, guid: 40f5afd587f5a9d43a5063b91407aa14, type: 3}
       propertyPath: m_Name
       value: InfluenceRingMid
@@ -66320,6 +66336,18 @@ PrefabInstance:
     - target: {fileID: 6022535998226725576, guid: 57b9e7eddf8a1fc42b0b4bd4e2341be2, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022535998226725576, guid: 57b9e7eddf8a1fc42b0b4bd4e2341be2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022535998226725576, guid: 57b9e7eddf8a1fc42b0b4bd4e2341be2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022535998226725576, guid: 57b9e7eddf8a1fc42b0b4bd4e2341be2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6022535998226725576, guid: 57b9e7eddf8a1fc42b0b4bd4e2341be2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -66365,6 +66393,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InfluenceRingFar
       objectReference: {fileID: 0}
+    - target: {fileID: 6022535998226725581, guid: 57b9e7eddf8a1fc42b0b4bd4e2341be2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57b9e7eddf8a1fc42b0b4bd4e2341be2, type: 3}
 --- !u!4 &7207396071919609058 stripped
@@ -66379,9 +66411,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5369596559823339716}
     m_Modifications:
+    - target: {fileID: 6061315605451299141, guid: 5025c2e8b18c9de48be3cb7be73de393, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6061315605451299192, guid: 5025c2e8b18c9de48be3cb7be73de393, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061315605451299192, guid: 5025c2e8b18c9de48be3cb7be73de393, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061315605451299192, guid: 5025c2e8b18c9de48be3cb7be73de393, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061315605451299192, guid: 5025c2e8b18c9de48be3cb7be73de393, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6061315605451299192, guid: 5025c2e8b18c9de48be3cb7be73de393, type: 3}
       propertyPath: m_LocalPosition.x

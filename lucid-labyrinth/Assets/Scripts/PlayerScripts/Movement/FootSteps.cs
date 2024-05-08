@@ -74,12 +74,12 @@ public class FootSteps : MonoBehaviour
         {
             //hit holds collision info
             if(hit.collider.CompareTag("Rock"))
-                audioSource.volume = 0.03f;
+                audioSource.volume = 0.1f; //0.03f;
                 PlaySound(rock);
             if(hit.collider.CompareTag("Water")){
-                audioSource.volume = 0.1f;
+                audioSource.volume = 0.3f; //0.1f;
                 PlaySound(water);
-                audioSource.volume = 0.03f;
+                audioSource.volume = 0.1f; //0.03f;
             }
         }
     }
@@ -121,7 +121,7 @@ public class FootSteps : MonoBehaviour
 
     //play sound when picking up lucidity object
     public void PlayLucidityPickup(){
-        if(lucidityPickup!= null)
-        audioSource.PlayOneShot(lucidityPickup,0.3f);
+        if (lucidityPickup != null)
+            audioSource.PlayOneShot(lucidityPickup, 0.6f); //0.3f);
     }
 }
