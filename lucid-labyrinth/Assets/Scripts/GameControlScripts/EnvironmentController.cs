@@ -35,6 +35,7 @@ public class EnvironmentController : MonoBehaviour
     public ParticleSystem fogEffects;
     public GameObject monsterPrefab;
     public BreadcrumbSpawner breadcrumbs;
+    public GameObject monster;
 
     public Image playerBlindfold;
 
@@ -80,7 +81,7 @@ public class EnvironmentController : MonoBehaviour
 
             if (!monsterInPlay)
             {
-                Instantiate(monsterPrefab, MazeController.i.mazeData.getEnemySpawnPoints()[0] + new Vector3(0, 1.51f, 0), Quaternion.identity);
+                monster = Instantiate(monsterPrefab, MazeController.i.mazeData.getEnemySpawnPoints()[0] + new Vector3(0, 1.51f, 0), Quaternion.identity);
                 monsterInPlay = true;
             }
 
@@ -123,5 +124,14 @@ public class EnvironmentController : MonoBehaviour
     {
         TrackState();
         luciditySpeedModifier = (Mathf.Floor(Mathf.Abs(lucidityBar.value - 50f)/10f))/2f;
+    }
+
+    public void DespawnMonster()
+    {
+        if (monsterInPlay)
+        {
+            Destroy(monster);
+            monsterInPlay = false;
+        }
     }
 }

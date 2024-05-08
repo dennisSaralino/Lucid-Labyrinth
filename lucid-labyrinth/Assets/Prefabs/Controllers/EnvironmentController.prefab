@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 196036812873170732}
   m_Layer: 0
   m_Name: EnvironmentController
-  m_TagString: Untagged
+  m_TagString: EnvironmentController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,9 +54,10 @@ MonoBehaviour:
   lucidLevel1: 0
   lucidLevel2: 0
   lucidLevel3: 0
+  luciditySpeedModifier: 0
   nightmareColor: {r: 0.7075472, g: 0.130162, b: 0.130162, a: 0}
   lucidColor: {r: 0.18903525, g: 0.6792453, b: 0.6555033, a: 0}
-  player: {fileID: 5226644978972912642, guid: 36d612a703546d54e88ee46af666760f, type: 3}
   fogEffects: {fileID: 6383560602398665518, guid: a7ca343f360d8494f8c19cd3a01567cf, type: 3}
   monsterPrefab: {fileID: 5369596559823339717, guid: 5d007188bf8d8014ab71394e9119e152, type: 3}
   breadcrumbs: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
+  monster: {fileID: 0}

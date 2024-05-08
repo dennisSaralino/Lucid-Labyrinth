@@ -22,9 +22,6 @@ public class basicAI : MonoBehaviour
     private float seenTimer = 0f;
     private float distractedTimer = 0f;
     private float idleTimer = 10f;
-
-    private float testTimer = 0f;
-
     private float yTurn = 0f;
     private float netTurn = 0f;
     private Vector3 soundPos;
@@ -44,7 +41,7 @@ public class basicAI : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         nav = GetComponent<NavMeshAgent>();
-        nav.speed = 1.5f;
+        nav.speed = 1.75f;
         yTurn = head.transform.rotation.eulerAngles.y + 90;
         currPos = transform.position;
     }
@@ -109,8 +106,8 @@ public class basicAI : MonoBehaviour
 
         if (!isDistracted && seenTimer <= 0f)
         {
-            Debug.DrawRay(head.transform.position, head.transform.right * 60, Color.blue, 0.2f);
-            Physics.BoxCastNonAlloc(head.transform.position, new Vector3(5f, 5f, 0.01f), head.transform.right, sawPlayer, Quaternion.identity, viewRange, layerMask);
+            Debug.DrawRay(head.transform.position, head.transform.forward * 60, Color.blue, 0.2f);
+            Physics.BoxCastNonAlloc(head.transform.position, new Vector3(5f, 5f, 0.01f), head.transform.forward, sawPlayer, Quaternion.identity, viewRange, layerMask);
             foreach (RaycastHit x in sawPlayer)
             {
                 if (x.collider != null)
@@ -134,7 +131,7 @@ public class basicAI : MonoBehaviour
                             //Debug.Log("Saw player");
                             Debug.DrawRay(head.transform.position + new Vector3(0f, 0f, 2.0f), head.transform.forward * 60, Color.red, 6.0f);
                             sawPlayer = new RaycastHit[10];
-                            nav.SetDestination(player.groundPos());
+                            nav.SetDestination(player.GroundPos());
                             break;
                         }
                     }
@@ -144,9 +141,10 @@ public class basicAI : MonoBehaviour
         if (seenTimer > 0.0f)
         {
             seenTimer -= Time.deltaTime;
+            head.transform.LookAt(player.gameObject.transform.position);
             if (transform.position.x == nav.destination.x && transform.position.z == nav.destination.z)
             {
-                nav.SetDestination(player.groundPos());
+                nav.SetDestination(player.GroundPos());
             }
             if (seenTimer <= 0.0f)
             {
@@ -174,10 +172,6 @@ public class basicAI : MonoBehaviour
             {
                 distractedTimer -= Time.deltaTime;
             }
-        }
-        if (Input.GetKeyDown("m"))
-        {
-            nav.SetDestination(player.groundPos());
         }
     }
 
