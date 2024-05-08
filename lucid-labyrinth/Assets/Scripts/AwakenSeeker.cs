@@ -9,6 +9,8 @@ public class AwakenSeeker : MonoBehaviour
     public ParticleSystem[] partEffects;
     public float startingLight = 0.0f;
     public float awakeLight = 3.8f;
+    public float resetbuffer = 0f;
+    public float spawnbuffer = 1f;
 
     private AudioSource audioSource;
     public AudioClip monsterAlerted;
@@ -48,32 +50,45 @@ public class AwakenSeeker : MonoBehaviour
                     if (x.collider.gameObject.CompareTag("Player"))
                     {
                         Physics.Linecast(head.transform.position, player.gameObject.transform.position, out playerCheck, layerMask);
-                        if (!playerCheck.collider.gameObject.CompareTag("Player"))
+                        if(playerCheck.collider != null)
                         {
-                            sawPlayer = new RaycastHit[10];
-                            break;
-                        }
-                        else if (x.collider.gameObject.CompareTag("Player"))
-                        {
-                            // sees player and awakens
-                            foreach (Light lightEffect in lightEffects)
-                                lightEffect.intensity = awakeLight;
-                            foreach (ParticleSystem partEffect in partEffects)
-                                partEffect.Play();
+                            if (!playerCheck.collider.gameObject.CompareTag("Player"))
+                            {
+                                sawPlayer = new RaycastHit[10];
+                                break;
+                            }
+                            else if (x.collider.gameObject.CompareTag("Player"))
+                            {
+                                // sees player and awakens
+                                foreach (Light lightEffect in lightEffects)
+                                    lightEffect.intensity = awakeLight;
+                                foreach (ParticleSystem partEffect in partEffects)
+                                    partEffect.Play();
 
-                            if (audioSource != null)
-                                audioSource.PlayOneShot(monsterAlerted);
+                                if (audioSource != null)
+                                    audioSource.PlayOneShot(monsterAlerted);
 
-                            // notify main monster
-                            monster.GetComponent<basicAI>().alert(x.collider.gameObject.transform.position);
-                            Instantiate(soundRadius, x.collider.gameObject.transform.position, Quaternion.identity);
-                            Debug.DrawRay(head.transform.position + new Vector3(0f, 0f, 2.0f), head.transform.forward * 60, Color.red, 6.0f);
-                            sawPlayer = new RaycastHit[10];
-                            break;
+                                // notify main monster
+                                if (resetbuffer <= 0)
+                                {
+                                    monster.GetComponent<basicAI>().alert(x.collider.gameObject.transform.position);
+                                    Instantiate(soundRadius, x.collider.gameObject.transform.position, Quaternion.identity);
+                                    resetbuffer = spawnbuffer;
+                                }
+                                else
+                                    resetbuffer -= Time.deltaTime;
+
+                                Debug.DrawRay(head.transform.position + new Vector3(0f, 0f, 2.0f), head.transform.forward * 60, Color.red, 6.0f);
+                                sawPlayer = new RaycastHit[10];
+                                break;
+                            }
                         }
+
                     }
                 }
             }
+            // ensure buffer finishes countdown even when player isn't in view.
+            if(resetbuffer > 0) resetbuffer -= Time.deltaTime;
         }
     }
 }

@@ -10322,6 +10322,8 @@ MonoBehaviour:
   - {fileID: 4739302781574048006}
   startingLight: 0
   awakeLight: 3.8
+  resetbuffer: 0
+  spawnbuffer: 1
   monsterAlerted: {fileID: 8300000, guid: 1791efd4efaf5fb4fac71a218b21c422, type: 3}
   head: {fileID: 5815141272749132301}
   viewRange: 12
