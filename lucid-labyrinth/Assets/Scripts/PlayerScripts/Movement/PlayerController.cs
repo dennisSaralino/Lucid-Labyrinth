@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource SFX;
     private GameObject[] monsters;
     private RaycastHit groundPosCheck;
+    private RaycastHit keyCheck;
 
     //private pickupHitboxScript pickupHitboxScript;
     public GameObject holdPos;
@@ -233,6 +234,16 @@ public class PlayerController : MonoBehaviour
     {
         if (!pauseMenu.paused)
         {
+            Physics.BoxCast(mainCam.transform.position, new Vector3(5f, 5f, 0.01f), mainCam.transform.forward, out keyCheck, Quaternion.identity, 6f, 1 << 3);
+            if (keyCheck.collider != null)
+            {
+                if (keyCheck.collider.gameObject.CompareTag("Key") && currentPickup == null)
+                {
+                    pickupControl.gameObject.SetActive(true);
+                }
+                else { pickupControl.gameObject.SetActive(false); }
+            }
+            else { pickupControl.gameObject.SetActive(false); }
             // add mouse deltas to current camera rotation
             yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
             xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
@@ -269,11 +280,8 @@ public class PlayerController : MonoBehaviour
                     currentPickup = null;
                 }
             }
-            else
-            {
-                if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
-                else { pickupCooldown = 0.0f; }
-            }
+            if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
+            else { pickupCooldown = 0.0f; }
 
             // Throwing an object
             if (input.player.throwObj.WasPerformedThisFrame())
