@@ -732,7 +732,7 @@ PrefabInstance:
       objectReference: {fileID: 1475202252}
     - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: debugging
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: pauseMenu
@@ -744,7 +744,7 @@ PrefabInstance:
       objectReference: {fileID: 1255145960}
     - target: {fileID: 755364381983683417, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: baseLucidDrain
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 755364381983683419, guid: ffc98f52ef471d448b3abc22dbbd870c, type: 3}
       propertyPath: m_Pivot.x
@@ -1401,7 +1401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4585842642892927525, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
       propertyPath: timer
@@ -1985,6 +1985,10 @@ PrefabInstance:
     - target: {fileID: 7848687936313508537, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
       propertyPath: m_Color.r
       value: 0.18431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 7848687936527948852, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 30.599976
       objectReference: {fileID: 0}
     - target: {fileID: 7848687936527948853, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
       propertyPath: m_Value

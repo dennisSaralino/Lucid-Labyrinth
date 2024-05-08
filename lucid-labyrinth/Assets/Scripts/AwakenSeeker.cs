@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AwakenSeeker : MonoBehaviour
 {
-    GameObject[] lightEffects;
-    GameObject[] partEffects;
+    public GameObject[] lightEffects;
+    public GameObject[] partEffects;
 
     // Start is called before the first frame update
     void Start()

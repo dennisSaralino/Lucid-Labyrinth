@@ -372,6 +372,7 @@ MonoBehaviour:
   extremeShake: {fileID: 11400000, guid: cd5f81bc3995673458a0c7d3bc10a57b, type: 2}
   mainCam: {fileID: 4694766057913390838}
   environmentCont: {fileID: 0}
+  soundRadius: {fileID: 3184516768751510578, guid: ab1b43fb03dc3694a84e0043a9bc37ea, type: 3}
   holdPos: {fileID: 1280355557571516684}
   pauseMenu: {fileID: 0}
   pickupControl: {fileID: 0}

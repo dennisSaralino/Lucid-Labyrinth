@@ -52,7 +52,7 @@ public class Door_Controller : MonoBehaviour {
 				if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
 				{
 					locked = false;
-					Open();
+					//Open();
 						// below duplicated during a merge conflict
 					//if (other.gameObject.CompareTag("Key"))
 					//{
