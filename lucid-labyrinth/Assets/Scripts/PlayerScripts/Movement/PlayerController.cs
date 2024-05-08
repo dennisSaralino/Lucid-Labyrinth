@@ -98,7 +98,6 @@ public class PlayerController : MonoBehaviour
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
         SFX = GetComponent<AudioSource>();
-        //pickupHitboxScript = pickupHitBox.GetComponent<pickupHitboxScript>();
         StartCoroutine(waitForMaze());
         camEffect.enabled = false;
         footSteps = GetComponentInChildren<FootSteps>();
@@ -180,10 +179,14 @@ public class PlayerController : MonoBehaviour
             }
 
             Vector3 scaledVelocity;
-            if(isSprinting) {                 
+            if (isSprinting)
+            {
                 scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + 2f + env.luciditySpeedModifier);
-            } else
+            }
+            else
+            {
                 scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
+            }
 
 
 
@@ -236,23 +239,10 @@ public class PlayerController : MonoBehaviour
             xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
 
             // set the player/camera rotation equal to the the new x and y rotation values
-            //mainCam.transform.rotation = Quaternion.Euler(xRot, yRot, 0);
             mainCam.transform.localEulerAngles = new Vector3(xRot, 0, 0);  // smoother turns
             transform.rotation = Quaternion.Euler(0f, yRot, 0);
 
             // Handles Sprinting
-            //if (input.player.sprint.WasPerformedThisFrame()) //WasPressedThisFrame())
-            //{
-            //    isSprinting = true;
-            //    //speedScalar += 2.0f;
-            //    //camEffect.m_FrequencyGain += 0.5f;
-            //}
-            //if (input.player.sprint.WasReleasedThisFrame())
-            //{
-            //    isSprinting = false;
-            //    //speedScalar -= 2.0f;
-            //    //camEffect.m_FrequencyGain -= 0.5f;
-            //}
             isSprinting = input.player.sprint.IsPressed();
 
             // Picking up an object
@@ -355,7 +345,7 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log(transform.position);
                 x.GetComponent<basicAI>().alert(transform.position);
-                Instantiate(soundRadius, groundPos(), Quaternion.identity);
+                Instantiate(soundRadius, GroundPos(), Quaternion.identity);
             }
         }
         
@@ -393,7 +383,7 @@ public class PlayerController : MonoBehaviour
         return input.player.move.WasPerformedThisFrame();
     }
 
-    public Vector3 groundPos()
+    public Vector3 GroundPos()
     {
         Physics.Raycast(transform.position, Vector3.down, out groundPosCheck, Mathf.Infinity, 1 << 6);
         //Debug.Log(groundPosCheck.point);

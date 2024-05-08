@@ -2104,10 +2104,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnvironmentController
       objectReference: {fileID: 0}
-    - target: {fileID: 196036812873170733, guid: 964764dde12610440877ed383a547c95, type: 3}
-      propertyPath: m_TagString
-      value: EnvironmentController
-      objectReference: {fileID: 0}
     - target: {fileID: 196036812873170739, guid: 964764dde12610440877ed383a547c95, type: 3}
       propertyPath: m_RootOrder
       value: 7

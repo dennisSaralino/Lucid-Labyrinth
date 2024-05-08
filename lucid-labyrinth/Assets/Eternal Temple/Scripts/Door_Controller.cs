@@ -15,11 +15,13 @@ public class Door_Controller : MonoBehaviour {
 
 	private AudioSource audioSource;
 	public AudioClip	audioClip;
+	public EnvironmentController env;
 	
 // Use this for initialization
 	void Start ()
 	{		
 		//Getting transform components of this object and all it's children
+		env = GameObject.FindGameObjectWithTag("EnvironmentController").GetComponent<EnvironmentController>();
 		allTransform = GetComponentsInChildren<Transform>();
 		stayOpen = false;
 		//Create new Array for children's Transforms only
@@ -45,33 +47,7 @@ public class Door_Controller : MonoBehaviour {
 				stayOpen = true;
 				Destroy(other.gameObject);
 				Open();
-			}
-			if (other.gameObject.CompareTag("Player"))
-			{
-				PlayerController p = other.gameObject.GetComponent<PlayerController>();
-				if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
-				{
-					locked = false;
-					//Open();
-						// below duplicated during a merge conflict
-					//if (other.gameObject.CompareTag("Key"))
-					//{
-					//	stayOpen = true;
-					//	Destroy(other.gameObject);
-					//	Open();
-					//}
-					//if (other.gameObject.CompareTag("Player"))
-					//{
-						
-					//	if (p.currentPickup != null && p.currentPickup.GetComponent<pickupObjScript>().isKey())
-					//	{
-					//		locked = false;
-					//		Open();
-					//	}
-					//}
-				}
-				//Open();
-
+				env.DespawnMonster();
 			}
 		}
 	}
