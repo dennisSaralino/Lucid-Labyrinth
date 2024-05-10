@@ -31,6 +31,7 @@ public class MazeController : MonoBehaviour
        
         spawnPickup();
         isReady = true;
+        Debug.Log("IS READY");
         while (true)
         {
             if (!inTest)
