@@ -44,9 +44,9 @@ public class navigationBaker : MonoBehaviour
         //    j--;   
         //}
 
-        //yield return null;
-        //if (activeAfterBakedOb != null && activeAfterBakedOb.Count != 0)
-        //    activeAfterBakedOb.ForEach(x => x.SetActive(true));
+        yield return null;
+        if (activeAfterBakedOb != null && activeAfterBakedOb.Count != 0)
+            activeAfterBakedOb.ForEach(x => x.SetActive(true));
 
     }
 }
