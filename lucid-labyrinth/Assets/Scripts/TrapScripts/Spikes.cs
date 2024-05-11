@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Spikes : MonoBehaviour
+public class Spikes : Trap
 {
    
     
@@ -23,14 +23,13 @@ public class Spikes : MonoBehaviour
     private float bottomHeight;
 
     //Audio
-    private AudioSource audioSource;
     public AudioClip shootAudio;
     public AudioClip resetAudio;
 
  
-    void Start()
+    public override void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        base.Start();
         //startingHeight will change with movment
         startingHeight = transform.position.y;
         //bottomHeight is a reference to resting pos

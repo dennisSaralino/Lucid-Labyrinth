@@ -5,13 +5,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ArrowSpawner : MonoBehaviour
+public class ArrowSpawner : Trap
 {
-    
     public GameObject arrowPrefab;
     public Transform arrowPos;
 
-    private AudioSource audioSource;
     public AudioClip arrowShootAudio;
     public AudioClip pressurePlateAudio;
 
@@ -20,8 +18,8 @@ public class ArrowSpawner : MonoBehaviour
 
     // Works for wall with 0 and 90 rotation
 
-    void Start(){
-        audioSource = GetComponent<AudioSource>();
+    public override void Start(){
+        base.Start();
     }
     void OnTriggerEnter(Collider col){
         if(col.gameObject.CompareTag("Player")){
@@ -32,7 +30,6 @@ public class ArrowSpawner : MonoBehaviour
     }
     
     void ShootArrow(){
-        Debug.Log("in ShootArrow");
         
         //get set rotation of arrow based on rotation of wall
         float yRotation; yRotation = transform.rotation.y == 0f ? 0f : 90f;

@@ -3566,7 +3566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1206866890887223931}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4011,6 +4011,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1206866890887223931}
     m_Modifications:
     - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -4019,8 +4023,16 @@ PrefabInstance:
       value: Roof_3lvl_4x1_01 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4085,6 +4097,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1206866890887223931}
     m_Modifications:
     - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -4093,8 +4109,16 @@ PrefabInstance:
       value: Roof_3lvl_4x1_01 (3)
       objectReference: {fileID: 0}
     - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4565,6 +4589,10 @@ PrefabInstance:
     - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
       propertyPath: m_Name
       value: Building_Floor_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5056,6 +5084,10 @@ PrefabInstance:
       value: Building_Floor_03 (3)
       objectReference: {fileID: 0}
     - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -5118,6 +5150,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1206866890887223931}
     m_Modifications:
     - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -5126,8 +5162,16 @@ PrefabInstance:
       value: Roof_3lvl_4x1_01
       objectReference: {fileID: 0}
     - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5194,6 +5238,10 @@ PrefabInstance:
     - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
       propertyPath: m_Name
       value: Building_Floor_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5518,6 +5566,10 @@ PrefabInstance:
     - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
       propertyPath: m_Name
       value: Building_Floor_03 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 134958, guid: 5dbac08721fad884e8017a06eac02826, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -6341,6 +6393,10 @@ PrefabInstance:
       value: Ceiling_Cross_01
       objectReference: {fileID: 0}
     - target: {fileID: 101578, guid: d53d3e443c867f04da3665c2116437ca, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 101578, guid: d53d3e443c867f04da3665c2116437ca, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -6473,6 +6529,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1206866890887223931}
     m_Modifications:
     - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 109072, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -6481,8 +6541,16 @@ PrefabInstance:
       value: Roof_3lvl_4x1_01 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 153692, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 195078, guid: 72d0d33d199ce614e99fa0a0000971c5, type: 3}
       propertyPath: m_StaticEditorFlags

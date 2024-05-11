@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Pendulum : MonoBehaviour
+public class Pendulum : Trap
 {
     
     
@@ -17,11 +17,10 @@ public class Pendulum : MonoBehaviour
     private bool soundPlayed = false;
     
     //audio 
-    private AudioSource audioSource;
     public AudioClip audioClip;
 
-    void Start(){
-        audioSource = GetComponent<AudioSource>();
+    public override void Start(){
+        base.Start();
       
     }
     public float orient = 0;
@@ -35,17 +34,13 @@ public class Pendulum : MonoBehaviour
         float angle = limit * Mathf.Sin(Time.time * swingSpeed);
         transform.rotation = Quaternion.Euler(angle, orient, 0);
     
-
         //play sound each swing
         if((Mathf.Abs(angle) > limit/2f) && soundPlayed == false ){
             if(audioClip != null)
                 audioSource.PlayOneShot(audioClip);
-
             soundPlayed = true;  
         }
-
         // resets soundPlayed
         if(Mathf.Abs(angle) < limit /2f) soundPlayed = false;
-
     }
 }

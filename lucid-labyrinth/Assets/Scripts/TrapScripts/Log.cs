@@ -6,12 +6,11 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Log : MonoBehaviour
+public class Log : Trap
 {
     public float rotateSpeed = 200f;
     public GameObject log;
     
-    private AudioSource audioSource;
     public AudioClip audioClip;
 
     float startPoint;
@@ -22,9 +21,9 @@ public class Log : MonoBehaviour
     float riseSpeed = 0.1f;
 
     private bool isPlaying = false;
-    void Start()
+    public override void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        base.Start();
         audioSource.loop = true;
         startPoint= log.transform.position.y;
 
@@ -54,7 +53,6 @@ public class Log : MonoBehaviour
         // plays soundfx
         if(!isPlaying && audioClip != null){
             audioSource.PlayOneShot(audioClip);
-            
         }
 
         //spin the log
