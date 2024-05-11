@@ -6,79 +6,54 @@ using UnityEngine;
 
 public class Spikes : Trap
 {
-   
-    
-    // bools
-    private bool activated = false;
-    private bool resetSpikes = false;
-    private bool isMoving = false;
-    // variables
-    public float maxHeight = 1f;
+    private float maxHeight = 1f;
     private float startingHeight;
     public float spikeSpeed = 1f;
     public float spikeResetDelay = 2f;
     //utility
     private float  speedMultiplier = 0f;
     private float interpolator = 0f;
-    private float bottomHeight;
 
-    //Audio
-    public AudioClip shootAudio;
-    public AudioClip resetAudio;
 
- 
-    public override void Start()
+    // At current state
+    // after spikes reset, player must collide twice to activate spikes again
+    //
+    //
+    public void Start()
     {
-        base.Start();
-        //startingHeight will change with movment
-        startingHeight = transform.position.y;
-        //bottomHeight is a reference to resting pos
-        bottomHeight = transform.position.y;
-        maxHeight = startingHeight + 1f;
+        StartCoroutine(repeatActive());
     }
-
-    void OnTriggerEnter(Collider other){
-        if(other.gameObject.CompareTag("Player")){
-            activated = true;   
-        }
-    }
-
-    void FixedUpdate()
+    IEnumerator repeatActive()
     {
-        // initiates movement
-        if(activated && !isMoving){
-            speedMultiplier = spikeSpeed;
-            if(audioSource != null)
-                audioSource.PlayOneShot(shootAudio);
-            activated = false;
-            isMoving = true;
+        while (true)
+        {
+            maxHeight = 0.4f;
+            startingHeight = -0.75f;
+            yield return StartCoroutine(moveSpike());
+            maxHeight = -0.75f;
+            startingHeight = 0.4f;
+            yield return new WaitForSeconds(1);
+            yield return StartCoroutine(moveSpike());
+            yield return new WaitForSeconds(2);
         }
-
-        // updates position of spikes 
-        interpolator += speedMultiplier * Time.deltaTime;
-
-        transform.position= new Vector3(
-                transform.position.x,
-                // adds smoothness to movement
-                Mathf.Lerp(startingHeight, maxHeight, interpolator),
-                transform.position.z);   
-
-        // reverses values to descent , also resets 
-        if(interpolator >= spikeResetDelay ){
-            ResetLerp();
-            resetSpikes = true;
+    }
+    IEnumerator moveSpike()
+    {
+        speedMultiplier = spikeSpeed;
+        interpolator = 0;
+        while (interpolator != 1.0f)
+        {
+            interpolator += speedMultiplier * Time.deltaTime;
+            interpolator = Mathf.Min(interpolator, 1.0f);
+            transform.localPosition = new Vector3(
+                    transform.localPosition.x,
+                    // adds smoothness to movement
+                    Mathf.Lerp(startingHeight, maxHeight, interpolator),
+                    transform.localPosition.z);
+            yield return null;
         }
+        
 
-        //sets values back to normal
-        if(transform.position.y <= bottomHeight && resetSpikes && isMoving){
-            speedMultiplier = 0f;
-            resetSpikes = false;
-            activated = false;
-            isMoving = false;
-            ResetLerp();
-            if(audioSource!=null)
-                audioSource.PlayOneShot(resetAudio);
-        }
     }
 
     void ResetLerp(){
