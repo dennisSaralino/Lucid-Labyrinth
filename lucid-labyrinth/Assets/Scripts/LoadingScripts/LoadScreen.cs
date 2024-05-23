@@ -15,26 +15,23 @@ public class LoadScreen : MonoBehaviour
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        StartCoroutine(Load());
     }
 
     IEnumerator Load()
     {
         while (loadBar.value < 250.0f)
         {
-            loadBar.value += (time / Mathf.Max(250.0f)) / 100;
+            if (maze.isReady) break;
+            loadBar.value += time;
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-
-    }
-
-    private void Update()
-    {
-        StartCoroutine(Load());
-
-        if (loadBar.value >= 250.0f && maze.isReady)
-            this.gameObject.SetActive(false);
-            
+        while (!maze.isReady)
+            yield return null;
+        loadBar.value = 250;
+        yield return new WaitForSeconds(1);
+        this.gameObject.SetActive(false);
     }
 
     private void OnDisable()

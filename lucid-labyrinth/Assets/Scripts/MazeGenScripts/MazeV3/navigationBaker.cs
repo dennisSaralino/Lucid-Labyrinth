@@ -24,18 +24,25 @@ public class navigationBaker : MonoBehaviour
     }
     IEnumerator bakeMapSlowly(List<NavMeshSurface> l)
     {
-        if (!active) yield break;
-        int j = 10;
-        foreach (NavMeshSurface i in l)
+        GameObject navParent = GameObject.Find("ALLSURFACES");
+        l.ForEach(i =>
         {
-            if (j == 0)
-            {
-                yield return null;
-                j = 10;
-            }
-            i.BuildNavMesh();
-            j--;   
-        }
+            i.transform.SetParent(navParent.transform);
+        });
+        yield return null;
+        navParent.GetComponent<NavMeshSurface>().BuildNavMesh();
+        //if (!active) yield break;
+        //int j = 20;
+        //foreach (NavMeshSurface i in l)
+        //{
+        //    if (j == 0)
+        //    {
+        //        yield return null;
+        //        j = 20;
+        //    }
+        //    i.BuildNavMesh();
+        //    j--;   
+        //}
 
         yield return null;
         if (activeAfterBakedOb != null && activeAfterBakedOb.Count != 0)
