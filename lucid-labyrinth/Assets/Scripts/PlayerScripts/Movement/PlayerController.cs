@@ -351,6 +351,7 @@ public class PlayerController : MonoBehaviour
             SFX.enabled = true;
             foreach (GameObject x in monsters)
             {
+                if (x == null || gameObject == null) continue;
                 Debug.Log(transform.position);
                 x.GetComponent<basicAI>().alert(transform.position);
                 Instantiate(soundRadius, GroundPos(), Quaternion.identity);

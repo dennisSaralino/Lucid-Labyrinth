@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class AlTConverter : MonoBehaviour
 {
@@ -54,6 +55,12 @@ public class AlTConverter : MonoBehaviour
     }
     public static tileGridData convertToTiledata(GridData gridd)
     {
+        string dif = PlayerPrefs.GetString("difficulty");
+        if (dif == "easy") trapFrequency = 6;
+        else if (dif == "normal") trapFrequency = 5;
+        else trapFrequency = 4;
+
+        
         reset();
         keyList = new List<Vector2Int>();
         deadEndDict = new Dictionary<Vector2Int, int>();

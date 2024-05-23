@@ -25,6 +25,7 @@ public class LoadScreen : MonoBehaviour
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+
     }
 
     private void Update()
