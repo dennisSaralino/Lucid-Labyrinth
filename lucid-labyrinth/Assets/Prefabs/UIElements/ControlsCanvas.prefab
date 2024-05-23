@@ -162,7 +162,7 @@ RectTransform:
   m_GameObject: {fileID: 1370652881356358861}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9625, y: 0.95, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1370652882904972927}
@@ -170,7 +170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: -136}
+  m_AnchoredPosition: {x: 14, y: -122}
   m_SizeDelta: {x: 402.7731, y: 208.8606}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1370652881356358862
@@ -202,7 +202,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "w/a/s/d:  \tmove player\nmouse\t: \tmove camera\n space\t:   \tJump\n   
-    e\t:   \tpickup key\n shift\t:\tsprint"
+    e\t:   \tpickup key\n shift\t:\tsprint\n    p\t:\tpause"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7eadfe672448736469d92f8901d87303, type: 2}
   m_sharedMaterial: {fileID: 4138474520173933890, guid: 7eadfe672448736469d92f8901d87303, type: 2}
@@ -912,7 +912,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 251, y: -38}
+  m_AnchoredPosition: {x: 247, y: -23}
   m_SizeDelta: {x: 180.4279, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1370652882904972913
