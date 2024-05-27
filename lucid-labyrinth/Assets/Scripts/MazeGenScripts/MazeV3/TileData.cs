@@ -225,7 +225,6 @@ public class TileData
     }
     public int getSideRotation(Vector2Int side)
     {
-        Debug.Log(side);
         if (side.x == -1) return -90;
         else if (side.x == 1) return 90;
         else if (side.y == 1) return 0;

@@ -148,7 +148,6 @@ public class mazeData
     {
         startPos = v;
         this.startRotation = startRotation;
-        Debug.Log("rotation " + this.startRotation);
     }
     public void setEndPos(Vector3 v)
     {

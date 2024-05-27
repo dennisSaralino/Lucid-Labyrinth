@@ -10,6 +10,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    private float gravity = -9.81f;
+    public float gravityScaler = 0.2f;
+    public float jumpForce = 1.5f;
+    private const float speed = 55;
+    private float yVelocity;
+    private Vector3 direction;
+    bool previousGround;
+
     // global GameObject variables
     public NoiseSettings weakShake;
     public NoiseSettings strongShake;
@@ -20,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private CinemachineBasicMultiChannelPerlin camEffect;
     private EnvironmentController env;
     public PlayerControls input = null;
-    private CharacterController playerController;
+    private CharacterController control;
     private AudioSource SFX;
     private GameObject[] monsters;
     private RaycastHit groundPosCheck;
@@ -95,7 +103,7 @@ public class PlayerController : MonoBehaviour
     {
         mainCam = GetComponentInChildren<CinemachineVirtualCamera>();
         input = new PlayerControls();
-        playerController = GetComponent<CharacterController>();
+        control = GetComponent<CharacterController>();
         camEffect = mainCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         env = environmentCont.GetComponent<EnvironmentController>();
         SFX = GetComponent<AudioSource>();
@@ -125,6 +133,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         input.Enable();
+        input.player.jump.performed += jump;
         input.player.move.performed += OnMovementPerformed;
         input.player.camera.performed += OnCameraMovementPerformed;
         input.player.move.canceled += OnMovementCancelled;
@@ -133,12 +142,48 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         input.Disable();
+        input.player.jump.performed -= jump;
         input.player.move.performed -= OnMovementPerformed;
         input.player.camera.performed -= OnCameraMovementPerformed;
         input.player.move.canceled -= OnMovementCancelled;
         input.player.camera.canceled -= OnCameraMovementCancelled;
     }
-
+    private void jump(InputAction.CallbackContext value)
+    {
+        if (!control.isGrounded || yVelocity != -1) return;
+        footSteps.PlayJumpStart();
+        yVelocity += jumpForce;
+    }
+    private void applyGravity()
+    {
+        if (control.isGrounded && yVelocity < 0)
+        {
+            yVelocity = -1;
+        }
+        else
+        {
+            yVelocity += gravity * gravityScaler * Time.deltaTime;
+        }
+        if (previousGround != control.isGrounded && !previousGround)
+        {
+            footSteps.PlayJumpEnd();
+        }
+        previousGround = control.isGrounded;
+        direction.y = yVelocity;
+    }
+    private void applyMoveInput()
+    {
+        Vector3 playerMoveVec = new Vector3(moveVector.x, 0, moveVector.z);
+        if (isSprinting)
+        {
+            playerMoveVec = playerMoveVec * Time.deltaTime * (speedScalar + 2f + env.luciditySpeedModifier);
+        }
+        else
+        {
+            playerMoveVec = playerMoveVec * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
+        }
+        direction = new Vector3(playerMoveVec.x, direction.y, playerMoveVec.z);
+    }
     private void OnMovementPerformed(InputAction.CallbackContext value)
     {
         moveVector = value.ReadValue<Vector3>();
@@ -161,55 +206,51 @@ public class PlayerController : MonoBehaviour
 
     private void Update() // Camera Controls are in Update for smoothness
     {
-        if (!pauseMenu.paused)
+        applyMoveInput();
+        applyGravity();
+        control.Move(transform.TransformDirection(direction * speed * Time.deltaTime));
+        //Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
+        //if (control.isGrounded && input.player.jump.WasPerformedThisFrame()){
+        //    jumpTimer = 0.4f;
+        //    footSteps.PlayJumpStart();
+        //    isJumping = true;
+        //}
+        //else if (!control.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
+        //else if (control.isGrounded) { playerMoveDelta.y = 0; }
+
+        //if (jumpTimer != 0.0f)
+        //{
+        //    playerMoveDelta.y += 0.5f;
+        //    jumpTimer -= Time.deltaTime;
+        //    if (jumpTimer < 0.0f) { jumpTimer = 0.0f; footSteps.PlayJumpEnd(); isJumping = false;};
+        //}
+
+        //Vector3 scaledVelocity;
+        //if (isSprinting)
+        //{
+        //    scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + 2f + env.luciditySpeedModifier);
+        //}
+        //else
+        //{
+        //    scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
+        //}
+        //control.Move(transform.TransformDirection(scaledVelocity));
+
+        if (env.inNightmare)
         {
-            Vector3 playerMoveDelta = new Vector3(moveVector.x * 0.75f, 0, moveVector.z);
-            if (playerController.isGrounded && input.player.jump.WasPerformedThisFrame()){
-                jumpTimer = 0.4f;
-                footSteps.PlayJumpStart();
-                isJumping = true;
-            }
-            else if (!playerController.isGrounded && jumpTimer <= 0.0f) { playerMoveDelta.y -= 0.7f; }
-            else if (playerController.isGrounded) { playerMoveDelta.y = 0; }
-
-            if (jumpTimer != 0.0f)
-            {
-                playerMoveDelta.y += 0.5f;
-                jumpTimer -= Time.deltaTime;
-                if (jumpTimer < 0.0f) { jumpTimer = 0.0f; footSteps.PlayJumpEnd(); isJumping = false;};
-            }
-
-            Vector3 scaledVelocity;
-            if (isSprinting)
-            {
-                scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + 2f + env.luciditySpeedModifier);
-            }
-            else
-            {
-                scaledVelocity = playerMoveDelta * Time.deltaTime * (speedScalar + env.luciditySpeedModifier);
-            }
-
-
-
-            playerController.Move(transform.TransformDirection(scaledVelocity));
-
-            if (env.inNightmare)
-            {
-                camEffect.m_NoiseProfile = extremeShake;
-                monsters = GameObject.FindGameObjectsWithTag("Monster");
-            }
-            else if (env.inNeutral)
-            {
-                camEffect.m_NoiseProfile = strongShake;
-            }
-            else if (env.inLucid)
-            {
-                camEffect.m_NoiseProfile = weakShake;
-            }
+            camEffect.m_NoiseProfile = extremeShake;
+            monsters = GameObject.FindGameObjectsWithTag("Monster");
         }
-        
+        else if (env.inNeutral)
+        {
+            camEffect.m_NoiseProfile = strongShake;
+        }
+        else if (env.inLucid)
+        {
+            camEffect.m_NoiseProfile = weakShake;
+        }
         if (input.player.pause.WasPerformedThisFrame())
-        { 
+        {
             if (pauseMenu.paused == false)
             {
                 Time.timeScale = 0;

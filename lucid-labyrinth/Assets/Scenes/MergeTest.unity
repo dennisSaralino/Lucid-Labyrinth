@@ -1199,14 +1199,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 358213266}
     - target: {fileID: 5226644978972912642, guid: 36d612a703546d54e88ee46af666760f, type: 3}
-      propertyPath: strongShake
-      value: 
-      objectReference: {fileID: 11400000, guid: 590fb5aa25b175b40a842480c89c810c, type: 2}
-    - target: {fileID: 5226644978972912642, guid: 36d612a703546d54e88ee46af666760f, type: 3}
-      propertyPath: extremeShake
-      value: 
-      objectReference: {fileID: 11400000, guid: cd5f81bc3995673458a0c7d3bc10a57b, type: 2}
-    - target: {fileID: 5226644978972912642, guid: 36d612a703546d54e88ee46af666760f, type: 3}
       propertyPath: pickupControl
       value: 
       objectReference: {fileID: 1551873045324127163}
@@ -1261,10 +1253,6 @@ PrefabInstance:
     - target: {fileID: 5226644978972912646, guid: 36d612a703546d54e88ee46af666760f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885553177378468016, guid: 36d612a703546d54e88ee46af666760f, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36d612a703546d54e88ee46af666760f, type: 3}
