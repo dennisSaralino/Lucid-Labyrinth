@@ -1210,6 +1210,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5226644978972912643, guid: 36d612a703546d54e88ee46af666760f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5226644978972912646, guid: 36d612a703546d54e88ee46af666760f, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1254,6 +1258,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5684578093898806711, guid: 36d612a703546d54e88ee46af666760f, type: 3}
+      propertyPath: m_NoiseProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: cd5f81bc3995673458a0c7d3bc10a57b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36d612a703546d54e88ee46af666760f, type: 3}
 --- !u!4 &1241157401 stripped
@@ -1355,6 +1363,10 @@ PrefabInstance:
     - target: {fileID: 150604, guid: 664ba1fc62a56b244807cae9d4a0dd15, type: 3}
       propertyPath: m_Name
       value: Directional_Light_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 150604, guid: 664ba1fc62a56b244807cae9d4a0dd15, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 407392, guid: 664ba1fc62a56b244807cae9d4a0dd15, type: 3}
       propertyPath: m_RootOrder
@@ -1579,7 +1591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4585842642892927525, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8562911534586728357, guid: c4518474a1d160e45a594f41d42f8d9d, type: 3}
       propertyPath: timer
@@ -2017,6 +2029,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7191ca17245935e44b4b9eb84e433112, type: 3}
+    - target: {fileID: 7392575222148399932, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7392575222350775732, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
       propertyPath: m_Name
       value: Loading Screen
@@ -2081,6 +2097,10 @@ PrefabInstance:
       propertyPath: m_PixelPerfect
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7392575222432177649, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7392575222569490428, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
       propertyPath: m_text
       value: Can you escape the nightmare?
@@ -2116,6 +2136,10 @@ PrefabInstance:
     - target: {fileID: 7392575222569490428, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392575222569490430, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7392575222569490431, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2169,6 +2193,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.18431373
       objectReference: {fileID: 0}
+    - target: {fileID: 7848687936527948851, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7848687936527948852, guid: 3ee299dea73855a468891e5b525fe98c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 30.599976
@@ -2193,6 +2221,10 @@ PrefabInstance:
     - target: {fileID: 2591364511433907029, guid: 3d6468818051efa4db53b9877d6d753e, type: 3}
       propertyPath: m_Name
       value: 12x12 Cavern Roof
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591364511433907029, guid: 3d6468818051efa4db53b9877d6d753e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7009910293022001182, guid: 3d6468818051efa4db53b9877d6d753e, type: 3}
       propertyPath: m_RootOrder
@@ -2295,6 +2327,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioListener
       objectReference: {fileID: 0}
+    - target: {fileID: 1093641081200702, guid: 1ac1a7746e38c4b4788b6240f0d254a0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ac1a7746e38c4b4788b6240f0d254a0, type: 3}
 --- !u!1001 &196036813020157539
@@ -2388,6 +2424,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnvironmentController
       objectReference: {fileID: 0}
+    - target: {fileID: 196036812873170733, guid: 964764dde12610440877ed383a547c95, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 196036812873170739, guid: 964764dde12610440877ed383a547c95, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2444,6 +2484,10 @@ PrefabInstance:
     - target: {fileID: 1212745335664528603, guid: f63892fe46a68914583fe4c3f4d22751, type: 3}
       propertyPath: m_Name
       value: EClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212745335664528603, guid: f63892fe46a68914583fe4c3f4d22751, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3199990077347109447, guid: f63892fe46a68914583fe4c3f4d22751, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
@@ -2550,6 +2594,10 @@ PrefabInstance:
     - target: {fileID: 2506138411213599937, guid: fd8fe33ab77aeb2428e73e4c0ef106e0, type: 3}
       propertyPath: m_Name
       value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 2506138411213599937, guid: fd8fe33ab77aeb2428e73e4c0ef106e0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2506138411213599943, guid: fd8fe33ab77aeb2428e73e4c0ef106e0, type: 3}
       propertyPath: m_RootOrder

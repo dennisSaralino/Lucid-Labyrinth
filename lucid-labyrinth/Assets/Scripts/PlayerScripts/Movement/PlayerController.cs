@@ -74,6 +74,12 @@ public class PlayerController : MonoBehaviour
     [Range(1.0f, 10.0f)]
     public float yLookSensitivity = 3.0f;
 
+    [Range(1.0f, 100.0f)]
+    public float xLookSensitivityTouch = 4.5f;
+    [Range(1.0f, 100.0f)]
+    public float yLookSensitivityTouch = 3.0f;
+
+
     // values for decrementing after taking damage
     [SerializeField]
     private float fireEnter = 10f;
@@ -91,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         yRot = mainCam.transform.rotation.y;
         xRot = mainCam.transform.rotation.x;
         Application.targetFrameRate = 80;
@@ -264,7 +270,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Time.timeScale = 1;
-                Cursor.lockState = CursorLockMode.Locked;
+                //Cursor.lockState = CursorLockMode.Locked;
                 pauseMenu.paused = false;
                 pauseMenu.gameObject.SetActive(false);
             }
@@ -286,10 +292,9 @@ public class PlayerController : MonoBehaviour
             }
             else { pickupControl.gameObject.SetActive(false); }
             // add mouse deltas to current camera rotation
-            yRot += cameraVector.x * Time.deltaTime * xLookSensitivity;
-            xRot -= cameraVector.y * Time.deltaTime * yLookSensitivity;
+            yRot += cameraVector.x * Time.deltaTime * xLookSensitivityTouch;
+            xRot -= cameraVector.y * Time.deltaTime * yLookSensitivityTouch;
             xRot = Mathf.Clamp(xRot, -90f, 90f); // Clamp the x rotation of the camera to limit how far up/down the player can look
-
             // set the player/camera rotation equal to the the new x and y rotation values
             mainCam.transform.localEulerAngles = new Vector3(xRot, 0, 0);  // smoother turns
             transform.rotation = Quaternion.Euler(0f, yRot, 0);
@@ -323,7 +328,6 @@ public class PlayerController : MonoBehaviour
             }
             if (pickupCooldown > 0) { pickupCooldown -= Time.deltaTime; }
             else { pickupCooldown = 0.0f; }
-
             // Throwing an object
             if (input.player.throwObj.WasPerformedThisFrame())
             {

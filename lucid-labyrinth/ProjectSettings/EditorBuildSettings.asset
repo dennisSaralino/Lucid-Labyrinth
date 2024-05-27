@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI Scenes/WinScene.unity
     guid: cf7a06bceb4a7674db6a15dc570d7f60
+  - enabled: 1
+    path: Assets/Scenes/MergeTestMobile.unity
+    guid: 75ff02a1ab410814a8632899d5263159
   m_configObjects: {}

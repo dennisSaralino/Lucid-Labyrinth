@@ -290,17 +290,6 @@
                 },
                 {
                     "name": "",
-                    "id": "3046034a-be5a-45ef-b8a1-47f3ce8b79c1",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e66d9a43-4a3f-4836-afc1-b47a35e60f30",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
